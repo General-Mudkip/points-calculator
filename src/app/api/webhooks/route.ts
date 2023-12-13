@@ -1,7 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 import { PrismaClient } from '@prisma/client'
+
+interface NewUser {
+  data: {
+    id: string,
+    firstName: string,
+    lastName: string
+  }
+}
+
+interface Payload {
+  type: string;
+  data: {
+    id: string,
+    first_name: string,
+    last_name: string
+  }
+}
 
 export async function POST(req: Request) {
 
@@ -26,7 +44,7 @@ export async function POST(req: Request) {
   }
  
   // Get the body
-  const payload = await req.json() as object
+  const payload = await req.json() as Payload
   const body = JSON.stringify(payload);
  
   // Create a new Svix instance with your secret.
@@ -58,7 +76,7 @@ export async function POST(req: Request) {
   const prisma = new PrismaClient()
 
   if (payload.type == "user.created") {
-    const newUser = {
+    const newUser: NewUser = {
       data: {
         id: payload.data.id,
         firstName: payload.data.first_name,
