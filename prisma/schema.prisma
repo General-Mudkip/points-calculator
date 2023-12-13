@@ -11,11 +11,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+  id String @id
+  firstName String?
+  lastName String?
+  createdAt DateTime @default(now())
 
-    @@index([name])
+  subjects Subject[]
+  tests Test[]
+}
+
+model Subject {
+  id Int @id @default(autoincrement())
+  name String
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+  tests Test[]
+}
+
+model Test {
+  id Int @id @default(autoincrement())
+  subject Subject @relation(fields: [subjectId], references:[id])
+  user User @relation(fields: [userId], references: [id])
+  subjectId Int @unique
+  userId String @unique
+
+  name Float
+  date DateTime @default(now())
+  percentage Float
+  maxMarks Float?
+  achievedMarks Float?
+
 }
