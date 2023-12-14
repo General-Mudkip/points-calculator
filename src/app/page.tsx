@@ -1,13 +1,11 @@
-import { UserButton } from "@clerk/nextjs";
+import Sidebar from "./components/sidebar/sidebar";
 
 export default async function Home() {
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-
-        <UserButton afterSignOutUrl="/"/>
-
+    <main className="flex min-h-screen flex-col items-center justify-center bg-white text-black">
+      <div className="flex flex-row">
+        <Sidebar />
+        Hello!
       </div>
     </main>
   );

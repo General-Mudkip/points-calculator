@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cl-userButtonBox {
+    @apply flex-row-reverse;
+}
+
+.cl-avatarBox {
+    @apply w-10 h-10
+}
+
+.cl-userButtonOuterIdentifier {
+    font-size: 1rem
+}
