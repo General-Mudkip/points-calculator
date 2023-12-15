@@ -3,7 +3,7 @@ import { SignOutButton, UserButton } from "@clerk/nextjs";
 const Sidebar = () => {
   const subjectPlaceholders = [
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "English",
       icon: (
         <svg
@@ -17,7 +17,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "Maths",
       icon: (
         <svg
@@ -31,7 +31,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "Irish",
       icon: (
         <svg
@@ -45,7 +45,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "Physics",
       icon: (
         <svg
@@ -59,7 +59,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "French",
       icon: (
         <svg
@@ -76,7 +76,7 @@ const Sidebar = () => {
 
   const bottomMenu = [
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "Help",
       icon: (
         <svg
@@ -90,7 +90,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "",
       name: "Contact",
       icon: (
         <svg
