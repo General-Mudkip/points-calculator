@@ -41,6 +41,30 @@ const data = [
     name: "1669104000",
     Percentage: 87,
   },
+  {
+    name: "1669804000",
+    Percentage: 53,
+  },
+  {
+    name: "1670104000",
+    Percentage: 54,
+  },
+  {
+    name: "1670704000",
+    Percentage: 40,
+  },
+  {
+    name: "1671504000",
+    Percentage: 49,
+  },
+  {
+    name: "1673004000",
+    Percentage: 97,
+  },
+  {
+    name: "1674004000",
+    Percentage: 90,
+  },
 ];
 
 const DateFormatter = (date: string) => {
@@ -70,7 +94,7 @@ export default class RenderLineChart extends PureComponent {
             <stop offset="0%" stopColor="#FFF" stopOpacity={0.2} />
             <stop offset="30%" stopColor="#399be3" stopOpacity={0.2} />
             <stop offset="30%" stopColor="red" stopOpacity={0.15} />
-            <stop offset="60%" stopColor="#FFF" stopOpacity={0.2} />
+            <stop offset="70%" stopColor="#FFF" stopOpacity={0.2} />
           </linearGradient>
         </defs>
         <XAxis
@@ -95,6 +119,7 @@ export default class RenderLineChart extends PureComponent {
           unit="%"
           fillOpacity={1}
           strokeWidth={2}
+          dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
           fill="url(#colorUv)"
         />
       </ComposedChartWithoutSSR>
