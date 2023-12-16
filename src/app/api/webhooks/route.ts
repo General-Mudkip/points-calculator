@@ -2,7 +2,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import type { WebhookEvent } from '@clerk/nextjs/server'
-import { PrismaClient } from '@prisma/client'
+import { db } from '~/server/db'
 
 interface NewUser {
   data: {
@@ -73,8 +73,6 @@ export async function POST(req: Request) {
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
   console.log('Webhook body:', body)
 
-  const prisma = new PrismaClient()
-
   if (payload.type == "user.created") {
     const newUser: NewUser = {
       data: {
@@ -84,11 +82,11 @@ export async function POST(req: Request) {
       }
     }
 
-    await prisma.user.create(newUser)
+    await db.user.create(newUser)
   }
 
   if (payload.type == "user.deleted") {
-    await prisma.user.delete({
+    await db.user.delete({
       where: {
         id: payload.data.id
       }

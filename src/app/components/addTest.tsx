@@ -39,6 +39,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
+import { auth, useUser } from "@clerk/nextjs";
+import { api } from "../../utils/api";
 
 const formSchema = z
   .object({
@@ -81,6 +83,10 @@ const formSchema = z
 export function AddTest() {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
+  const { user, isSignedIn, isLoaded } = useUser();
+  const userQuery = api.user.getById.useQuery({
+    userId: "user_2ZXfCFmLcwHaQmSGoGfpOMFaRa1",
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -91,12 +97,20 @@ export function AddTest() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    toast({
-      title: "Test Added!",
-      description: `You added the test ${values.testName} to English.`,
-    });
-    setOpen(false);
-    console.log(values);
+    if (isLoaded && isSignedIn) {
+      toast({
+        title: "Test Added!",
+        description: `You added the test ${values.testName} to English.`,
+      });
+      // setOpen(false);
+      console.log(userQuery);
+    } else {
+      toast({
+        title: "Error!",
+        description: `You must be logged in to add a test.`,
+        variant: "destructive",
+      });
+    }
   }
 
   function handlePercentageCalculation(maxMarks: string) {
