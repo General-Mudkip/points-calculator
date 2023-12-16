@@ -1,3 +1,4 @@
+import AddTestButton from "./components/addTest";
 import RenderLineChart from "./components/renderLineChart";
 import Sidebar from "./components/sidebar/sidebar";
 
@@ -9,6 +10,7 @@ export default async function Home() {
         <div>
           <h1 className="text-4xl font-bold">English Results</h1>
           <RenderLineChart />
+          <AddTestButton />
         </div>
       </div>
     </main>

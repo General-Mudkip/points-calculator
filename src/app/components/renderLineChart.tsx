@@ -71,7 +71,6 @@ const DateFormatter = (date: string) => {
   const newDate = new Date(parseInt(date) * 1000);
   const toReturn =
     newDate.getDate() + "/" + newDate.getMonth() + "/" + newDate.getFullYear();
-  console.log(toReturn);
   return toReturn;
 };
 
