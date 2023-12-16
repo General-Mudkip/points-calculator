@@ -41,9 +41,9 @@ model Test {
   subjectId Int     @unique
   userId    String  @unique
 
-  name          Float
+  name          String
   date          DateTime @default(now())
   percentage    Float
-  maxMarks      Float?
-  achievedMarks Float?
+  maxMarks      Float
+  achievedMarks Float
 }

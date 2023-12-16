@@ -51,12 +51,14 @@ const formSchema = z
     testDate: z.date({
       required_error: "Test date is required.",
     }),
-    achievedMark: z.optional(
-      z.coerce.number().min(1, { message: "Marks must be above zero." }),
-    ),
-    maxMarks: z.optional(
-      z.coerce.number().min(1, { message: "Marks must be above zero." }),
-    ),
+    achievedMark: z.coerce
+      .number()
+      .min(1, { message: "Marks must be above zero." }),
+
+    maxMarks: z.coerce
+      .number()
+      .min(1, { message: "Marks must be above zero." }),
+
     percentage: z.coerce
       .number()
       .min(0, {
@@ -88,6 +90,8 @@ export function AddTest() {
     userId: "user_2ZXfCFmLcwHaQmSGoGfpOMFaRa1",
   });
 
+  const submitTest = api.test.createTest.useMutation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -103,7 +107,16 @@ export function AddTest() {
         description: `You added the test ${values.testName} to English.`,
       });
       // setOpen(false);
-      console.log(userQuery);
+      console.log(userQuery.data?.createdAt);
+      submitTest.mutate({
+        userId: user.id,
+        subjectId: 1,
+        name: values.testName,
+        date: values.testDate,
+        achievedMarks: values.achievedMark,
+        maxMarks: values.maxMarks,
+        percentage: values.percentage,
+      });
     } else {
       toast({
         title: "Error!",
