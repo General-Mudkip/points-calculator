@@ -39,7 +39,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
-import { auth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { api } from "../../utils/api";
 
 const formSchema = z
@@ -126,9 +126,21 @@ export function AddTest() {
     }
   }
 
-  function handlePercentageCalculation(maxMarks: string) {
+  function calculatePercentAchieved(achievedMark: string) {
+    const maxMarks = form.getValues("maxMarks");
+    if (achievedMark && maxMarks) {
+      console.log(achievedMark, maxMarks);
+      const percentage = parseFloat(
+        ((parseFloat(achievedMark) / maxMarks) * 100).toFixed(2),
+      );
+      form.setValue("percentage", percentage);
+    }
+  }
+
+  function calculatePercentMax(maxMarks: string) {
     const achievedMark = form.getValues("achievedMark");
-    if (achievedMark) {
+    if (achievedMark && maxMarks) {
+      console.log(achievedMark, maxMarks);
       const percentage = parseFloat(
         ((achievedMark / parseFloat(maxMarks)) * 100).toFixed(2),
       );
@@ -210,7 +222,14 @@ export function AddTest() {
                 <FormItem>
                   <FormLabel>Achieved Marks</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="174" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="174"
+                      onChangeCapture={(e) =>
+                        calculatePercentAchieved(e.currentTarget.value)
+                      }
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -227,7 +246,7 @@ export function AddTest() {
                       type="number"
                       placeholder="200"
                       onChangeCapture={(e) =>
-                        handlePercentageCalculation(e.currentTarget.value)
+                        calculatePercentMax(e.currentTarget.value)
                       }
                       {...field}
                     />

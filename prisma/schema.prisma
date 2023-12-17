@@ -17,33 +17,38 @@ model User {
   lastName  String?
   createdAt DateTime @default(now())
 
-  subjects Subject[]
-  tests    Test[]
+  subjects Subject[] @relation("User Subjects")
+  tests    Test[]    @relation("User Tests")
 }
 
 model Subject {
   id        Int      @id @default(autoincrement())
   name      String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique
-  tests     Test[]
+  user      User     @relation("User Subjects", fields: [userId], references: [id])
+  userId    String
+  tests     Test[]   @relation("Tests in Subject")
   createdAt DateTime @default(now())
 
   targetGrade  Int?    @default(1)
   setLevel     String? @default("Higher")
   averageGrade Float?
+
+  @@index([userId])
 }
 
 model Test {
   id        Int     @id @default(autoincrement())
-  subject   Subject @relation(fields: [subjectId], references: [id])
-  user      User    @relation(fields: [userId], references: [id])
-  subjectId Int     @unique
-  userId    String  @unique
+  subject   Subject @relation("Tests in Subject", fields: [subjectId], references: [id])
+  user      User    @relation("User Tests", fields: [userId], references: [id])
+  subjectId Int
+  userId    String
 
   name          String
   date          DateTime @default(now())
   percentage    Float
   maxMarks      Float
   achievedMarks Float
+
+  @@index([userId])
+  @@index([subjectId])
 }

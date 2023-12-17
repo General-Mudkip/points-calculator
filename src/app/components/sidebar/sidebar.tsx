@@ -1,4 +1,6 @@
+"use client";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
+import { api } from "../../../utils/api";
 
 const Sidebar = () => {
   const subjectPlaceholders = [
@@ -105,6 +107,18 @@ const Sidebar = () => {
     },
   ];
 
+  const subjectQuery = api.subject.getAllSubjects.useQuery({
+    userId: "user_2ZXfCFmLcwHaQmSGoGfpOMFaRa1",
+  });
+
+  const getSubjects = () => {
+    if (subjectQuery.data) {
+      for (const subject of subjectQuery.data) {
+        console.log(subject.name);
+      }
+    }
+  };
+
   return (
     <nav className="attachment-fixed fixed left-0 top-0 h-full w-full space-y-8 border-r bg-white bg-scroll sm:w-80">
       <div className="flex h-full flex-col">
@@ -117,17 +131,22 @@ const Sidebar = () => {
         <div className="flex h-full flex-1 flex-col overflow-auto px-8">
           <h2 className="text-xl font-semibold">Subjects</h2>
           <ul className="flex-1 text-lg font-medium">
-            {subjectPlaceholders.map((subject, idx) => (
-              <li key={idx}>
-                <button className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
-                  <div className="text-gray-500">{subject.icon}</div>
-                  {subject.name}
-                </button>
-              </li>
-            ))}
+            {subjectQuery.data?.map((subject, idx) => {
+              return (
+                <li key={idx}>
+                  <button className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
+                    <div className="text-gray-500"></div>
+                    {subject.name}
+                  </button>
+                </li>
+              );
+            })}
             <hr className="my-1" />
             <li>
-              <button className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
+              <button
+                onClick={getSubjects}
+                className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
+              >
                 <div className="text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
