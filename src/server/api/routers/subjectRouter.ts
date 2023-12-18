@@ -22,4 +22,24 @@ export const subjectRouter = createTRPCRouter({
         },
       });
     }),
+
+  createSubject: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        userId: z.string(),
+        targetGrade: z.optional(z.number()),
+        setLevel: z.optional(z.string()),
+      }),
+    )
+    .mutation(({ input }) => {
+      return db.subject.create({
+        data: {
+          name: input.name,
+          userId: input.userId,
+          targetGrade: input.targetGrade,
+          setLevel: input.setLevel,
+        },
+      });
+    }),
 });

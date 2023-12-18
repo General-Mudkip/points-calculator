@@ -1,8 +1,21 @@
 "use client";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
 import { api } from "../../../utils/api";
+import Link from "next/link";
+import { LayoutPanelLeft } from "lucide-react";
+import AddSubject from "./addSubject";
+import { useUser } from "@clerk/nextjs";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Sidebar = () => {
+  const { user } = useUser();
+
+  const subjectQuery = api.subject.getAllSubjects.useQuery({
+    // @ts-expect-error TODO :)
+    userId: user?.id,
+  });
+
   const bottomMenu = [
     {
       href: "",
@@ -34,20 +47,8 @@ const Sidebar = () => {
     },
   ];
 
-  const subjectQuery = api.subject.getAllSubjects.useQuery({
-    userId: "user_2ZXfCFmLcwHaQmSGoGfpOMFaRa1",
-  });
-
-  const getSubjects = () => {
-    if (subjectQuery.data) {
-      for (const subject of subjectQuery.data) {
-        console.log(subject.name);
-      }
-    }
-  };
-
   return (
-    <nav className="attachment-fixed fixed left-0 top-0 h-full w-full space-y-8 border-r bg-white bg-scroll sm:w-80">
+    <aside className="attachment-fixed fixed left-0 top-0 h-full w-full space-y-8 border-r bg-white bg-scroll sm:w-80">
       <div className="flex h-full flex-col">
         <div className="mb-8 mt-6 flex h-20 items-center px-8">
           <h1 className="text-4xl">
@@ -56,36 +57,41 @@ const Sidebar = () => {
         </div>
 
         <div className="flex h-full flex-1 flex-col overflow-auto px-8">
+          <Link
+            href="/dashboard"
+            className="mb-2 flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-800 duration-150 hover:bg-gray-100 active:bg-gray-200"
+          >
+            <LayoutPanelLeft className="text-gray-500" />
+            Home
+          </Link>
           <h2 className="text-xl font-semibold">Subjects</h2>
           <ul className="flex-1 text-lg font-medium">
-            {subjectQuery.data?.map((subject, idx) => {
-              return (
-                <li key={idx}>
-                  <button className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
-                    <div className="text-gray-500"></div>
-                    {subject.name}
-                  </button>
-                </li>
-              );
-            })}
+            {subjectQuery.isFetched ? (
+              subjectQuery.data?.map((subject, idx) => {
+                console.log(subject);
+                return (
+                  <li key={idx}>
+                    <Link
+                      href={`/dashboard/${subject.id}`}
+                      className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
+                    >
+                      <div className="text-gray-500"></div>
+                      {subject.name}
+                    </Link>
+                  </li>
+                );
+              })
+            ) : (
+              <div className="flex-1">
+                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+              </div>
+            )}
             <hr className="my-1" />
             <li>
-              <button
-                onClick={getSubjects}
-                className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
-              >
-                <div className="text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="16"
-                    width="14"
-                    viewBox="0 0 448 512"
-                  >
-                    <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                  </svg>
-                </div>
-                Add Subject
-              </button>
+              <AddSubject />
             </li>
           </ul>
 
@@ -93,27 +99,30 @@ const Sidebar = () => {
             <ul className="text-lg font-medium">
               {bottomMenu.map((subject, idx) => (
                 <li key={idx}>
-                  <a
-                    href={subject.href}
+                  <Link
+                    href={`/dashboard/${subject.name.toLowerCase()}`}
                     className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
                   >
                     <div className="text-gray-500">{subject.icon}</div>
                     {subject.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="justify-left my-4 flex flex-col gap-2 border-t-2 border-t-gray-300 px-8 pt-4">
-          <UserButton afterSignOutUrl="/" showName={true} />
+        <div className="justify-left my-4 flex h-[90px] w-[319px] flex-col gap-2 border-t-2 border-t-gray-300 px-8 pt-4">
+          <Suspense fallback={<p>PLEASE WORK!!!!</p>}>
+            <UserButton afterSignOutUrl="/" showName={true} />
+          </Suspense>
+
           <span className="text-left">
             <SignOutButton />
           </span>
         </div>
       </div>
-    </nav>
+    </aside>
   );
 };
 

@@ -40,7 +40,7 @@ import { useForm } from "react-hook-form";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
-import { api } from "../../utils/api";
+import { api } from "../../../utils/api";
 
 const formSchema = z
   .object({
@@ -86,9 +86,6 @@ export function AddTest() {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const { user, isSignedIn, isLoaded } = useUser();
-  const userQuery = api.user.getById.useQuery({
-    userId: "user_2ZXfCFmLcwHaQmSGoGfpOMFaRa1",
-  });
 
   const submitTest = api.test.createTest.useMutation();
 
@@ -107,7 +104,6 @@ export function AddTest() {
         description: `You added the test ${values.testName} to English.`,
       });
       // setOpen(false);
-      console.log(userQuery.data?.createdAt);
       submitTest.mutate({
         userId: user.id,
         subjectId: 1,
@@ -129,7 +125,6 @@ export function AddTest() {
   function calculatePercentAchieved(achievedMark: string) {
     const maxMarks = form.getValues("maxMarks");
     if (achievedMark && maxMarks) {
-      console.log(achievedMark, maxMarks);
       const percentage = parseFloat(
         ((parseFloat(achievedMark) / maxMarks) * 100).toFixed(2),
       );
@@ -140,7 +135,6 @@ export function AddTest() {
   function calculatePercentMax(maxMarks: string) {
     const achievedMark = form.getValues("achievedMark");
     if (achievedMark && maxMarks) {
-      console.log(achievedMark, maxMarks);
       const percentage = parseFloat(
         ((achievedMark / parseFloat(maxMarks)) * 100).toFixed(2),
       );

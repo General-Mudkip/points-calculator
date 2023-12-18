@@ -1,5 +1,5 @@
-import AddTestButton from "../components/addTest";
-import RenderLineChart from "../components/renderLineChart";
+import AddTestButton from "../components/analytics/addTest";
+import RenderLineChart from "../components/analytics/renderLineChart";
 
 export default async function Home() {
   return (

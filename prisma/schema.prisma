@@ -29,8 +29,8 @@ model Subject {
   tests     Test[]   @relation("Tests in Subject")
   createdAt DateTime @default(now())
 
-  targetGrade  Int?    @default(1)
-  setLevel     String? @default("Higher")
+  targetGrade  Int?   @default(1)
+  setLevel     String @default("Higher")
   averageGrade Float?
 
   @@index([userId])
