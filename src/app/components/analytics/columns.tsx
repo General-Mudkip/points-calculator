@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { z } from "zod";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   testName: z.string(),
@@ -28,6 +29,30 @@ const formSchema = z.object({
 });
 
 export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value: boolean) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: () => <div className="text-right">Name</div>,
     accessorKey: "testName",
