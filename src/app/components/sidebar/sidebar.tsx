@@ -5,7 +5,6 @@ import Link from "next/link";
 import { LayoutPanelLeft } from "lucide-react";
 import AddSubject from "./addSubject";
 import { useUser } from "@clerk/nextjs";
-import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Sidebar = () => {
@@ -68,7 +67,6 @@ const Sidebar = () => {
           <ul className="flex-1 text-lg font-medium">
             {subjectQuery.isFetched ? (
               subjectQuery.data?.map((subject, idx) => {
-                console.log(subject);
                 return (
                   <li key={idx}>
                     <Link
@@ -113,9 +111,7 @@ const Sidebar = () => {
         </div>
 
         <div className="justify-left my-4 flex h-[90px] w-[319px] flex-col gap-2 border-t-2 border-t-gray-300 px-8 pt-4">
-          <Suspense fallback={<p>PLEASE WORK!!!!</p>}>
-            <UserButton afterSignOutUrl="/" showName={true} />
-          </Suspense>
+          <UserButton afterSignOutUrl="/" showName={true} />
 
           <span className="text-left">
             <SignOutButton />

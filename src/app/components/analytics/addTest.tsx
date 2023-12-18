@@ -42,7 +42,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
 import { api } from "../../../utils/api";
 
-const formSchema = z
+export const formSchema = z
   .object({
     testName: z
       .string()
