@@ -17,43 +17,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { z } from "zod";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
-
-const formSchema = z.object({
-  testName: z.string(),
-  testDate: z.string(),
-  achievedMarks: z.coerce.number(),
-  maxMarks: z.coerce.number(),
-  percentage: z.coerce.number(),
-});
-
-export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
-  {
-    header: "Name",
-    accessorKey: "testName",
-  },
-  {
-    header: "Date",
-    accessorKey: "testDate",
-  },
-  {
-    header: "Achieved Marks",
-    accessorKey: "achievedMarks",
-  },
-  {
-    header: "Max Marks",
-    accessorKey: "maxMarks",
-  },
-  {
-    header: "Percentage",
-    accessorKey: "percentage",
-  },
-];
 
 export function DataTable<TData, TValue>({
   columns,

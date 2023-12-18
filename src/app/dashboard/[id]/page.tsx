@@ -1,7 +1,8 @@
 "use client";
 import { api } from "~/utils/api";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DataTable, columns } from "~/app/components/analytics/table";
+import { DataTable } from "~/app/components/analytics/table";
+import { columns } from "~/app/components/analytics/columns";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -33,6 +34,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
 
             return {
               testName: item.name,
+              testId: item.id,
               testDate: formattedDate,
               achievedMarks: item.achievedMarks,
               maxMarks: item.maxMarks,
