@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 import dynamic from "next/dynamic";
-import { PureComponent } from "react";
+import { PureComponent, Suspense } from "react";
 
 const data = [
   {
@@ -82,46 +82,48 @@ const ComposedChartWithoutSSR = dynamic(
 export default class RenderLineChart extends PureComponent {
   render() {
     return (
-      <ComposedChartWithoutSSR
-        width={800}
-        height={300}
-        data={data}
-        margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
-      >
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FFF" stopOpacity={0.2} />
-            <stop offset="30%" stopColor="#399be3" stopOpacity={0.2} />
-            <stop offset="30%" stopColor="red" stopOpacity={0.15} />
-            <stop offset="70%" stopColor="#FFF" stopOpacity={0.2} />
-          </linearGradient>
-        </defs>
-        <XAxis
-          dataKey="name"
-          domain={[0, "dataMax+1000"]}
-          scale="time"
-          // @ts-expect-error "string" is a valid input.
-          type="string"
-          tickFormatter={DateFormatter}
-        />
-        <YAxis />
-        <Tooltip />
-        <CartesianGrid vertical={false} stroke="#DDD" />
-        <ReferenceLine y={70} stroke="#000" isFront={true}>
-          <Label position="bottom" value="H3 Cut Off" />
-        </ReferenceLine>
-        <Tooltip active={false} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ComposedChartWithoutSSR
+          width={800}
+          height={300}
+          data={data}
+          margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FFF" stopOpacity={0.2} />
+              <stop offset="30%" stopColor="#399be3" stopOpacity={0.2} />
+              <stop offset="30%" stopColor="red" stopOpacity={0.15} />
+              <stop offset="70%" stopColor="#FFF" stopOpacity={0.2} />
+            </linearGradient>
+          </defs>
+          <XAxis
+            dataKey="name"
+            domain={[0, "dataMax+1000"]}
+            scale="time"
+            // @ts-expect-error "string" is a valid input.
+            type="string"
+            tickFormatter={DateFormatter}
+          />
+          <YAxis />
+          <Tooltip />
+          <CartesianGrid vertical={false} stroke="#DDD" />
+          <ReferenceLine y={70} stroke="#000" isFront={true}>
+            <Label position="bottom" value="H3 Cut Off" />
+          </ReferenceLine>
+          <Tooltip active={false} />
 
-        <Area
-          type="monotone"
-          dataKey="Percentage"
-          unit="%"
-          fillOpacity={1}
-          strokeWidth={2}
-          dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
-          fill="url(#colorUv)"
-        />
-      </ComposedChartWithoutSSR>
+          <Area
+            type="monotone"
+            dataKey="Percentage"
+            unit="%"
+            fillOpacity={1}
+            strokeWidth={2}
+            dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
+            fill="url(#colorUv)"
+          />
+        </ComposedChartWithoutSSR>
+      </Suspense>
     );
   }
 }
