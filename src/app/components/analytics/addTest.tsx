@@ -10,6 +10,8 @@ import {
 
 import * as React from "react";
 
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -82,10 +84,11 @@ export const formSchema = z
     return val;
   });
 
-export function AddTest() {
+export function AddTest({ subjectId }: { subjectId: number }) {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const { user, isSignedIn, isLoaded } = useUser();
+  const utils = api.useUtils();
 
   const submitTest = api.test.createTest.useMutation();
 
@@ -103,16 +106,23 @@ export function AddTest() {
         title: "Test Added!",
         description: `You added the test ${values.testName} to English.`,
       });
-      // setOpen(false);
-      submitTest.mutate({
-        userId: user.id,
-        subjectId: 1,
-        name: values.testName,
-        date: values.testDate,
-        achievedMarks: values.achievedMark,
-        maxMarks: values.maxMarks,
-        percentage: values.percentage,
-      });
+      setOpen(false);
+      submitTest.mutate(
+        {
+          userId: user.id,
+          subjectId: subjectId,
+          name: values.testName,
+          date: values.testDate,
+          achievedMarks: values.achievedMark,
+          maxMarks: values.maxMarks,
+          percentage: values.percentage,
+        },
+        {
+          onSuccess: () => {
+            void utils.test.getAllTestsBySubject.invalidate();
+          },
+        },
+      );
     } else {
       toast({
         title: "Error!",

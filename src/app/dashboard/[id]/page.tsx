@@ -3,6 +3,7 @@ import { api } from "~/utils/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DataTable } from "~/app/components/analytics/table";
 import { columns } from "~/app/components/analytics/columns";
+import AddTest from "~/app/components/analytics/addTest";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -43,6 +44,8 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
           }) ?? []
         }
       />
+
+      <AddTest subjectId={parseInt(params.id)} />
     </div>
   );
 }
