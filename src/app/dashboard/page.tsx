@@ -1,4 +1,3 @@
-import AddTestButton from "../components/analytics/addTest";
 import RenderLineChart from "../components/analytics/renderLineChart";
 
 export default async function Home() {
