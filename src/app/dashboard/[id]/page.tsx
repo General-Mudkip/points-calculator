@@ -1,8 +1,8 @@
 "use client";
 import { api } from "~/utils/api";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DataTable } from "~/app/components/analytics/table";
-import { columns } from "~/app/components/analytics/columns";
+import { DataTable } from "~/app/components/analytics/table/table";
+import { columns } from "~/app/components/analytics/table/columns";
 import AddTest from "~/app/components/analytics/addTest";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
@@ -35,6 +35,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
 
             return {
               testName: item.name,
+              subjectId: item.subjectId,
               testId: item.id,
               testDate: formattedDate,
               achievedMarks: item.achievedMarks,

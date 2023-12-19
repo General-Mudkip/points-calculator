@@ -18,9 +18,11 @@ import {
 
 import { z } from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DeleteTestButton } from "./deleteTestButton";
 
 const formSchema = z.object({
   testName: z.string(),
+  subjectId: z.number(),
   testId: z.number(),
   testDate: z.string(),
   achievedMarks: z.coerce.number(),
@@ -131,7 +133,12 @@ export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit Test</DropdownMenuItem>
-            <DropdownMenuItem>Delete Test</DropdownMenuItem>
+            <DropdownMenuItem>
+              <DeleteTestButton
+                testId={test.testId}
+                subjectId={test.subjectId}
+              />
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
