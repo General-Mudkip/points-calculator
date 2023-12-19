@@ -48,4 +48,18 @@ export const testRouter = createTRPCRouter({
         },
       });
     }),
+
+  deleteTest: publicProcedure
+    .input(
+      z.object({
+        testId: z.number(),
+      }),
+    )
+    .mutation(({ input }) => {
+      return db.test.delete({
+        where: {
+          id: input.testId,
+        },
+      });
+    }),
 });

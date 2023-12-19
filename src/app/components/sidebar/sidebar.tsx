@@ -10,8 +10,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 const Sidebar = () => {
   const { user } = useUser();
 
+  if (!user) {
+    return null;
+  }
+
   const subjectQuery = api.subject.getAllSubjects.useQuery({
-    // @ts-expect-error TODO :)
     userId: user?.id,
   });
 
