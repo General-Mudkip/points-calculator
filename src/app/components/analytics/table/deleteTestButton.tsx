@@ -28,8 +28,15 @@ export function DeleteTestButton({
       void utils.test.getAllTestsBySubject.invalidate({
         subjectId: subjectId,
       });
-    }, 2000);
+    }, 1500);
   }
 
-  return <button onClick={() => deleteTest()}>Delete Test</button>;
+  return (
+    <button
+      onClick={() => deleteTest()}
+      className="mt-2 rounded-md bg-red-600 p-2 text-white"
+    >
+      Delete Test
+    </button>
+  );
 }

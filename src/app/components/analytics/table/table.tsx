@@ -10,6 +10,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { DialogContext } from "./dialogContext";
+
 import * as React from "react";
 
 import {
@@ -31,7 +33,8 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = React.useState({});
+
+  const [open, setOpen] = React.useState(false);
 
   const table = useReactTable({
     data,
@@ -39,22 +42,13 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
-      rowSelection,
     },
   });
 
   return (
-    <div>
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
-        {table.getFilteredSelectedRowModel().rows.map((row) => (
-          <div key={row.id}>{JSON.stringify(row.original)}</div>
-        ))}
-      </div>
+    <DialogContext.Provider value={{ open, setOpen }}>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -105,6 +99,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-    </div>
+    </DialogContext.Provider>
   );
 }

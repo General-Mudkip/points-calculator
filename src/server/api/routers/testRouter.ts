@@ -49,6 +49,35 @@ export const testRouter = createTRPCRouter({
       });
     }),
 
+  editTest: publicProcedure
+    .input(
+      z.object({
+        testId: z.number(),
+        userId: z.string(),
+        subjectId: z.number(),
+        name: z.string(),
+        date: z.date(),
+        percentage: z.number(),
+        maxMarks: z.number(),
+        achievedMarks: z.number(),
+      }),
+    )
+    .mutation(({ input }) => {
+      return db.test.update({
+        where: {
+          id: input.testId,
+        },
+        data: {
+          subjectId: input.subjectId,
+          name: input.name,
+          date: input.date,
+          percentage: input.percentage,
+          maxMarks: input.maxMarks,
+          achievedMarks: input.achievedMarks,
+        },
+      });
+    }),
+
   deleteTest: publicProcedure
     .input(
       z.object({
