@@ -57,6 +57,7 @@ export function AddSubject() {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const { user, isSignedIn, isLoaded } = useUser();
+  const utils = api.useUtils();
 
   const submitSubject = api.subject.createSubject.useMutation();
 
@@ -71,12 +72,19 @@ export function AddSubject() {
         description: `You created a new subject called ${values.subjectName}.`,
       });
       setOpen(false);
-      submitSubject.mutate({
-        name: values.subjectName,
-        userId: user.id,
-        targetGrade: values.targetGrade,
-        setLevel: values.setLevel,
-      });
+      submitSubject.mutate(
+        {
+          name: values.subjectName,
+          userId: user.id,
+          targetGrade: values.targetGrade,
+          setLevel: values.setLevel,
+        },
+        {
+          onSuccess: () => {
+            void utils.subject.getAllSubjects.invalidate();
+          },
+        },
+      );
     } else {
       toast({
         title: "Error!",
