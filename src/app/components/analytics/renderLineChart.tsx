@@ -111,7 +111,7 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
         data={this.props.data
           .map((item) => {
             const date = new Date(item.date);
-            const formattedDate = (date.getTime() / 1000).toString();
+            const formattedDate = date.getTime() / 1000;
 
             console.log(formattedDate, item.percentage);
 
@@ -120,7 +120,7 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
               Percentage: item.percentage,
             };
           })
-          .sort()}
+          .sort((a, b) => a.date - b.date)}
         margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
       >
         <defs>
@@ -134,8 +134,8 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
         <XAxis
           dataKey="date"
           scale="time"
-          // @ts-expect-error "string" is a valid input.
-          type="string"
+          domain={["dataMin-200000", "dataMax+200000"]}
+          type="number"
           tickFormatter={DateFormatter}
         />
         <YAxis />
