@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DataTable } from "~/app/components/analytics/table/table";
 import { columns } from "~/app/components/analytics/table/columns";
 import AddTest from "~/app/components/analytics/addTest";
+import RenderLineChart from "~/app/components/analytics/renderLineChart";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -23,7 +24,9 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
           <h1 className=" text-5xl font-bold">{subjectQuery.data?.name}</h1>
         )}
       </div>
-      <div className="h-[300px] w-[800px] bg-red-300 text-center">CHART</div>
+
+      <RenderLineChart data={testQuery.data} />
+
       <DataTable
         columns={columns}
         data={

@@ -67,6 +67,19 @@ const data = [
   },
 ];
 
+interface RenderLineChartProps {
+  data: {
+    id: number;
+    subjectId: number;
+    userId: string;
+    name: string;
+    date: Date;
+    percentage: number;
+    maxMarks: number;
+    achievedMarks: number;
+  }[];
+}
+
 const DateFormatter = (date: string) => {
   const newDate = new Date(parseInt(date) * 1000);
   const toReturn =
@@ -80,12 +93,34 @@ const ComposedChartWithoutSSR = dynamic(
 );
 
 export default class RenderLineChart extends PureComponent {
+  constructor(props: RenderLineChartProps) {
+    super(props);
+  }
+
   render() {
+    if (this.props.data === undefined) {
+      return null;
+    }
+
+    console.log(this.props);
+
     return (
       <ComposedChartWithoutSSR
         width={800}
         height={300}
-        data={data}
+        data={this.props.data
+          .map((item) => {
+            const date = new Date(item.date);
+            const formattedDate = (date.getTime() / 1000).toString();
+
+            console.log(formattedDate, item.percentage);
+
+            return {
+              date: formattedDate,
+              Percentage: item.percentage,
+            };
+          })
+          .sort()}
         margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
       >
         <defs>
@@ -97,8 +132,7 @@ export default class RenderLineChart extends PureComponent {
           </linearGradient>
         </defs>
         <XAxis
-          dataKey="name"
-          domain={[0, "dataMax+1000"]}
+          dataKey="date"
           scale="time"
           // @ts-expect-error "string" is a valid input.
           type="string"
