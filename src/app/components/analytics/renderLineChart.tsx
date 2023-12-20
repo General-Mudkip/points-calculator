@@ -92,7 +92,7 @@ const ComposedChartWithoutSSR = dynamic(
   { ssr: false },
 );
 
-export default class RenderLineChart extends PureComponent {
+export default class RenderLineChart extends PureComponent<RenderLineChartProps> {
   constructor(props: RenderLineChartProps) {
     super(props);
   }

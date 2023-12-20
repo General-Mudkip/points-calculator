@@ -25,7 +25,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         )}
       </div>
 
-      <RenderLineChart data={testQuery.data} />
+      <RenderLineChart data={testQuery.data ?? []} />
 
       <DataTable
         columns={columns}
