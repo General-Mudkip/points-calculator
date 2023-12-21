@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DataTable } from "~/app/components/analytics/table/table";
 import { columns } from "~/app/components/analytics/table/columns";
 import AddTest from "~/app/components/analytics/addTest";
-import RenderLineChart from "~/app/components/analytics/renderLineChart";
+import RenderLineChart from "~/app/components/analytics/chart/renderLineChart";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -25,7 +25,11 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         )}
       </div>
 
-      <RenderLineChart data={testQuery.data ?? []} />
+      <RenderLineChart
+        testData={testQuery.data ?? []}
+        // @ts-expect-error Typescript being tempermental
+        subjectData={subjectQuery.data ?? []}
+      />
 
       <DataTable
         columns={columns}

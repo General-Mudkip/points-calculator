@@ -11,64 +11,10 @@ import {
 
 import dynamic from "next/dynamic";
 import { PureComponent } from "react";
-
-const data = [
-  {
-    name: "1662988800",
-    Percentage: 88,
-  },
-  {
-    name: "1663593600",
-    Percentage: 100,
-  },
-  {
-    name: "1664587200",
-    Percentage: 78,
-  },
-  {
-    name: "1665460000",
-    Percentage: 95,
-  },
-  {
-    name: "1666152000",
-    Percentage: 90,
-  },
-  {
-    name: "1666756800",
-    Percentage: 60,
-  },
-  {
-    name: "1669104000",
-    Percentage: 87,
-  },
-  {
-    name: "1669804000",
-    Percentage: 53,
-  },
-  {
-    name: "1670104000",
-    Percentage: 54,
-  },
-  {
-    name: "1670704000",
-    Percentage: 40,
-  },
-  {
-    name: "1671504000",
-    Percentage: 49,
-  },
-  {
-    name: "1673004000",
-    Percentage: 97,
-  },
-  {
-    name: "1674004000",
-    Percentage: 90,
-  },
-];
+import { CustomTooltip } from "./tooltip";
 
 interface RenderLineChartProps {
-  data: {
+  testData: {
     id: number;
     subjectId: number;
     userId: string;
@@ -78,6 +24,15 @@ interface RenderLineChartProps {
     maxMarks: number;
     achievedMarks: number;
   }[];
+  subjectData: {
+    id: number;
+    name: string;
+    userId: string;
+    createdAt: Date;
+    targetGrade: number | null;
+    setLevel: string;
+    averageGrade: number | null;
+  };
 }
 
 const DateFormatter = (date: string) => {
@@ -98,26 +53,28 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
   }
 
   render() {
-    if (this.props.data === undefined) {
+    if (
+      this.props.testData === undefined &&
+      this.props.subjectData === undefined
+    ) {
       return null;
     }
-
-    console.log(this.props);
 
     return (
       <ComposedChartWithoutSSR
         width={800}
         height={300}
-        data={this.props.data
+        data={this.props.testData
           .map((item) => {
             const date = new Date(item.date);
             const formattedDate = date.getTime() / 1000;
 
-            console.log(formattedDate, item.percentage);
-
             return {
+              name: item.name,
               date: formattedDate,
-              Percentage: item.percentage,
+              percentage: item.percentage,
+              achievedMarks: item.achievedMarks,
+              maxMarks: item.maxMarks,
             };
           })
           .sort((a, b) => a.date - b.date)}
@@ -139,7 +96,7 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
           tickFormatter={DateFormatter}
         />
         <YAxis />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <CartesianGrid vertical={false} stroke="#DDD" />
         <ReferenceLine y={70} stroke="#000" isFront={true}>
           <Label position="bottom" value="H3 Cut Off" />
@@ -148,7 +105,7 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
 
         <Area
           type="monotone"
-          dataKey="Percentage"
+          dataKey="percentage"
           unit="%"
           fillOpacity={1}
           strokeWidth={2}

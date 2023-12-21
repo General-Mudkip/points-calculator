@@ -174,7 +174,7 @@ export function EditTest(test: testType) {
       <Toaster />
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Test</DialogTitle>
+          <DialogTitle>Edit Test {test.testId}</DialogTitle>
           <DialogDescription>
             You're currently editing a test.
           </DialogDescription>

@@ -33,10 +33,10 @@ type testType = {
 
 export function DropDownMenu(test: testType) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const { setOpen: setEditOpen } = React.useContext(DialogContext);
+  const [isEditOpen, setEditOpen] = React.useState(false);
 
   return (
-    <>
+    <DialogContext.Provider value={{ open: isEditOpen, setOpen: setEditOpen }}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -79,6 +79,6 @@ export function DropDownMenu(test: testType) {
         percentage={test.percentage}
         subjectId={test.subjectId}
       />
-    </>
+    </DialogContext.Provider>
   );
 }
