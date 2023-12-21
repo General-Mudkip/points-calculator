@@ -74,8 +74,6 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
             const date = new Date(item.date);
             const formattedDate = date.getTime() / 1000;
 
-            console.log(item.name, formattedDate, item.date);
-
             return {
               name: item.name,
               date: formattedDate,
@@ -98,7 +96,11 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
         <XAxis
           dataKey="date"
           scale="time"
-          domain={["dataMin-200000", "dataMax+200000"]}
+          domain={([dataMin, dataMax]) => {
+            const newMax = dataMax * 1.001;
+            const newMin = dataMin * 0.999;
+            return [newMin, newMax];
+          }}
           type="number"
           tickFormatter={DateFormatter}
         />
