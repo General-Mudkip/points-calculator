@@ -101,9 +101,10 @@ export function AddTest({ subjectId }: { subjectId: number }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (isLoaded && isSignedIn) {
       toast({
-        title: "Test Added!",
-        description: `You added the test ${values.testName} to English.`,
+        title: "Processing...",
+        description: "Please wait a moment.",
       });
+
       setOpen(false);
       submitTest.mutate(
         {
@@ -117,6 +118,10 @@ export function AddTest({ subjectId }: { subjectId: number }) {
         },
         {
           onSuccess: () => {
+            toast({
+              title: "Test Added!",
+              description: `You added the test ${values.testName} to English.`,
+            });
             void utils.test.getAllTestsBySubject.invalidate();
           },
         },

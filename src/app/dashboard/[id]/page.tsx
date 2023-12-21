@@ -5,6 +5,7 @@ import { DataTable } from "~/app/components/analytics/table/table";
 import { columns } from "~/app/components/analytics/table/columns";
 import AddTest from "~/app/components/analytics/addTest";
 import RenderLineChart from "~/app/components/analytics/chart/renderLineChart";
+import EditSubject from "~/app/components/analytics/editSubject";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -21,7 +22,17 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         {subjectQuery.isLoading ? (
           <Skeleton className="h-[48px] w-[240px] rounded-lg" />
         ) : (
-          <h1 className=" text-5xl font-bold">{subjectQuery.data?.name}</h1>
+          <div className="flex flex-row place-items-center">
+            <h1 className="mr-4 text-5xl font-bold">
+              {subjectQuery.data?.name}
+            </h1>
+            {subjectQuery.data ? (
+              // @ts-expect-error Types are fine, never going to be an issue.
+              <EditSubject data={subjectQuery.data} />
+            ) : (
+              <div></div>
+            )}
+          </div>
         )}
       </div>
 

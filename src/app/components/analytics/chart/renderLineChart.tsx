@@ -12,6 +12,7 @@ import {
 import dynamic from "next/dynamic";
 import { PureComponent } from "react";
 import { CustomTooltip } from "./tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface RenderLineChartProps {
   testData: {
@@ -62,8 +63,10 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
       this.props.testData === undefined &&
       this.props.subjectData === undefined
     ) {
-      return null;
+      return <Skeleton className="h-[300px] w-[800px]" />;
     }
+
+    console.log(this.props);
 
     return (
       <ComposedChartWithoutSSR

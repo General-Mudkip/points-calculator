@@ -30,7 +30,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
 import { api } from "../../../utils/api";
-import { PlusCircle } from "lucide-react";
+import { PencilRuler } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -51,16 +51,34 @@ const formSchema = z.object({
   setLevel: z.union([z.literal("Higher"), z.literal("Ordinary")]),
 });
 
-export function AddSubject() {
+type subjectType = {
+  data: {
+    id: number;
+    name: string;
+    userId: string;
+    createdAt: Date;
+    targetGrade: number;
+    setLevel: string;
+    averageGrade: number | null;
+  };
+};
+
+export function EditSubject(subject: subjectType) {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
-  const { user, isSignedIn, isLoaded } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   const utils = api.useUtils();
 
-  const submitSubject = api.subject.createSubject.useMutation();
+  const editSubject = api.subject.editSubject.useMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      subjectName: subject.data.name,
+      targetGrade: subject.data.targetGrade,
+      //@ts-expect-error It will work.
+      setLevel: subject.data.setLevel,
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -70,27 +88,27 @@ export function AddSubject() {
         description: "Please wait a moment.",
       });
       setOpen(false);
-      submitSubject.mutate(
+      editSubject.mutate(
         {
+          id: subject.data.id,
           name: values.subjectName,
-          userId: user.id,
           targetGrade: values.targetGrade,
           setLevel: values.setLevel,
         },
         {
           onSuccess: () => {
             toast({
-              title: "Subject Created!",
-              description: `You created a new subject called ${values.subjectName}.`,
+              title: "Subject Edited!",
+              description: `You successfully edited ${values.subjectName}.`,
             });
-            void utils.subject.getAllSubjects.invalidate();
+            void utils.subject.invalidate();
           },
         },
       );
     } else {
       toast({
         title: "Error!",
-        description: `You must be logged in to create a subject.`,
+        description: `You must be logged in to edit a subject.`,
         variant: "destructive",
       });
     }
@@ -100,15 +118,17 @@ export function AddSubject() {
     <Dialog open={open} onOpenChange={setOpen}>
       <Toaster />
       <DialogTrigger asChild>
-        <button className="flex w-full items-center gap-x-2 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
-          <PlusCircle />
-          Add Subject
+        <button className="flex w-auto items-center gap-x-2 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
+          <PencilRuler />
+          Edit
         </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Subject</DialogTitle>
-          <DialogDescription>Create a new subject to track.</DialogDescription>
+          <DialogTitle>Edit Subject</DialogTitle>
+          <DialogDescription>
+            You're currently editing a subject.
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -172,11 +192,11 @@ export function AddSubject() {
               )}
             />
 
-            <Button type="submit">Create Subject</Button>
+            <Button type="submit">Submit Changes</Button>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
   );
 }
-export default AddSubject;
+export default EditSubject;

@@ -28,8 +28,8 @@ export const subjectRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         userId: z.string(),
-        targetGrade: z.optional(z.number()),
-        setLevel: z.optional(z.string()),
+        targetGrade: z.number(),
+        setLevel: z.string(),
       }),
     )
     .mutation(({ input }) => {
@@ -37,6 +37,28 @@ export const subjectRouter = createTRPCRouter({
         data: {
           name: input.name,
           userId: input.userId,
+          targetGrade: input.targetGrade,
+          setLevel: input.setLevel,
+        },
+      });
+    }),
+
+  editSubject: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        targetGrade: z.number(),
+        setLevel: z.string(),
+      }),
+    )
+    .mutation(({ input }) => {
+      return db.subject.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
           targetGrade: input.targetGrade,
           setLevel: input.setLevel,
         },

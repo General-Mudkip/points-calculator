@@ -119,8 +119,8 @@ export function EditTest(test: testType) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (isLoaded && isSignedIn) {
       toast({
-        title: "Test Edited!",
-        description: `You successfully edited the test.`,
+        title: "Processing...",
+        description: "Please wait a moment.",
       });
       setOpen(false);
       submitTest.mutate(
@@ -136,6 +136,10 @@ export function EditTest(test: testType) {
         },
         {
           onSuccess: () => {
+            toast({
+              title: "Test Edited!",
+              description: `You successfully edited the test.`,
+            });
             void utils.test.getAllTestsBySubject.invalidate();
           },
         },
@@ -174,7 +178,7 @@ export function EditTest(test: testType) {
       <Toaster />
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Test {test.testId}</DialogTitle>
+          <DialogTitle>Edit Test</DialogTitle>
           <DialogDescription>
             You're currently editing a test.
           </DialogDescription>
