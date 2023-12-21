@@ -38,7 +38,11 @@ interface RenderLineChartProps {
 const DateFormatter = (date: string) => {
   const newDate = new Date(parseInt(date) * 1000);
   const toReturn =
-    newDate.getDate() + "/" + newDate.getMonth() + "/" + newDate.getFullYear();
+    newDate.getDate() +
+    "/" +
+    (newDate.getMonth() + 1) +
+    "/" +
+    newDate.getFullYear();
   return toReturn;
 };
 
@@ -47,6 +51,7 @@ const ComposedChartWithoutSSR = dynamic(
   { ssr: false },
 );
 
+// TODO: Fix the dates, they're being wack af :(
 export default class RenderLineChart extends PureComponent<RenderLineChartProps> {
   constructor(props: RenderLineChartProps) {
     super(props);
@@ -68,6 +73,8 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
           .map((item) => {
             const date = new Date(item.date);
             const formattedDate = date.getTime() / 1000;
+
+            console.log(item.name, formattedDate, item.date);
 
             return {
               name: item.name,

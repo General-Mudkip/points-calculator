@@ -7,7 +7,7 @@ export const CustomTooltip = ({ active, payload }: any) => {
     const toReturn =
       newDate.getDate() +
       "/" +
-      newDate.getMonth() +
+      (newDate.getMonth() + 1) +
       "/" +
       newDate.getFullYear();
     return toReturn;
