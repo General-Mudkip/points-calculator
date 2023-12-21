@@ -27,7 +27,6 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
               {subjectQuery.data?.name}
             </h1>
             {subjectQuery.data ? (
-              // @ts-expect-error Types are fine, never going to be an issue.
               <EditSubject data={subjectQuery.data} />
             ) : (
               <div></div>

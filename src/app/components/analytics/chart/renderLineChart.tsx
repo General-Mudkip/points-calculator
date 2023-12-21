@@ -30,7 +30,7 @@ interface RenderLineChartProps {
     name: string;
     userId: string;
     createdAt: Date;
-    targetGrade: number | null;
+    targetGrade: number;
     setLevel: string;
     averageGrade: number | null;
   };
@@ -66,7 +66,13 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
       return <Skeleton className="h-[300px] w-[800px]" />;
     }
 
-    console.log(this.props);
+    const targetPercent = 100 - this.props.subjectData.targetGrade * 10;
+    const gradeString: string =
+      (this.props.subjectData.setLevel === "Higher" ? "H" : "O") +
+      this.props.subjectData.targetGrade +
+      " Cut-Off";
+
+    console.log(100 - targetPercent);
 
     return (
       <ComposedChartWithoutSSR
@@ -91,9 +97,21 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#FFF" stopOpacity={0.2} />
-            <stop offset="30%" stopColor="#399be3" stopOpacity={0.2} />
-            <stop offset="30%" stopColor="red" stopOpacity={0.15} />
-            <stop offset="70%" stopColor="#FFF" stopOpacity={0.2} />
+            <stop
+              offset={`${100 - targetPercent}%`}
+              stopColor="#399be3"
+              stopOpacity={0.2}
+            />
+            <stop
+              offset={`${100 - targetPercent}%`}
+              stopColor="red"
+              stopOpacity={0.15}
+            />
+            <stop
+              offset={`${140 - targetPercent}%`}
+              stopColor="#FFF"
+              stopOpacity={0.2}
+            />
           </linearGradient>
         </defs>
         <XAxis
@@ -107,11 +125,15 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
           type="number"
           tickFormatter={DateFormatter}
         />
-        <YAxis />
+        <YAxis
+          unit={"%"}
+          ticks={[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+          interval={0}
+        />
         <Tooltip content={<CustomTooltip />} />
         <CartesianGrid vertical={false} stroke="#DDD" />
-        <ReferenceLine y={70} stroke="#000" isFront={true}>
-          <Label position="bottom" value="H3 Cut Off" />
+        <ReferenceLine y={targetPercent} stroke="#000" isFront={true}>
+          <Label position="bottom" value={gradeString} />
         </ReferenceLine>
         <Tooltip active={false} />
 
