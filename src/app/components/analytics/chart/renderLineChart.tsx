@@ -59,11 +59,22 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
   }
 
   render() {
-    if (
-      this.props.testData === undefined &&
-      this.props.subjectData === undefined
-    ) {
+    console.log(this.props.subjectData);
+
+    if (this.props.subjectData.name === undefined) {
       return <Skeleton className="h-[300px] w-[800px]" />;
+    }
+
+    console.log(this.props.subjectData.name, this.props.testData.length);
+
+    if (this.props.testData.length < 2) {
+      return (
+        <div className="h-[300px] w-[800px] content-center rounded-lg border-2 border-gray-600 text-center">
+          <span className="inline-block align-middle">
+            Add 2 tests to see your progress!
+          </span>
+        </div>
+      );
     }
 
     const targetPercent = 100 - this.props.subjectData.targetGrade * 10;
