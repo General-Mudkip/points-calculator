@@ -59,105 +59,94 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
   }
 
   render() {
-    console.log(this.props.subjectData);
-
     if (this.props.subjectData.name === undefined) {
       return <Skeleton className="h-[300px] w-[800px]" />;
     }
 
-    console.log(this.props.subjectData.name, this.props.testData.length);
-
     if (this.props.testData.length < 2) {
       return (
-        <div className="h-[300px] w-[800px] content-center rounded-lg border-2 border-gray-600 text-center">
-          <span className="inline-block align-middle">
-            Add 2 tests to see your progress!
-          </span>
+        <div className="flex h-[300px] w-[800px] items-center justify-center rounded-lg border-2 border-gray-600 text-center align-middle">
+          {this.props.testData.length === 0 ? (
+            <span>Add two tests to see your progress!</span>
+          ) : (
+            <span>Add one more test to see your progress!</span>
+          )}
         </div>
       );
     }
 
-    const targetPercent = 100 - this.props.subjectData.targetGrade * 10;
+    const dataToUse = this.props.testData
+      .map((item) => {
+        const date = new Date(item.date);
+        const formattedDate = date.getTime() / 1000;
+
+        return {
+          name: item.name,
+          date: formattedDate,
+          percentage: item.percentage,
+          achievedMarks: item.achievedMarks,
+          maxMarks: item.maxMarks,
+        };
+      })
+      .sort((a, b) => a.date - b.date);
+
     const gradeString: string =
       (this.props.subjectData.setLevel === "Higher" ? "H" : "O") +
       this.props.subjectData.targetGrade +
       " Cut-Off";
 
-    console.log(100 - targetPercent);
-
     return (
-      <ComposedChartWithoutSSR
-        width={800}
-        height={300}
-        data={this.props.testData
-          .map((item) => {
-            const date = new Date(item.date);
-            const formattedDate = date.getTime() / 1000;
+      <>
+        <ComposedChartWithoutSSR
+          width={800}
+          height={300}
+          data={dataToUse}
+          margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#399be3" stopOpacity={0.2} />
+              <stop offset={`70%`} stopColor="#FFF" stopOpacity={0.2} />
+            </linearGradient>
+          </defs>
+          <XAxis
+            dataKey="date"
+            scale="time"
+            domain={([dataMin, dataMax]) => {
+              const newMax = dataMax * 1.001;
+              const newMin = dataMin * 0.999;
+              return [newMin, newMax];
+            }}
+            type="number"
+            tickFormatter={DateFormatter}
+          />
+          <YAxis
+            unit={"%"}
+            ticks={[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+            interval={0}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <CartesianGrid vertical={false} stroke="#DDD" />
+          <ReferenceLine
+            y={100 - this.props.subjectData.targetGrade * 10}
+            stroke="#000"
+            isFront={true}
+          >
+            <Label position="bottom" value={gradeString} />
+          </ReferenceLine>
+          <Tooltip active={false} />
 
-            return {
-              name: item.name,
-              date: formattedDate,
-              percentage: item.percentage,
-              achievedMarks: item.achievedMarks,
-              maxMarks: item.maxMarks,
-            };
-          })
-          .sort((a, b) => a.date - b.date)}
-        margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
-      >
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FFF" stopOpacity={0.2} />
-            <stop
-              offset={`${100 - targetPercent}%`}
-              stopColor="#399be3"
-              stopOpacity={0.2}
-            />
-            <stop
-              offset={`${100 - targetPercent}%`}
-              stopColor="red"
-              stopOpacity={0.15}
-            />
-            <stop
-              offset={`${140 - targetPercent}%`}
-              stopColor="#FFF"
-              stopOpacity={0.2}
-            />
-          </linearGradient>
-        </defs>
-        <XAxis
-          dataKey="date"
-          scale="time"
-          domain={([dataMin, dataMax]) => {
-            const newMax = dataMax * 1.001;
-            const newMin = dataMin * 0.999;
-            return [newMin, newMax];
-          }}
-          type="number"
-          tickFormatter={DateFormatter}
-        />
-        <YAxis
-          unit={"%"}
-          ticks={[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
-          interval={0}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <CartesianGrid vertical={false} stroke="#DDD" />
-        <ReferenceLine y={targetPercent} stroke="#000" isFront={true}>
-          <Label position="bottom" value={gradeString} />
-        </ReferenceLine>
-        <Tooltip active={false} />
-
-        <Area
-          type="monotone"
-          dataKey="percentage"
-          unit="%"
-          fillOpacity={1}
-          strokeWidth={2}
-          dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
-          fill="url(#colorUv)"
-        />
-      </ComposedChartWithoutSSR>
+          <Area
+            type="monotone"
+            dataKey="percentage"
+            unit="%"
+            fillOpacity={1}
+            strokeWidth={2}
+            dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
+            fill="url(#colorUv)"
+          />
+        </ComposedChartWithoutSSR>
+      </>
     );
   }
 }
