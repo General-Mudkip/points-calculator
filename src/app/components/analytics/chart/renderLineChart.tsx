@@ -7,9 +7,10 @@ import {
   Tooltip,
   Area,
   Label,
+  ComposedChart,
+  ResponsiveContainer,
 } from "recharts";
 
-import dynamic from "next/dynamic";
 import { PureComponent } from "react";
 import { CustomTooltip } from "./tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -47,11 +48,6 @@ const DateFormatter = (date: string) => {
   return toReturn;
 };
 
-const ComposedChartWithoutSSR = dynamic(
-  () => import("recharts").then((recharts) => recharts.ComposedChart),
-  { ssr: false },
-);
-
 // TODO: Fix the dates, they're being wack af :(
 export default class RenderLineChart extends PureComponent<RenderLineChartProps> {
   constructor(props: RenderLineChartProps) {
@@ -60,12 +56,12 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
 
   render() {
     if (this.props.subjectData.name === undefined) {
-      return <Skeleton className="h-[300px] w-[800px]" />;
+      return <Skeleton className="h-[350px] w-[530x]" />;
     }
 
     if (this.props.testData.length < 2) {
       return (
-        <div className="flex h-[300px] w-[800px] items-center justify-center rounded-lg border-2 border-gray-600 text-center align-middle">
+        <div className="flex h-[350px] w-[530x] items-center justify-center rounded-lg border-2 border-gray-600 text-center align-middle">
           {this.props.testData.length === 0 ? (
             <span>Add two tests to see your progress!</span>
           ) : (
@@ -96,12 +92,12 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
       " Cut-Off";
 
     return (
-      <>
-        <ComposedChartWithoutSSR
+      <ResponsiveContainer height={350} width="100%">
+        <ComposedChart
           width={800}
-          height={300}
+          height={350}
           data={dataToUse}
-          margin={{ top: 25, right: 0, left: 0, bottom: 0 }}
+          margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
         >
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -131,6 +127,7 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
             y={100 - this.props.subjectData.targetGrade * 10}
             stroke="#000"
             isFront={true}
+            strokeDasharray="3 3"
           >
             <Label position="bottom" value={gradeString} />
           </ReferenceLine>
@@ -145,8 +142,8 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
             dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
             fill="url(#colorUv)"
           />
-        </ComposedChartWithoutSSR>
-      </>
+        </ComposedChart>
+      </ResponsiveContainer>
     );
   }
 }

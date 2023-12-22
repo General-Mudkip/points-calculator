@@ -6,6 +6,13 @@ import { columns } from "~/app/components/analytics/table/columns";
 import AddTest from "~/app/components/analytics/addTest";
 import RenderLineChart from "~/app/components/analytics/chart/renderLineChart";
 import EditSubject from "~/app/components/analytics/editSubject";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -35,33 +42,60 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         )}
       </div>
 
-      <RenderLineChart
-        testData={testQuery.data ?? []}
-        // @ts-expect-error Typescript being tempermental
-        subjectData={subjectQuery.data ?? []}
-      />
+      <hr />
 
-      <DataTable
-        columns={columns}
-        data={
-          testQuery.data?.map((item) => {
-            const date = new Date(item.date);
-            const formattedDate = `${date.getDate()}/${
-              date.getMonth() + 1
-            }/${date.getFullYear()}`;
+      <div className="grid grid-cols-2 gap-4">
+        <Card className="">
+          <CardHeader>
+            <CardTitle>Progress</CardTitle>
+            <CardDescription>Track your progress over time.</CardDescription>
+          </CardHeader>
 
-            return {
-              testName: item.name,
-              subjectId: item.subjectId,
-              testId: item.id,
-              testDate: formattedDate,
-              achievedMarks: item.achievedMarks,
-              maxMarks: item.maxMarks,
-              percentage: item.percentage,
-            };
-          }) ?? []
-        }
-      />
+          <CardContent>
+            <RenderLineChart
+              testData={testQuery.data ?? []}
+              // @ts-expect-error Typescript being tempermental
+              subjectData={subjectQuery.data ?? []}
+            />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Your Tests</CardTitle>
+            <CardDescription>Create, edit, and delete tests.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {subjectQuery.data?.name === undefined ? (
+              <Skeleton className="h-[150px] w-[400px]" />
+            ) : (
+              <>
+                <DataTable
+                  columns={columns}
+                  data={
+                    testQuery.data?.map((item) => {
+                      const date = new Date(item.date);
+                      const formattedDate = `${date.getDate()}/${
+                        date.getMonth() + 1
+                      }/${date.getFullYear()}`;
+
+                      return {
+                        testName: item.name,
+                        subjectId: item.subjectId,
+                        testId: item.id,
+                        testDate: formattedDate,
+                        achievedMarks: item.achievedMarks,
+                        maxMarks: item.maxMarks,
+                        percentage: item.percentage,
+                      };
+                    }) ?? []
+                  }
+                />
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
       <AddTest subjectId={parseInt(params.id)} />
     </div>
