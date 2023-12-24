@@ -159,7 +159,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <Toaster />
       <DialogTrigger asChild>
-        <Button variant="outline">Add Test</Button>
+        <Button className="mt-2 w-full">Add Test</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

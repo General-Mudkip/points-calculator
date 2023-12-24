@@ -64,4 +64,22 @@ export const subjectRouter = createTRPCRouter({
         },
       });
     }),
+
+  setAverage: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        average: z.number(),
+      }),
+    )
+    .mutation(({ input }) => {
+      return db.subject.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          averageGrade: input.average,
+        },
+      });
+    }),
 });

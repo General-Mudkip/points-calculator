@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import StatisticsCard from "~/app/components/analytics/statisticsCard";
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
   const subjectQuery = api.subject.getSubjectById.useQuery({
@@ -24,7 +25,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
   });
 
   return (
-    <div className="flex min-h-screen w-[95%] flex-col items-center gap-y-12 bg-white p-32 pt-48 text-black">
+    <div className="flex min-h-screen w-[95%] flex-col items-center gap-y-12 bg-white p-32 pt-20 text-black">
       <div className="place-self-start">
         {subjectQuery.isLoading ? (
           <Skeleton className="h-[48px] w-[240px] rounded-lg" />
@@ -42,10 +43,10 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         )}
       </div>
 
-      <hr />
+      <hr className=" w-full" />
 
-      <div className="grid grid-cols-2 gap-4">
-        <Card className="">
+      <div className="grid grid-cols-4 gap-4 lg:grid-cols-4">
+        <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Progress</CardTitle>
             <CardDescription>Track your progress over time.</CardDescription>
@@ -60,14 +61,14 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Your Tests</CardTitle>
             <CardDescription>Create, edit, and delete tests.</CardDescription>
           </CardHeader>
           <CardContent>
             {subjectQuery.data?.name === undefined ? (
-              <Skeleton className="h-[150px] w-[400px]" />
+              <Skeleton className="h-80 w-[570px]" />
             ) : (
               <>
                 <DataTable
@@ -93,11 +94,16 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
                 />
               </>
             )}
+            <AddTest subjectId={parseInt(params.id)} />
           </CardContent>
         </Card>
-      </div>
 
-      <AddTest subjectId={parseInt(params.id)} />
+        <StatisticsCard
+          // @ts-expect-error Typescript being tempermental
+          subjectData={subjectQuery.data ?? []}
+          testData={testQuery.data ?? []}
+        />
+      </div>
     </div>
   );
 }
