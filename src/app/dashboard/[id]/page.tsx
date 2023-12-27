@@ -25,7 +25,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
   });
 
   return (
-    <div className="mt-24 flex min-h-screen w-[95%] flex-col items-center gap-y-12 bg-white p-4 text-black lg:p-32 lg:pt-20">
+    <div className="mx-auto mt-24 flex min-h-screen w-[95%] flex-col items-center gap-y-12 bg-white p-4 text-black lg:mx-0 lg:pl-4 lg:pt-0 xl:mb-8 xl:px-24">
       <div className="place-self-start">
         {subjectQuery.isLoading ? (
           <Skeleton className="h-[48px] w-[240px] rounded-lg" />
@@ -45,7 +45,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
 
       <hr className="w-full" />
 
-      <div className="mx-4 flex flex-col items-center justify-center gap-y-4 xl:grid  xl:grid-cols-2 xl:gap-4">
+      <div className="flex flex-col items-center justify-center gap-y-4 xl:grid xl:grid-cols-2 xl:gap-4">
         <Card className="h-full w-full">
           <CardHeader>
             <CardTitle>Progress</CardTitle>
@@ -61,7 +61,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
           </CardContent>
         </Card>
 
-        <Card className="w-screen sm:w-auto">
+        <Card className="w-[90vw] sm:w-auto">
           <CardHeader>
             <CardTitle>Your Tests</CardTitle>
             <CardDescription>Create, edit, and delete tests.</CardDescription>
