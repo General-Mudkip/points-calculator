@@ -106,7 +106,7 @@ const StatisticsCard = (props: statsCardProps) => {
     props.testData.length;
 
   return (
-    <Card className="col-span-4">
+    <Card className="w-full xl:col-span-2">
       <CardHeader>
         <CardTitle>Analytics</CardTitle>
         <CardDescription>
@@ -114,7 +114,7 @@ const StatisticsCard = (props: statsCardProps) => {
         </CardDescription>
 
         <CardContent className="p-4">
-          <div className="grid grid-cols-2 gap-x-2 gap-y-4">
+          <div className="grid gap-x-2 gap-y-4 lg:grid-cols-2">
             <Stat name="Target Grade" value={grade} />
             <Stat
               name="Target Points"

@@ -46,7 +46,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="overflow-hidden whitespace-nowrap rounded-md border">
-      <ScrollArea className="h-80 w-auto">
+      <ScrollArea className="h-80 w-full">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
