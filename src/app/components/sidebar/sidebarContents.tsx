@@ -1,5 +1,5 @@
 "use client";
-import { SignOutButton, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import { api } from "../../../utils/api";
 import Link from "next/link";
 import { LayoutPanelLeft } from "lucide-react";
@@ -50,7 +50,7 @@ const SidebarContents = () => {
   ];
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-[90%] flex-col lg:h-full">
       <div className="flex h-full flex-1 flex-col overflow-auto pl-3 lg:px-8">
         <Link
           href="/dashboard"
@@ -104,14 +104,9 @@ const SidebarContents = () => {
             ))}
           </ul>
         </div>
-      </div>
-
-      <div className="justify-left my-4 flex h-[90px] w-[319px] flex-col gap-2 border-t-2 border-t-gray-300 px-8 pt-4">
-        <UserButton afterSignOutUrl="/" showName={true} />
-
-        <span className="text-left">
-          <SignOutButton />
-        </span>
+        <div className="justify-left my-6 gap-2 border-t-2 border-t-gray-300 pt-6">
+          <UserButton afterSignOutUrl="/" showName={true} />
+        </div>
       </div>
     </div>
   );
