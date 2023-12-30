@@ -88,7 +88,12 @@ export function AddTest({ subjectId }: { subjectId: number }) {
   const { user, isSignedIn, isLoaded } = useUser();
   const utils = api.useUtils();
 
+  const testsArray = api.test.getAllTestsBySubject.useQuery({
+    subjectId: subjectId,
+  });
+
   const submitTest = api.test.createTest.useMutation();
+  const updateAverage = api.subject.setAverage.useMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -98,6 +103,38 @@ export function AddTest({ subjectId }: { subjectId: number }) {
     },
   });
 
+  function calculateAverage(newGrade: number) {
+    const testCount = testsArray.data?.length;
+
+    const totalPercentage = testsArray.data?.reduce(
+      (total, test) => total + test.percentage,
+      0,
+    );
+
+    if (totalPercentage && testCount) {
+      const newAverage = parseFloat(
+        ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2),
+      );
+
+      updateAverage.mutate(
+        {
+          subjectId: subjectId,
+          average: newAverage,
+        },
+        {
+          onSuccess: () => {
+            toast({
+              title: "Test Added!",
+              description: `Successfully added a new test to English.`,
+            });
+            void utils.test.getAllTestsBySubject.invalidate();
+            void utils.subject.invalidate();
+          },
+        },
+      );
+    }
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (isLoaded && isSignedIn) {
       toast({
@@ -106,26 +143,16 @@ export function AddTest({ subjectId }: { subjectId: number }) {
       });
 
       setOpen(false);
-      submitTest.mutate(
-        {
-          userId: user.id,
-          subjectId: subjectId,
-          name: values.testName,
-          date: values.testDate,
-          achievedMarks: values.achievedMark,
-          maxMarks: values.maxMarks,
-          percentage: values.percentage,
-        },
-        {
-          onSuccess: () => {
-            toast({
-              title: "Test Added!",
-              description: `You added the test ${values.testName} to English.`,
-            });
-            void utils.test.getAllTestsBySubject.invalidate();
-          },
-        },
-      );
+      submitTest.mutate({
+        userId: user.id,
+        subjectId: subjectId,
+        name: values.testName,
+        date: values.testDate,
+        achievedMarks: values.achievedMark,
+        maxMarks: values.maxMarks,
+        percentage: values.percentage,
+      });
+      calculateAverage(values.percentage);
     } else {
       toast({
         title: "Error!",

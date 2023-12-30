@@ -101,10 +101,12 @@ const StatisticsCard = (props: statsCardProps) => {
     (props.subjectData.setLevel === "Higher" ? "H" : "O") +
     props.subjectData.targetGrade;
 
-  const averageGrade = (
-    props.testData.reduce((acc, obj) => acc + obj.percentage, 0) /
-    props.testData.length
-  ).toFixed(2);
+  const averageGrade = parseFloat(
+    (
+      props.testData.reduce((acc, obj) => acc + obj.percentage, 0) /
+      props.testData.length
+    ).toFixed(2),
+  );
 
   return (
     <Card className="w-full xl:col-span-2">
@@ -121,7 +123,10 @@ const StatisticsCard = (props: statsCardProps) => {
               name="Target Points"
               value={gradePointsLookup[grade] ?? "0"}
             />
-            <Stat name="Average Grade" value={averageGrade.toString()} />
+            <Stat
+              name="Average Grade"
+              value={props.subjectData.averageGrade?.toString() ?? "0"}
+            />
 
             <Stat
               name="Projected Points"

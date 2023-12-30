@@ -102,6 +102,11 @@ export function EditTest(test: testType) {
   const { open, setOpen } = React.useContext(DialogContext);
 
   const submitTest = api.test.editTest.useMutation();
+  const updateAverage = api.subject.setAverage.useMutation();
+
+  const testsArray = api.test.getAllTestsBySubject.useQuery({
+    subjectId: test.subjectId,
+  });
 
   const formattedDate = moment(test.testDate, "DD/MM/YYYY").toDate();
 
@@ -116,23 +121,23 @@ export function EditTest(test: testType) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (isLoaded && isSignedIn) {
-      toast({
-        title: "Processing...",
-        description: "Please wait a moment.",
-      });
-      setOpen(false);
-      submitTest.mutate(
+  function calculateAverage(newGrade: number) {
+    const testCount = testsArray.data?.length;
+
+    const totalPercentage = testsArray.data?.reduce(
+      (total, test) => total + test.percentage,
+      0,
+    );
+
+    if (totalPercentage && testCount) {
+      const newAverage = parseFloat(
+        ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2),
+      );
+
+      updateAverage.mutate(
         {
-          testId: test.testId,
-          userId: user.id,
           subjectId: test.subjectId,
-          name: values.testName,
-          date: values.testDate,
-          achievedMarks: values.achievedMark,
-          maxMarks: values.maxMarks,
-          percentage: values.percentage,
+          average: newAverage,
         },
         {
           onSuccess: () => {
@@ -141,9 +146,31 @@ export function EditTest(test: testType) {
               description: `You successfully edited the test.`,
             });
             void utils.test.getAllTestsBySubject.invalidate();
+            void utils.subject.invalidate();
           },
         },
       );
+    }
+  }
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    if (isLoaded && isSignedIn) {
+      toast({
+        title: "Processing...",
+        description: "Please wait a moment.",
+      });
+      setOpen(false);
+      submitTest.mutate({
+        testId: test.testId,
+        userId: user.id,
+        subjectId: test.subjectId,
+        name: values.testName,
+        date: values.testDate,
+        achievedMarks: values.achievedMark,
+        maxMarks: values.maxMarks,
+        percentage: values.percentage,
+      });
+      calculateAverage(values.percentage);
     } else {
       toast({
         title: "Error!",

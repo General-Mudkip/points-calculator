@@ -55,7 +55,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
           <CardContent>
             <RenderLineChart
               testData={testQuery.data ?? []}
-              // @ts-expect-error Typescript being tempermental
+              //@ts-expect-error Don't worry... about a thing
               subjectData={subjectQuery.data ?? []}
             />
           </CardContent>
@@ -99,7 +99,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         </Card>
 
         <StatisticsCard
-          // @ts-expect-error Typescript being tempermental
+          //@ts-expect-error Don't worry... about a thing
           subjectData={subjectQuery.data ?? []}
           testData={testQuery.data ?? []}
         />
