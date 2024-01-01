@@ -48,7 +48,6 @@ const DateFormatter = (date: string) => {
   return toReturn;
 };
 
-// TODO: Fix the dates, they're being wack af :(
 export default class RenderLineChart extends PureComponent<RenderLineChartProps> {
   constructor(props: RenderLineChartProps) {
     super(props);

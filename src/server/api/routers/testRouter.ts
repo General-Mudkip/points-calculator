@@ -13,6 +13,16 @@ export const testRouter = createTRPCRouter({
       });
     }),
 
+  getAllTests: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(({ input }) => {
+      return db.test.findMany({
+        where: {
+          userId: input.userId,
+        },
+      });
+    }),
+
   getAllTestsBySubject: publicProcedure
     .input(z.object({ subjectId: z.number() }))
     .query(({ input }) => {

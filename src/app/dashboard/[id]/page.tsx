@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DataTable } from "~/app/components/analytics/table/table";
 import { columns } from "~/app/components/analytics/table/columns";
 import AddTest from "~/app/components/analytics/addTest";
-import RenderLineChart from "~/app/components/analytics/chart/renderLineChart";
+import RenderLineChart from "~/app/components/analytics/chart/subjectChart";
 import EditSubject from "~/app/components/analytics/editSubject";
 import {
   Card,
@@ -25,7 +25,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
   });
 
   return (
-    <div className="mx-auto mt-24 flex min-h-screen w-[95%] flex-col items-center gap-y-12 bg-white p-4 text-black lg:mx-0 lg:pl-4 lg:pt-0 xl:mb-8 xl:px-24">
+    <div className="flex flex-col items-center gap-y-12">
       <div className="place-self-start">
         {subjectQuery.isLoading ? (
           <Skeleton className="h-[48px] w-[240px] rounded-lg" />

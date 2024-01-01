@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <div className="flex flex-row">
       <Sidebar />
-      <div className="w-full lg:ml-80">{children}</div>
+      <div className="mx-auto mt-24 min-h-screen w-[95%] items-center bg-white p-4 text-black lg:mx-0 lg:ml-80 lg:pl-4 lg:pt-0 xl:mb-8 xl:px-24">
+        {children}
+      </div>
     </div>
   );
 }
