@@ -1,12 +1,10 @@
 "use client";
 import {
-  ReferenceLine,
   CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
   Area,
-  Label,
   ComposedChart,
   ResponsiveContainer,
 } from "recharts";
@@ -14,6 +12,7 @@ import {
 import { PureComponent } from "react";
 import { CustomTooltip } from "./tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DateTime } from "luxon";
 
 interface RenderLineChartProps {
   testData: {
@@ -34,8 +33,23 @@ interface RenderLineChartProps {
     targetGrade: number;
     setLevel: string;
     averageGrade: number | null;
-  };
+  }[];
 }
+
+const monthsLookup: Record<number, string> = {
+  0: "Jan",
+  1: "Feb",
+  2: "Mar",
+  3: "Apr",
+  4: "May",
+  5: "June",
+  6: "July",
+  7: "Aug",
+  8: "Sept",
+  9: "Oct",
+  10: "Nov",
+  11: "Dec",
+};
 
 const DateFormatter = (date: string) => {
   const newDate = new Date(parseInt(date) * 1000);
@@ -54,7 +68,7 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
   }
 
   render() {
-    if (this.props.subjectData.name === undefined) {
+    if (this.props.testData[0]?.id === undefined) {
       return <Skeleton className="h-[350px] w-[530x]" />;
     }
 
@@ -85,10 +99,17 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
       })
       .sort((a, b) => a.date - b.date);
 
-    const gradeString: string =
-      (this.props.subjectData.setLevel === "Higher" ? "H" : "O") +
-      this.props.subjectData.targetGrade +
-      " Cut-Off";
+    function getMinDate(testData: RenderLineChartProps["testData"]) {
+      const minDate = dataToUse[0]?.date
+        ? DateTime.fromSeconds(dataToUse[0].date)
+        : DateTime.fromSeconds(0);
+      const earliestMonth: number = minDate.month;
+      const earlistYear: number = minDate.year;
+      const monthsSinceEarlist = minDate.diffNow();
+      console.log(monthsSinceEarlist);
+    }
+
+    getMinDate(this.props.testData);
 
     return (
       <ResponsiveContainer height={350} width="100%">
@@ -122,14 +143,6 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
           />
           <Tooltip content={<CustomTooltip />} />
           <CartesianGrid vertical={false} stroke="#DDD" />
-          <ReferenceLine
-            y={100 - this.props.subjectData.targetGrade * 10}
-            stroke="#000"
-            isFront={true}
-            strokeDasharray="3 3"
-          >
-            <Label position="bottom" value={gradeString} />
-          </ReferenceLine>
           <Tooltip active={false} />
 
           <Area

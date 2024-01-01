@@ -4,7 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import { ArrowUpDown } from "lucide-react";
 
-import moment from "moment";
+import { DateTime } from "luxon";
 
 import { Button } from "@/components/ui/button";
 
@@ -41,8 +41,15 @@ export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
       );
     },
     sortingFn: (a, b) => {
-      const dateA = moment(a.original.testDate, "DD/MM/YYYY").toDate();
-      const dateB = moment(b.original.testDate, "DD/MM/YYYY").toDate();
+      const dateA = DateTime.fromFormat(
+        a.original.testDate,
+        "d/M/yyyy",
+      ).toJSDate();
+      const dateB = DateTime.fromFormat(
+        b.original.testDate,
+        "d/M/yyyy",
+      ).toJSDate();
+
       return dateA < dateB ? 1 : dateA > dateB ? -1 : 0;
     },
   },

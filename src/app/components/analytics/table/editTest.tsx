@@ -42,7 +42,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
 import { api } from "../../../../utils/api";
-import moment from "moment";
+import { DateTime } from "luxon";
 
 export const formSchema = z
   .object({
@@ -108,7 +108,10 @@ export function EditTest(test: testType) {
     subjectId: test.subjectId,
   });
 
-  const formattedDate = moment(test.testDate, "DD/MM/YYYY").toDate();
+  const formattedDate: Date = DateTime.fromFormat(
+    test.testDate,
+    "dd/MM/yyyy",
+  ).toJSDate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
