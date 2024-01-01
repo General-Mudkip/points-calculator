@@ -85,6 +85,18 @@ export async function POST(req: Request) {
         id: payload.data.id,
       },
     });
+
+    await db.test.deleteMany({
+      where: {
+        userId: payload.data.id,
+      },
+    });
+
+    await db.subject.deleteMany({
+      where: {
+        userId: payload.data.id,
+      },
+    });
   }
 
   return new Response("", { status: 200 });

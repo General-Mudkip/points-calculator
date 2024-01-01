@@ -1,10 +1,9 @@
 "use client";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { api } from "../../../utils/api";
 import Link from "next/link";
 import { LayoutPanelLeft } from "lucide-react";
 import AddSubject from "./addSubject";
-import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SidebarContents = () => {
