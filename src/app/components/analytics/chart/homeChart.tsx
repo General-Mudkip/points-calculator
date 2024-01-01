@@ -36,6 +36,12 @@ interface RenderLineChartProps {
   }[];
 }
 
+interface testObj {
+  id: number;
+  subjectName: string;
+  percentage: number;
+}
+
 const monthsLookup: Record<number, string> = {
   0: "Jan",
   1: "Feb",
@@ -103,10 +109,34 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
       const minDate = dataToUse[0]?.date
         ? DateTime.fromSeconds(dataToUse[0].date)
         : DateTime.fromSeconds(0);
-      const earliestMonth: number = minDate.month;
-      const earlistYear: number = minDate.year;
-      const monthsSinceEarlist = minDate.diffNow();
-      console.log(monthsSinceEarlist);
+      const monthsSinceEarliest = Math.floor(
+        minDate.diffNow().as("months") * -1,
+      );
+      console.log(monthsSinceEarliest);
+      const toReturn: Record<string, testObj[]> = {};
+
+      for (let i = 0; i <= monthsSinceEarliest; i++) {
+        const currentMonth = DateTime.now().minus({ months: i });
+        const month = currentMonth.monthShort;
+        const year = currentMonth.year;
+        const key = `${month} ${year}`;
+        toReturn[key] = [];
+      }
+
+      for (const test of testData) {
+        const date = DateTime.fromJSDate(test.date);
+        const month = date.monthShort;
+        const year = date.year;
+        const key = `${month} ${year}`;
+        console.log(test);
+        toReturn[key]?.push({
+          id: test.id,
+          subjectName: test.name,
+          percentage: test.percentage,
+        });
+      }
+
+      console.log(toReturn);
     }
 
     getMinDate(this.props.testData);
