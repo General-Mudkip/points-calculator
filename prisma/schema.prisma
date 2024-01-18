@@ -31,7 +31,7 @@ model Subject {
 
   targetGrade  Int    @default(1)
   setLevel     String @default("Higher")
-  averageGrade Float?
+  averageGrade Float
 
   @@index([userId])
 }

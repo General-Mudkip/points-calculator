@@ -1,8 +1,10 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
-import RenderPointsChart from "../components/analytics/chart/homeChart";
-import { api } from "~/utils/api";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useUser } from "@clerk/nextjs";
+import { LayoutPanelLeft } from "lucide-react";
+import { api } from "~/utils/api";
+import RenderPointsChart from "../components/analytics/chart/homeChart";
 import AverageSubjectCard from "../components/dashboard/subjectAverages";
 
 export default function Home() {
@@ -23,10 +25,17 @@ export default function Home() {
     const PointsChart = () => {
         if (testQuery.isFetched && subjectQuery.isFetched) {
             return (
-                <RenderPointsChart
-                    testData={testQuery.data ?? []}
-                    subjectData={subjectQuery.data ?? []}
-                />
+                <Card>
+                    <CardHeader>
+                        <CardTitle>All Tests</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <RenderPointsChart
+                            testData={testQuery.data ?? []}
+                            subjectData={subjectQuery.data ?? []}
+                        />
+                    </CardContent>
+                </Card>
             );
         } else {
             return <Skeleton className="h-[350px] w-[530x]" />;
@@ -40,9 +49,17 @@ export default function Home() {
     console.log(subjectQuery);
 
     return (
-        <main className="flex min-h-screen w-full flex-col items-center justify-center bg-white text-black">
-            <h1 className="place-self-start text-4xl font-bold">Home</h1>
-            <AverageSubjectCard subjectData={subjectQuery.data ?? []} />
+        <main className="flex min-h-screen w-full flex-col items-center bg-white text-black">
+            <h1 className="flex w-full items-center gap-x-4 text-5xl font-bold">
+                <LayoutPanelLeft size={48} /> Home
+            </h1>
+
+            <hr className=" my-12 w-full" />
+
+            <div className="grid grid-cols-2 gap-4">
+                <AverageSubjectCard subjectData={subjectQuery.data ?? []} />
+                <PointsChart />
+            </div>
         </main>
     );
 }

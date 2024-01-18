@@ -104,14 +104,11 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                                 </TableCell>
                             </TableRow>
                         ))}
-                        <TableRow className="font-bold">
-                            <TableCell>Average</TableCell>
-                            <TableCell>
-                                {averageGrade(props.subjectData)}
-                            </TableCell>
-                        </TableRow>
                     </TableBody>
                 </Table>
+                <div className="mt-2">
+                    <h1 className="text-2xl font-bold">Projected Points</h1>
+                </div>
             </CardContent>
         </Card>
     );
