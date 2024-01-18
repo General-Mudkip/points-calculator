@@ -25,7 +25,7 @@ export default function Home() {
     const PointsChart = () => {
         if (testQuery.isFetched && subjectQuery.isFetched) {
             return (
-                <Card>
+                <Card className="col-span-2">
                     <CardHeader>
                         <CardTitle>All Tests</CardTitle>
                     </CardHeader>
@@ -49,7 +49,7 @@ export default function Home() {
     console.log(subjectQuery);
 
     return (
-        <main className="flex min-h-screen w-full flex-col items-center bg-white text-black">
+        <main className="flex w-full flex-col items-center bg-white text-black">
             <h1 className="flex w-full items-center gap-x-4 text-5xl font-bold">
                 <LayoutPanelLeft size={48} /> Home
             </h1>
@@ -57,8 +57,8 @@ export default function Home() {
             <hr className=" my-12 w-full" />
 
             <div className="grid grid-cols-2 gap-4">
-                <AverageSubjectCard subjectData={subjectQuery.data ?? []} />
                 <PointsChart />
+                <AverageSubjectCard subjectData={subjectQuery.data ?? []} />
             </div>
         </main>
     );

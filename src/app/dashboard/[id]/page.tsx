@@ -45,7 +45,7 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
 
             <hr className="w-full" />
 
-            <div className="flex flex-col items-center justify-center gap-y-4 xl:grid xl:grid-cols-2 xl:gap-4">
+            <div className="flex w-full flex-col items-center justify-center gap-y-4 xl:grid xl:grid-cols-2 xl:gap-4">
                 <Card className="h-full w-full">
                     <CardHeader>
                         <CardTitle>Progress</CardTitle>
