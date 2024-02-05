@@ -20,16 +20,6 @@ interface avgCardProps {
     }[];
 }
 
-interface subjectArray {
-    id: number;
-    name: string;
-    userId: string;
-    createdAt: Date;
-    targetGrade: number;
-    setLevel: string;
-    averageGrade: number;
-}
-
 const determineGrade = (avg: number, level: string) => {
     let grade: string;
     if (avg >= 90) {
@@ -54,15 +44,6 @@ const determineGrade = (avg: number, level: string) => {
 
 const gradeString = (level: string, grade: number) => {
     return (level === "Higher" ? "H" : "O") + grade;
-};
-
-const averageGrade = (subjectData: subjectArray[]) => {
-    return parseFloat(
-        (
-            subjectData.reduce((a: number, b) => a + b.averageGrade, 0) /
-            subjectData.length
-        ).toFixed(2),
-    );
 };
 
 const SubjectAveragesCard = (props: avgCardProps) => {
