@@ -5,8 +5,8 @@ import {
   YAxis,
   Tooltip,
   Area,
+  ComposedChart,
   ResponsiveContainer,
-  BarChart,
 } from "recharts";
 
 import { PureComponent } from "react";
@@ -33,6 +33,12 @@ interface RenderLineChartProps {
     setLevel: string;
     averageGrade: number | null;
   }[];
+}
+
+interface testObj {
+  id: number;
+  subjectName: string;
+  percentage: number;
 }
 
 const monthsLookup: Record<number, string> = {
@@ -97,46 +103,46 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
         };
       })
       .sort((a, b) => a.date - b.date);
-    /* 
-    function getMinDate(testData: RenderLineChartProps["testData"]) {
-      const minDate = dataToUse[0]?.date
-        ? DateTime.fromSeconds(dataToUse[0].date)
-        : DateTime.fromSeconds(0);
-      const monthsSinceEarliest = Math.floor(
-        minDate.diffNow().as("months") * -1,
-      );
-      console.log(monthsSinceEarliest);
-      const toReturn: Record<string, testObj[]> = {};
 
-      for (let i = 0; i <= monthsSinceEarliest; i++) {
-        const currentMonth = DateTime.now().minus({ months: i });
-        const month = currentMonth.monthShort;
-        const year = currentMonth.year;
-        const key = `${month} ${year}`;
-        toReturn[key] = [];
-      }
-
-      for (const test of testData) {
-        const date = DateTime.fromJSDate(test.date);
-        const month = date.monthShort;
-        const year = date.year;
-        const key = `${month} ${year}`;
-        console.log(test);
-        toReturn[key]?.push({
-          id: test.id,
-          subjectName: test.name,
-          percentage: test.percentage,
-        });
-      }
-
-      console.log(toReturn);
-    } */
-
-    /*     getMinDate(this.props.testData); */
-
+    // function getMinDate(testData: RenderLineChartProps["testData"]) {
+    //   const minDate = dataToUse[0]?.date
+    //     ? DateTime.fromSeconds(dataToUse[0].date)
+    //     : DateTime.fromSeconds(0);
+    //   const monthsSinceEarliest = Math.floor(
+    //     minDate.diffNow().as("months") * -1,
+    //   );
+    //   console.log(monthsSinceEarliest);
+    //   const toReturn: Record<string, testObj[]> = {};
+    //
+    //   for (let i = 0; i <= monthsSinceEarliest; i++) {
+    //     const currentMonth = DateTime.now().minus({ months: i });
+    //     const month = currentMonth.monthShort;
+    //     const year = currentMonth.year;
+    //     const key = `${month} ${year}`;
+    //     toReturn[key] = [];
+    //   }
+    //
+    //   for (const test of testData) {
+    //     const date = DateTime.fromJSDate(test.date);
+    //     const month = date.monthShort;
+    //     const year = date.year;
+    //     const key = `${month} ${year}`;
+    //     console.log(test);
+    //     toReturn[key]?.push({
+    //       id: test.id,
+    //       subjectName: test.name,
+    //       percentage: test.percentage,
+    //     });
+    //   }
+    //
+    //   console.log(toReturn);
+    // }
+    //
+    // getMinDate(this.props.testData);
+    //
     return (
       <ResponsiveContainer height={350} width="100%">
-        <BarChart
+        <ComposedChart
           width={800}
           height={350}
           data={dataToUse}
@@ -174,10 +180,14 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
             unit="%"
             fillOpacity={1}
             strokeWidth={2}
-            dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
+            dot={{
+              stroke: "#399be3",
+              strokeWidth: 2,
+              fill: "#FFF",
+            }}
             fill="url(#colorUv)"
           />
-        </BarChart>
+        </ComposedChart>
       </ResponsiveContainer>
     );
   }
