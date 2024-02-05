@@ -5,14 +5,13 @@ import {
   YAxis,
   Tooltip,
   Area,
-  ComposedChart,
   ResponsiveContainer,
+  BarChart,
 } from "recharts";
 
 import { PureComponent } from "react";
 import { CustomTooltip } from "./tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DateTime } from "luxon";
 
 interface RenderLineChartProps {
   testData: {
@@ -34,12 +33,6 @@ interface RenderLineChartProps {
     setLevel: string;
     averageGrade: number | null;
   }[];
-}
-
-interface testObj {
-  id: number;
-  subjectName: string;
-  percentage: number;
 }
 
 const monthsLookup: Record<number, string> = {
@@ -104,7 +97,7 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
         };
       })
       .sort((a, b) => a.date - b.date);
-
+    /* 
     function getMinDate(testData: RenderLineChartProps["testData"]) {
       const minDate = dataToUse[0]?.date
         ? DateTime.fromSeconds(dataToUse[0].date)
@@ -137,13 +130,13 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
       }
 
       console.log(toReturn);
-    }
+    } */
 
-    getMinDate(this.props.testData);
+    /*     getMinDate(this.props.testData); */
 
     return (
       <ResponsiveContainer height={350} width="100%">
-        <ComposedChart
+        <BarChart
           width={800}
           height={350}
           data={dataToUse}
@@ -184,7 +177,7 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
             dot={{ stroke: "#399be3", strokeWidth: 2, fill: "#FFF" }}
             fill="url(#colorUv)"
           />
-        </ComposedChart>
+        </BarChart>
       </ResponsiveContainer>
     );
   }
