@@ -1,54 +1,54 @@
-import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card"
 import {
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+    TableRow
+} from "@/components/ui/table"
 
 interface avgCardProps {
     subjectData: {
-        id: number;
-        name: string;
-        userId: string;
-        createdAt: Date;
-        targetGrade: number;
-        setLevel: string;
-        averageGrade: number;
-    }[];
+        id: number
+        name: string
+        userId: string
+        createdAt: Date
+        targetGrade: number
+        setLevel: string
+        averageGrade: number
+    }[]
 }
 
 const determineGrade = (avg: number, level: string) => {
-    let grade: string;
+    let grade: string
     if (avg >= 90) {
-        grade = "1";
+        grade = "1"
     } else if (avg >= 80) {
-        grade = "2";
+        grade = "2"
     } else if (avg >= 70) {
-        grade = "3";
+        grade = "3"
     } else if (avg >= 60) {
-        grade = "4";
+        grade = "4"
     } else if (avg >= 50) {
-        grade = "5";
+        grade = "5"
     } else if (avg >= 40) {
-        grade = "6";
+        grade = "6"
     } else if (avg >= 30) {
-        grade = "7";
+        grade = "7"
     } else {
-        grade = "8";
+        grade = "8"
     }
-    return (level === "Higher" ? "H" : "O") + grade;
-};
+    return (level === "Higher" ? "H" : "O") + grade
+}
 
 const gradeString = (level: string, grade: number) => {
-    return (level === "Higher" ? "H" : "O") + grade;
-};
+    return (level === "Higher" ? "H" : "O") + grade
+}
 
 const SubjectAveragesCard = (props: avgCardProps) => {
     if (props.subjectData.length === 0) {
-        return <div></div>;
+        return <div></div>
     }
 
     return (
@@ -74,13 +74,13 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                                 <TableCell>
                                     {gradeString(
                                         subject.setLevel,
-                                        subject.targetGrade,
+                                        subject.targetGrade
                                     )}
                                 </TableCell>
                                 <TableCell>
                                     {determineGrade(
                                         subject.averageGrade ?? 0,
-                                        subject.setLevel,
+                                        subject.setLevel
                                     )}
                                 </TableCell>
                             </TableRow>
@@ -92,7 +92,7 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                 </div>
             </CardContent>
         </Card>
-    );
-};
+    )
+}
 
-export default SubjectAveragesCard;
+export default SubjectAveragesCard

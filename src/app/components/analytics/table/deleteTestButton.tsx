@@ -1,34 +1,34 @@
-import { api } from "~/utils/api";
+import { api } from "~/utils/api"
 
 export function DeleteTestButton({
     testId,
-    subjectId,
+    subjectId
 }: {
-    testId: number;
-    subjectId: number;
+    testId: number
+    subjectId: number
 }) {
-    const deleteTestMutation = api.test.deleteTest.useMutation();
-    const utils = api.useUtils();
+    const deleteTestMutation = api.test.deleteTest.useMutation()
+    const utils = api.useUtils()
 
     function deleteTest() {
         deleteTestMutation.mutate(
             {
-                testId,
+                testId
             },
             {
                 onSuccess: () =>
                     void utils.test.getAllTestsBySubject.invalidate({
-                        subjectId: subjectId,
-                    }),
-            },
-        );
+                        subjectId: subjectId
+                    })
+            }
+        )
 
         // onSuccess is not working properly. TODO: Debug.
         setTimeout(() => {
             void utils.test.getAllTestsBySubject.invalidate({
-                subjectId: subjectId,
-            });
-        }, 1500);
+                subjectId: subjectId
+            })
+        }, 1500)
     }
 
     return (
@@ -38,5 +38,5 @@ export function DeleteTestButton({
         >
             Delete Test
         </button>
-    );
+    )
 }

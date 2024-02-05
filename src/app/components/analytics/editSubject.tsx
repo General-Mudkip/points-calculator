@@ -1,17 +1,17 @@
-"use client";
+"use client"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+    DialogTrigger
+} from "@/components/ui/dialog"
 
-import * as React from "react";
+import * as React from "react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
     Form,
@@ -20,24 +20,24 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+    FormMessage
+} from "@/components/ui/form"
 
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
-import { useUser } from "@clerk/nextjs";
-import { api } from "../../../utils/api";
-import { PencilRuler } from "lucide-react";
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
+import { useUser } from "@clerk/nextjs"
+import { api } from "../../../utils/api"
+import { PencilRuler } from "lucide-react"
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+    SelectValue
+} from "@/components/ui/select"
 
 const formSchema = z.object({
     subjectName: z
@@ -48,28 +48,28 @@ const formSchema = z.object({
         .number()
         .min(1, { message: "Target grade must be above zero." })
         .max(8, { message: "Target grade must be less than 8." }),
-    setLevel: z.union([z.literal("Higher"), z.literal("Ordinary")]),
-});
+    setLevel: z.union([z.literal("Higher"), z.literal("Ordinary")])
+})
 
 type subjectType = {
     data: {
-        id: number;
-        name: string;
-        userId: string;
-        createdAt: Date;
-        targetGrade: number;
-        setLevel: string;
-        averageGrade: number | null;
-    };
-};
+        id: number
+        name: string
+        userId: string
+        createdAt: Date
+        targetGrade: number
+        setLevel: string
+        averageGrade: number | null
+    }
+}
 
 export function EditSubject(subject: subjectType) {
-    const { toast } = useToast();
-    const [open, setOpen] = React.useState(false);
-    const { isSignedIn, isLoaded } = useUser();
-    const utils = api.useUtils();
+    const { toast } = useToast()
+    const [open, setOpen] = React.useState(false)
+    const { isSignedIn, isLoaded } = useUser()
+    const utils = api.useUtils()
 
-    const editSubject = api.subject.editSubject.useMutation();
+    const editSubject = api.subject.editSubject.useMutation()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -77,40 +77,40 @@ export function EditSubject(subject: subjectType) {
             subjectName: subject.data.name,
             targetGrade: subject.data.targetGrade,
             //@ts-expect-error It will work.
-            setLevel: subject.data.setLevel,
-        },
-    });
+            setLevel: subject.data.setLevel
+        }
+    })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         if (isLoaded && isSignedIn) {
             toast({
                 title: "Processing...",
-                description: "Please wait a moment.",
-            });
-            setOpen(false);
+                description: "Please wait a moment."
+            })
+            setOpen(false)
             editSubject.mutate(
                 {
                     id: subject.data.id,
                     name: values.subjectName,
                     targetGrade: values.targetGrade,
-                    setLevel: values.setLevel,
+                    setLevel: values.setLevel
                 },
                 {
                     onSuccess: () => {
                         toast({
                             title: "Subject Edited!",
-                            description: `You successfully edited ${values.subjectName}.`,
-                        });
-                        void utils.subject.invalidate();
-                    },
-                },
-            );
+                            description: `You successfully edited ${values.subjectName}.`
+                        })
+                        void utils.subject.invalidate()
+                    }
+                }
+            )
         } else {
             toast({
                 title: "Error!",
                 description: `You must be logged in to edit a subject.`,
-                variant: "destructive",
-            });
+                variant: "destructive"
+            })
         }
     }
 
@@ -212,6 +212,6 @@ export function EditSubject(subject: subjectType) {
                 </Form>
             </DialogContent>
         </Dialog>
-    );
+    )
 }
-export default EditSubject;
+export default EditSubject

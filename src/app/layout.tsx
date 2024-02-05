@@ -1,26 +1,26 @@
-import "~/styles/globals.css";
+import "~/styles/globals.css"
 
-import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
+import { Inter } from "next/font/google"
+import { cookies } from "next/headers"
 
-import { TRPCReactProvider } from "~/trpc/react";
-import { ClerkProvider } from "@clerk/nextjs";
+import { TRPCReactProvider } from "~/trpc/react"
+import { ClerkProvider } from "@clerk/nextjs"
 
 const inter = Inter({
     subsets: ["latin"],
-    variable: "--font-sans",
-});
+    variable: "--font-sans"
+})
 
 export const metadata = {
     title: "BetterExams Points",
     description: "A grade tracking app and points calculator.",
-    icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
+    icons: [{ rel: "icon", url: "/favicon.ico" }]
+}
 
 export default function RootLayout({
-    children,
+    children
 }: {
-    children: React.ReactNode;
+    children: React.ReactNode
 }) {
     return (
         <ClerkProvider>
@@ -32,5 +32,5 @@ export default function RootLayout({
                 </body>
             </html>
         </ClerkProvider>
-    );
+    )
 }

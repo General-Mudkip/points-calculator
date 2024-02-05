@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { db } from "~/server/db";
+import { z } from "zod"
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
+import { db } from "~/server/db"
 
 export const subjectRouter = createTRPCRouter({
     getSubjectById: publicProcedure
@@ -8,9 +8,9 @@ export const subjectRouter = createTRPCRouter({
         .query(({ input }) => {
             return db.subject.findUnique({
                 where: {
-                    id: input.subjectId,
-                },
-            });
+                    id: input.subjectId
+                }
+            })
         }),
 
     getAllSubjects: publicProcedure
@@ -18,9 +18,9 @@ export const subjectRouter = createTRPCRouter({
         .query(({ input }) => {
             return db.subject.findMany({
                 where: {
-                    userId: input.userId,
-                },
-            });
+                    userId: input.userId
+                }
+            })
         }),
 
     createSubject: publicProcedure
@@ -29,8 +29,8 @@ export const subjectRouter = createTRPCRouter({
                 name: z.string(),
                 userId: z.string(),
                 targetGrade: z.number(),
-                setLevel: z.string(),
-            }),
+                setLevel: z.string()
+            })
         )
         .mutation(({ input }) => {
             return db.subject.create({
@@ -39,9 +39,9 @@ export const subjectRouter = createTRPCRouter({
                     userId: input.userId,
                     targetGrade: input.targetGrade,
                     setLevel: input.setLevel,
-                    averageGrade: 0,
-                },
-            });
+                    averageGrade: 0
+                }
+            })
         }),
 
     editSubject: publicProcedure
@@ -50,37 +50,37 @@ export const subjectRouter = createTRPCRouter({
                 id: z.number(),
                 name: z.string(),
                 targetGrade: z.number(),
-                setLevel: z.string(),
-            }),
+                setLevel: z.string()
+            })
         )
         .mutation(({ input }) => {
             return db.subject.update({
                 where: {
-                    id: input.id,
+                    id: input.id
                 },
                 data: {
                     name: input.name,
                     targetGrade: input.targetGrade,
-                    setLevel: input.setLevel,
-                },
-            });
+                    setLevel: input.setLevel
+                }
+            })
         }),
 
     setAverage: publicProcedure
         .input(
             z.object({
                 subjectId: z.number(),
-                average: z.number(),
-            }),
+                average: z.number()
+            })
         )
         .mutation(({ input }) => {
             return db.subject.update({
                 where: {
-                    id: input.subjectId,
+                    id: input.subjectId
                 },
                 data: {
-                    averageGrade: input.average,
-                },
-            });
-        }),
-});
+                    averageGrade: input.average
+                }
+            })
+        })
+})

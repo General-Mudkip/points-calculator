@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const HomePage = () => {
     return (
@@ -11,7 +11,7 @@ const HomePage = () => {
                 <Link href="/dashboard">Continue to Dashboard</Link>
             </Button>
         </div>
-    );
-};
+    )
+}
 
-export default HomePage;
+export default HomePage

@@ -1,16 +1,16 @@
-"use client";
+"use client"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+    DialogTitle
+} from "@/components/ui/dialog"
 
-import * as React from "react";
+import * as React from "react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
     Form,
@@ -18,31 +18,31 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+    FormMessage
+} from "@/components/ui/form"
 
 import {
     Popover,
     PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
+    PopoverTrigger
+} from "@/components/ui/popover"
 
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar"
 
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react"
 
-import { DialogContext } from "./dialogContext";
+import { DialogContext } from "./dialogContext"
 
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
-import { useUser } from "@clerk/nextjs";
-import { api } from "../../../../utils/api";
-import { DateTime } from "luxon";
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
+import { useUser } from "@clerk/nextjs"
+import { api } from "../../../../utils/api"
+import { DateTime } from "luxon"
 
 export const formSchema = z
     .object({
@@ -50,10 +50,10 @@ export const formSchema = z
             .string()
             .min(1, { message: "Test names must be at least 2 characters." })
             .max(60, {
-                message: "Test names must be less than 60 characters.",
+                message: "Test names must be less than 60 characters."
             }),
         testDate: z.date({
-            required_error: "Test date is required.",
+            required_error: "Test date is required."
         }),
         achievedMark: z.coerce
             .number()
@@ -67,12 +67,11 @@ export const formSchema = z
             .number()
             .min(0, {
                 message:
-                    "You can't get less than 0% on a test. Unless you try really hard.",
+                    "You can't get less than 0% on a test. Unless you try really hard."
             })
             .max(100, {
-                message:
-                    "Congrats, but you can't get more than 100% on a test.",
-            }),
+                message: "Congrats, but you can't get more than 100% on a test."
+            })
     })
     .superRefine((val, ctx) => {
         if (val.achievedMark && val.maxMarks) {
@@ -80,41 +79,41 @@ export const formSchema = z
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     message: "You can't get more than the maximum marks.",
-                    path: ["achievedMark"],
-                });
+                    path: ["achievedMark"]
+                })
             }
         }
-        return val;
-    });
+        return val
+    })
 
 type testType = {
-    testId: number;
-    subjectId: number;
-    testName: string;
-    testDate: string;
-    maxMarks: number;
-    percentage: number;
-    achievedMarks: number;
-};
+    testId: number
+    subjectId: number
+    testName: string
+    testDate: string
+    maxMarks: number
+    percentage: number
+    achievedMarks: number
+}
 
 export function EditTest(test: testType) {
-    const { toast } = useToast();
-    const { user, isSignedIn, isLoaded } = useUser();
-    const utils = api.useUtils();
+    const { toast } = useToast()
+    const { user, isSignedIn, isLoaded } = useUser()
+    const utils = api.useUtils()
 
-    const { open, setOpen } = React.useContext(DialogContext);
+    const { open, setOpen } = React.useContext(DialogContext)
 
-    const submitTest = api.test.editTest.useMutation();
-    const updateAverage = api.subject.setAverage.useMutation();
+    const submitTest = api.test.editTest.useMutation()
+    const updateAverage = api.subject.setAverage.useMutation()
 
     const testsArray = api.test.getAllTestsBySubject.useQuery({
-        subjectId: test.subjectId,
-    });
+        subjectId: test.subjectId
+    })
 
     const formattedDate: Date = DateTime.fromFormat(
         test.testDate,
-        "dd/MM/yyyy",
-    ).toJSDate();
+        "dd/MM/yyyy"
+    ).toJSDate()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -123,39 +122,39 @@ export function EditTest(test: testType) {
             percentage: test.percentage,
             achievedMark: test.achievedMarks,
             maxMarks: test.maxMarks,
-            testName: test.testName,
-        },
-    });
+            testName: test.testName
+        }
+    })
 
     function calculateAverage(newGrade: number) {
-        const testCount = testsArray.data?.length;
+        const testCount = testsArray.data?.length
 
         const totalPercentage = testsArray.data?.reduce(
             (total, test) => total + test.percentage,
-            0,
-        );
+            0
+        )
 
         if (totalPercentage && testCount) {
             const newAverage = parseFloat(
-                ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2),
-            );
+                ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2)
+            )
 
             updateAverage.mutate(
                 {
                     subjectId: test.subjectId,
-                    average: newAverage,
+                    average: newAverage
                 },
                 {
                     onSuccess: () => {
                         toast({
                             title: "Test Edited!",
-                            description: `You successfully edited the test.`,
-                        });
-                        void utils.test.getAllTestsBySubject.invalidate();
-                        void utils.subject.invalidate();
-                    },
-                },
-            );
+                            description: `You successfully edited the test.`
+                        })
+                        void utils.test.getAllTestsBySubject.invalidate()
+                        void utils.subject.invalidate()
+                    }
+                }
+            )
         }
     }
 
@@ -163,9 +162,9 @@ export function EditTest(test: testType) {
         if (isLoaded && isSignedIn) {
             toast({
                 title: "Processing...",
-                description: "Please wait a moment.",
-            });
-            setOpen(false);
+                description: "Please wait a moment."
+            })
+            setOpen(false)
             submitTest.mutate({
                 testId: test.testId,
                 userId: user.id,
@@ -174,35 +173,35 @@ export function EditTest(test: testType) {
                 date: values.testDate,
                 achievedMarks: values.achievedMark,
                 maxMarks: values.maxMarks,
-                percentage: values.percentage,
-            });
-            calculateAverage(values.percentage);
+                percentage: values.percentage
+            })
+            calculateAverage(values.percentage)
         } else {
             toast({
                 title: "Error!",
                 description: `You must be logged in to edit a test.`,
-                variant: "destructive",
-            });
+                variant: "destructive"
+            })
         }
     }
 
     function calculatePercentAchieved(achievedMark: string) {
-        const maxMarks = form.getValues("maxMarks");
+        const maxMarks = form.getValues("maxMarks")
         if (achievedMark && maxMarks) {
             const percentage = parseFloat(
-                ((parseFloat(achievedMark) / maxMarks) * 100).toFixed(2),
-            );
-            form.setValue("percentage", percentage);
+                ((parseFloat(achievedMark) / maxMarks) * 100).toFixed(2)
+            )
+            form.setValue("percentage", percentage)
         }
     }
 
     function calculatePercentMax(maxMarks: string) {
-        const achievedMark = form.getValues("achievedMark");
+        const achievedMark = form.getValues("achievedMark")
         if (achievedMark && maxMarks) {
             const percentage = parseFloat(
-                ((achievedMark / parseFloat(maxMarks)) * 100).toFixed(2),
-            );
-            form.setValue("percentage", percentage);
+                ((achievedMark / parseFloat(maxMarks)) * 100).toFixed(2)
+            )
+            form.setValue("percentage", percentage)
         }
     }
 
@@ -252,14 +251,14 @@ export function EditTest(test: testType) {
                                                     className={cn(
                                                         "w-[240px] pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground",
+                                                            "text-muted-foreground"
                                                     )}
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                     {field.value ? (
                                                         format(
                                                             field.value,
-                                                            "PPP",
+                                                            "PPP"
                                                         )
                                                     ) : (
                                                         <span>Pick a date</span>
@@ -299,7 +298,7 @@ export function EditTest(test: testType) {
                                             placeholder="174"
                                             onChangeCapture={(e) =>
                                                 calculatePercentAchieved(
-                                                    e.currentTarget.value,
+                                                    e.currentTarget.value
                                                 )
                                             }
                                             {...field}
@@ -321,7 +320,7 @@ export function EditTest(test: testType) {
                                             placeholder="200"
                                             onChangeCapture={(e) =>
                                                 calculatePercentMax(
-                                                    e.currentTarget.value,
+                                                    e.currentTarget.value
                                                 )
                                             }
                                             {...field}
@@ -355,6 +354,6 @@ export function EditTest(test: testType) {
                 </Form>
             </DialogContent>
         </Dialog>
-    );
+    )
 }
-export default EditTest;
+export default EditTest

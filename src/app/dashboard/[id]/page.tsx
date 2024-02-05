@@ -1,28 +1,28 @@
-"use client";
-import { api } from "~/utils/api";
-import { Skeleton } from "@/components/ui/skeleton";
-import { DataTable } from "~/app/components/analytics/table/table";
-import { columns } from "~/app/components/analytics/table/columns";
-import AddTest from "~/app/components/analytics/addTest";
-import RenderLineChart from "~/app/components/analytics/chart/subjectChart";
-import EditSubject from "~/app/components/analytics/editSubject";
+"use client"
+import { api } from "~/utils/api"
+import { Skeleton } from "@/components/ui/skeleton"
+import { DataTable } from "~/app/components/analytics/table/table"
+import { columns } from "~/app/components/analytics/table/columns"
+import AddTest from "~/app/components/analytics/addTest"
+import RenderLineChart from "~/app/components/analytics/chart/subjectChart"
+import EditSubject from "~/app/components/analytics/editSubject"
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import StatisticsCard from "~/app/components/analytics/statisticsCard";
+    CardTitle
+} from "@/components/ui/card"
+import StatisticsCard from "~/app/components/analytics/statisticsCard"
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
     const subjectQuery = api.subject.getSubjectById.useQuery({
-        subjectId: parseInt(params.id),
-    });
+        subjectId: parseInt(params.id)
+    })
 
     const testQuery = api.test.getAllTestsBySubject.useQuery({
-        subjectId: parseInt(params.id),
-    });
+        subjectId: parseInt(params.id)
+    })
 
     return (
         <div className="flex flex-col items-center gap-y-12">
@@ -79,10 +79,10 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
                                     columns={columns}
                                     data={
                                         testQuery.data?.map((item) => {
-                                            const date = new Date(item.date);
+                                            const date = new Date(item.date)
                                             const formattedDate = `${date.getDate()}/${
                                                 date.getMonth() + 1
-                                            }/${date.getFullYear()}`;
+                                            }/${date.getFullYear()}`
 
                                             return {
                                                 testName: item.name,
@@ -92,8 +92,8 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
                                                 achievedMarks:
                                                     item.achievedMarks,
                                                 maxMarks: item.maxMarks,
-                                                percentage: item.percentage,
-                                            };
+                                                percentage: item.percentage
+                                            }
                                         }) ?? []
                                     }
                                 />
@@ -110,5 +110,5 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
                 />
             </div>
         </div>
-    );
+    )
 }

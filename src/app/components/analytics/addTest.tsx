@@ -1,17 +1,17 @@
-"use client";
+"use client"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+    DialogTrigger
+} from "@/components/ui/dialog"
 
-import * as React from "react";
+import * as React from "react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
     Form,
@@ -19,28 +19,28 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+    FormMessage
+} from "@/components/ui/form"
 
 import {
     Popover,
     PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
+    PopoverTrigger
+} from "@/components/ui/popover"
 
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar"
 
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react"
 
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
-import { useUser } from "@clerk/nextjs";
-import { api } from "../../../utils/api";
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
+import { useUser } from "@clerk/nextjs"
+import { api } from "../../../utils/api"
 
 export const formSchema = z
     .object({
@@ -48,10 +48,10 @@ export const formSchema = z
             .string()
             .min(1, { message: "Test names must be at least 2 characters." })
             .max(60, {
-                message: "Test names must be less than 60 characters.",
+                message: "Test names must be less than 60 characters."
             }),
         testDate: z.date({
-            required_error: "Test date is required.",
+            required_error: "Test date is required."
         }),
         achievedMark: z.coerce
             .number()
@@ -65,12 +65,11 @@ export const formSchema = z
             .number()
             .min(0, {
                 message:
-                    "You can't get less than 0% on a test. Unless you try really hard.",
+                    "You can't get less than 0% on a test. Unless you try really hard."
             })
             .max(100, {
-                message:
-                    "Congrats, but you can't get more than 100% on a test.",
-            }),
+                message: "Congrats, but you can't get more than 100% on a test."
+            })
     })
     .superRefine((val, ctx) => {
         if (val.achievedMark && val.maxMarks) {
@@ -78,63 +77,63 @@ export const formSchema = z
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     message: "You can't get more than the maximum marks.",
-                    path: ["achievedMark"],
-                });
+                    path: ["achievedMark"]
+                })
             }
         }
-        return val;
-    });
+        return val
+    })
 
 export function AddTest({ subjectId }: { subjectId: number }) {
-    const { toast } = useToast();
-    const [open, setOpen] = React.useState(false);
-    const { user, isSignedIn, isLoaded } = useUser();
-    const utils = api.useUtils();
+    const { toast } = useToast()
+    const [open, setOpen] = React.useState(false)
+    const { user, isSignedIn, isLoaded } = useUser()
+    const utils = api.useUtils()
 
     const testsArray = api.test.getAllTestsBySubject.useQuery({
-        subjectId: subjectId,
-    });
+        subjectId: subjectId
+    })
 
-    const submitTest = api.test.createTest.useMutation();
-    const updateAverage = api.subject.setAverage.useMutation();
+    const submitTest = api.test.createTest.useMutation()
+    const updateAverage = api.subject.setAverage.useMutation()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             testDate: new Date(),
-            percentage: 0,
-        },
-    });
+            percentage: 0
+        }
+    })
 
     function calculateAverage(newGrade: number) {
-        const testCount = testsArray.data?.length;
+        const testCount = testsArray.data?.length
 
         const totalPercentage = testsArray.data?.reduce(
             (total, test) => total + test.percentage,
-            0,
-        );
+            0
+        )
 
         if (totalPercentage && testCount) {
             const newAverage = parseFloat(
-                ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2),
-            );
+                ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2)
+            )
 
             updateAverage.mutate(
                 {
                     subjectId: subjectId,
-                    average: newAverage,
+                    average: newAverage
                 },
                 {
                     onSuccess: () => {
                         toast({
                             title: "Test Added!",
-                            description: `Successfully added a new test to English.`,
-                        });
-                        void utils.test.getAllTestsBySubject.invalidate();
-                        void utils.subject.invalidate();
-                    },
-                },
-            );
+                            description: `Successfully added a new test to English.`
+                        })
+                        void utils.test.getAllTestsBySubject.invalidate()
+                        void utils.subject.invalidate()
+                    }
+                }
+            )
         }
     }
 
@@ -142,10 +141,10 @@ export function AddTest({ subjectId }: { subjectId: number }) {
         if (isLoaded && isSignedIn) {
             toast({
                 title: "Processing...",
-                description: "Please wait a moment.",
-            });
+                description: "Please wait a moment."
+            })
 
-            setOpen(false);
+            setOpen(false)
             submitTest.mutate({
                 userId: user.id,
                 subjectId: subjectId,
@@ -153,35 +152,35 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                 date: values.testDate,
                 achievedMarks: values.achievedMark,
                 maxMarks: values.maxMarks,
-                percentage: values.percentage,
-            });
-            calculateAverage(values.percentage);
+                percentage: values.percentage
+            })
+            calculateAverage(values.percentage)
         } else {
             toast({
                 title: "Error!",
                 description: `You must be logged in to add a test.`,
-                variant: "destructive",
-            });
+                variant: "destructive"
+            })
         }
     }
 
     function calculatePercentAchieved(achievedMark: string) {
-        const maxMarks = form.getValues("maxMarks");
+        const maxMarks = form.getValues("maxMarks")
         if (achievedMark && maxMarks) {
             const percentage = parseFloat(
-                ((parseFloat(achievedMark) / maxMarks) * 100).toFixed(2),
-            );
-            form.setValue("percentage", percentage);
+                ((parseFloat(achievedMark) / maxMarks) * 100).toFixed(2)
+            )
+            form.setValue("percentage", percentage)
         }
     }
 
     function calculatePercentMax(maxMarks: string) {
-        const achievedMark = form.getValues("achievedMark");
+        const achievedMark = form.getValues("achievedMark")
         if (achievedMark && maxMarks) {
             const percentage = parseFloat(
-                ((achievedMark / parseFloat(maxMarks)) * 100).toFixed(2),
-            );
-            form.setValue("percentage", percentage);
+                ((achievedMark / parseFloat(maxMarks)) * 100).toFixed(2)
+            )
+            form.setValue("percentage", percentage)
         }
     }
 
@@ -234,14 +233,14 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                                                     className={cn(
                                                         "w-[240px] pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground",
+                                                            "text-muted-foreground"
                                                     )}
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                     {field.value ? (
                                                         format(
                                                             field.value,
-                                                            "PPP",
+                                                            "PPP"
                                                         )
                                                     ) : (
                                                         <span>Pick a date</span>
@@ -281,7 +280,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                                             placeholder="174"
                                             onChangeCapture={(e) =>
                                                 calculatePercentAchieved(
-                                                    e.currentTarget.value,
+                                                    e.currentTarget.value
                                                 )
                                             }
                                             {...field}
@@ -303,7 +302,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                                             placeholder="200"
                                             onChangeCapture={(e) =>
                                                 calculatePercentMax(
-                                                    e.currentTarget.value,
+                                                    e.currentTarget.value
                                                 )
                                             }
                                             {...field}
@@ -337,6 +336,6 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                 </Form>
             </DialogContent>
         </Dialog>
-    );
+    )
 }
-export default AddTest;
+export default AddTest

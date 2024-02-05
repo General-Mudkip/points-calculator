@@ -1,17 +1,17 @@
-"use client";
+"use client"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+    DialogTrigger
+} from "@/components/ui/dialog"
 
-import * as React from "react";
+import * as React from "react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
     Form,
@@ -20,24 +20,24 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+    FormMessage
+} from "@/components/ui/form"
 
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
-import { useUser } from "@clerk/nextjs";
-import { api } from "../../../utils/api";
-import { PlusCircle } from "lucide-react";
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
+import { useUser } from "@clerk/nextjs"
+import { api } from "../../../utils/api"
+import { PlusCircle } from "lucide-react"
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+    SelectValue
+} from "@/components/ui/select"
 
 const formSchema = z.object({
     subjectName: z
@@ -48,51 +48,51 @@ const formSchema = z.object({
         .number()
         .min(1, { message: "Target grade must be above zero." })
         .max(8, { message: "Target grade must be less than 8." }),
-    setLevel: z.union([z.literal("Higher"), z.literal("Ordinary")]),
-});
+    setLevel: z.union([z.literal("Higher"), z.literal("Ordinary")])
+})
 
 export function AddSubject() {
-    const { toast } = useToast();
-    const [open, setOpen] = React.useState(false);
-    const { user, isSignedIn, isLoaded } = useUser();
-    const utils = api.useUtils();
+    const { toast } = useToast()
+    const [open, setOpen] = React.useState(false)
+    const { user, isSignedIn, isLoaded } = useUser()
+    const utils = api.useUtils()
 
-    const submitSubject = api.subject.createSubject.useMutation();
+    const submitSubject = api.subject.createSubject.useMutation()
 
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-    });
+        resolver: zodResolver(formSchema)
+    })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         if (isLoaded && isSignedIn) {
             toast({
                 title: "Processing...",
-                description: "Please wait a moment.",
-            });
-            setOpen(false);
+                description: "Please wait a moment."
+            })
+            setOpen(false)
             submitSubject.mutate(
                 {
                     name: values.subjectName,
                     userId: user.id,
                     targetGrade: values.targetGrade,
-                    setLevel: values.setLevel,
+                    setLevel: values.setLevel
                 },
                 {
                     onSuccess: () => {
                         toast({
                             title: "Subject Created!",
-                            description: `You created a new subject called ${values.subjectName}.`,
-                        });
-                        void utils.subject.getAllSubjects.invalidate();
-                    },
-                },
-            );
+                            description: `You created a new subject called ${values.subjectName}.`
+                        })
+                        void utils.subject.getAllSubjects.invalidate()
+                    }
+                }
+            )
         } else {
             toast({
                 title: "Error!",
                 description: `You must be logged in to create a subject.`,
-                variant: "destructive",
-            });
+                variant: "destructive"
+            })
         }
     }
 
@@ -194,6 +194,6 @@ export function AddSubject() {
                 </Form>
             </DialogContent>
         </Dialog>
-    );
+    )
 }
-export default AddSubject;
+export default AddSubject

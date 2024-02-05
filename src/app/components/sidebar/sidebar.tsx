@@ -1,13 +1,13 @@
-"use client";
+"use client"
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet";
-import SidebarContents from "./sidebarContents";
-import { Menu } from "lucide-react";
+    SheetTrigger
+} from "@/components/ui/sheet"
+import SidebarContents from "./sidebarContents"
+import { Menu } from "lucide-react"
 
 const Sidebar = () => {
     return (
@@ -49,7 +49,7 @@ const Sidebar = () => {
                 </SheetContent>
             </Sheet>
         </div>
-    );
-};
+    )
+}
 
-export default Sidebar;
+export default Sidebar

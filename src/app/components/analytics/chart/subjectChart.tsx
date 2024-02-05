@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
     ReferenceLine,
     CartesianGrid,
@@ -8,54 +8,54 @@ import {
     Area,
     Label,
     ComposedChart,
-    ResponsiveContainer,
-} from "recharts";
+    ResponsiveContainer
+} from "recharts"
 
-import { PureComponent } from "react";
-import { CustomTooltip } from "./tooltip";
-import { Skeleton } from "@/components/ui/skeleton";
+import { PureComponent } from "react"
+import { CustomTooltip } from "./tooltip"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface RenderLineChartProps {
     testData: {
-        id: number;
-        subjectId: number;
-        userId: string;
-        name: string;
-        date: Date;
-        percentage: number;
-        maxMarks: number;
-        achievedMarks: number;
-    }[];
+        id: number
+        subjectId: number
+        userId: string
+        name: string
+        date: Date
+        percentage: number
+        maxMarks: number
+        achievedMarks: number
+    }[]
     subjectData: {
-        id: number;
-        name: string;
-        userId: string;
-        createdAt: Date;
-        targetGrade: number;
-        setLevel: string;
-        averageGrade: number | null;
-    };
+        id: number
+        name: string
+        userId: string
+        createdAt: Date
+        targetGrade: number
+        setLevel: string
+        averageGrade: number | null
+    }
 }
 
 const DateFormatter = (date: string) => {
-    const newDate = new Date(parseInt(date) * 1000);
+    const newDate = new Date(parseInt(date) * 1000)
     const toReturn =
         newDate.getDate() +
         "/" +
         (newDate.getMonth() + 1) +
         "/" +
-        newDate.getFullYear();
-    return toReturn;
-};
+        newDate.getFullYear()
+    return toReturn
+}
 
 export default class RenderLineChart extends PureComponent<RenderLineChartProps> {
     constructor(props: RenderLineChartProps) {
-        super(props);
+        super(props)
     }
 
     render() {
         if (this.props.subjectData.name === undefined) {
-            return <Skeleton className="h-[350px] w-[530x]" />;
+            return <Skeleton className="h-[350px] w-[530x]" />
         }
 
         if (this.props.testData.length < 2) {
@@ -67,28 +67,28 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
                         <span>Add one more test to see your progress!</span>
                     )}
                 </div>
-            );
+            )
         }
 
         const dataToUse = this.props.testData
             .map((item) => {
-                const date = new Date(item.date);
-                const formattedDate = date.getTime() / 1000;
+                const date = new Date(item.date)
+                const formattedDate = date.getTime() / 1000
 
                 return {
                     name: item.name,
                     date: formattedDate,
                     percentage: item.percentage,
                     achievedMarks: item.achievedMarks,
-                    maxMarks: item.maxMarks,
-                };
+                    maxMarks: item.maxMarks
+                }
             })
-            .sort((a, b) => a.date - b.date);
+            .sort((a, b) => a.date - b.date)
 
         const gradeString: string =
             (this.props.subjectData.setLevel === "Higher" ? "H" : "O") +
             this.props.subjectData.targetGrade +
-            " Cut-Off";
+            " Cut-Off"
 
         return (
             <ResponsiveContainer height={350} width="100%">
@@ -122,9 +122,9 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
                         dataKey="date"
                         scale="time"
                         domain={([dataMin, dataMax]) => {
-                            const newMax = dataMax * 1.001;
-                            const newMin = dataMin * 0.999;
-                            return [newMin, newMax];
+                            const newMax = dataMax * 1.001
+                            const newMin = dataMin * 0.999
+                            return [newMin, newMax]
                         }}
                         type="number"
                         tickFormatter={DateFormatter}
@@ -155,12 +155,12 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
                         dot={{
                             stroke: "#399be3",
                             strokeWidth: 2,
-                            fill: "#FFF",
+                            fill: "#FFF"
                         }}
                         fill="url(#colorUv)"
                     />
                 </ComposedChart>
             </ResponsiveContainer>
-        );
+        )
     }
 }

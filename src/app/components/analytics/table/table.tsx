@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import {
@@ -7,10 +7,10 @@ import {
     flexRender,
     getCoreRowModel,
     getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
+    useReactTable
+} from "@tanstack/react-table"
 
-import * as React from "react";
+import * as React from "react"
 
 import {
     Table,
@@ -18,20 +18,20 @@ import {
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+    TableRow
+} from "@/components/ui/table"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
+    columns: ColumnDef<TData, TValue>[]
+    data: TData[]
 }
 
 export function DataTable<TData, TValue>({
     columns,
-    data,
+    data
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [sorting, setSorting] = React.useState<SortingState>([])
 
     const table = useReactTable({
         data,
@@ -40,9 +40,9 @@ export function DataTable<TData, TValue>({
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         state: {
-            sorting,
-        },
-    });
+            sorting
+        }
+    })
 
     return (
         <div className="overflow-hidden whitespace-nowrap rounded-md border">
@@ -59,10 +59,10 @@ export function DataTable<TData, TValue>({
                                                 : flexRender(
                                                       header.column.columnDef
                                                           .header,
-                                                      header.getContext(),
+                                                      header.getContext()
                                                   )}
                                         </TableHead>
-                                    );
+                                    )
                                 })}
                             </TableRow>
                         ))}
@@ -80,7 +80,7 @@ export function DataTable<TData, TValue>({
                                         <TableCell key={cell.id}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
-                                                cell.getContext(),
+                                                cell.getContext()
                                             )}
                                         </TableCell>
                                     ))}
@@ -101,5 +101,5 @@ export function DataTable<TData, TValue>({
                 <ScrollBar orientation="horizontal" />
             </ScrollArea>
         </div>
-    );
+    )
 }

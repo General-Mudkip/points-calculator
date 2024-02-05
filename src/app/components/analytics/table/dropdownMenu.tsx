@@ -1,39 +1,39 @@
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 
-import { DeleteTestButton } from "./deleteTestButton";
+import { DeleteTestButton } from "./deleteTestButton"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
-import React, { useState } from "react";
-import EditTest from "./editTest";
-import { DialogContext } from "./dialogContext";
+    DialogTitle
+} from "@/components/ui/dialog"
+import React, { useState } from "react"
+import EditTest from "./editTest"
+import { DialogContext } from "./dialogContext"
 
 type testType = {
-    testId: number;
-    subjectId: number;
-    testName: string;
-    testDate: string;
-    maxMarks: number;
-    percentage: number;
-    achievedMarks: number;
-};
+    testId: number
+    subjectId: number
+    testName: string
+    testDate: string
+    maxMarks: number
+    percentage: number
+    achievedMarks: number
+}
 
 export function DropDownMenu(test: testType) {
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [isEditOpen, setEditOpen] = React.useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+    const [isEditOpen, setEditOpen] = React.useState(false)
 
     return (
         <DialogContext.Provider
@@ -90,5 +90,5 @@ export function DropDownMenu(test: testType) {
                 subjectId={test.subjectId}
             />
         </DialogContext.Provider>
-    );
+    )
 }

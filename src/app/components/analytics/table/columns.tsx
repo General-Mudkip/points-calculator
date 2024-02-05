@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table"
 
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown } from "lucide-react"
 
-import { DateTime } from "luxon";
+import { DateTime } from "luxon"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 
-import { z } from "zod";
+import { z } from "zod"
 
-import { DropDownMenu } from "./dropdownMenu";
+import { DropDownMenu } from "./dropdownMenu"
 
 const formSchema = z.object({
     testName: z.string(),
@@ -19,13 +19,13 @@ const formSchema = z.object({
     testDate: z.string(),
     achievedMarks: z.coerce.number(),
     maxMarks: z.coerce.number(),
-    percentage: z.coerce.number(),
-});
+    percentage: z.coerce.number()
+})
 
 export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
     {
         header: () => <div className="text-right">Name</div>,
-        accessorKey: "testName",
+        accessorKey: "testName"
     },
     {
         accessorKey: "testDate",
@@ -40,29 +40,29 @@ export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
                     Date
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
-            );
+            )
         },
         sortingFn: (a, b) => {
             const dateA = DateTime.fromFormat(
                 a.original.testDate,
-                "d/M/yyyy",
-            ).toJSDate();
+                "d/M/yyyy"
+            ).toJSDate()
             const dateB = DateTime.fromFormat(
                 b.original.testDate,
-                "d/M/yyyy",
-            ).toJSDate();
+                "d/M/yyyy"
+            ).toJSDate()
 
-            return dateA < dateB ? 1 : dateA > dateB ? -1 : 0;
-        },
+            return dateA < dateB ? 1 : dateA > dateB ? -1 : 0
+        }
     },
     {
         header: "Marks",
         accessorKey: "achievedMarks",
         cell: ({ row }) => {
             const marks =
-                row.original.achievedMarks + "/" + row.original.maxMarks;
-            return <div className="text-left font-medium">{marks}</div>;
-        },
+                row.original.achievedMarks + "/" + row.original.maxMarks
+            return <div className="text-left font-medium">{marks}</div>
+        }
     },
 
     {
@@ -70,10 +70,10 @@ export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
         cell: ({ row }) => {
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "percent",
-                maximumFractionDigits: 2,
-            }).format(row.original.percentage / 100);
+                maximumFractionDigits: 2
+            }).format(row.original.percentage / 100)
 
-            return <div className="text-left font-medium">{formatted}</div>;
+            return <div className="text-left font-medium">{formatted}</div>
         },
         header: ({ column }) => {
             return (
@@ -86,13 +86,13 @@ export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
                     Percentage
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
-            );
-        },
+            )
+        }
     },
     {
         id: "actions",
         cell: ({ row }) => {
-            const test = row.original;
+            const test = row.original
 
             return (
                 <DropDownMenu
@@ -104,7 +104,7 @@ export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
                     percentage={test.percentage}
                     achievedMarks={test.achievedMarks}
                 />
-            );
-        },
-    },
-];
+            )
+        }
+    }
+]

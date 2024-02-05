@@ -3,15 +3,15 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CustomTooltip = ({ active, payload }: any) => {
     const DateFormatter = (date: string) => {
-        const newDate = new Date(parseInt(date) * 1000);
+        const newDate = new Date(parseInt(date) * 1000)
         const toReturn =
             newDate.getDate() +
             "/" +
             (newDate.getMonth() + 1) +
             "/" +
-            newDate.getFullYear();
-        return toReturn;
-    };
+            newDate.getFullYear()
+        return toReturn
+    }
 
     if (active && payload && payload.length > 0) {
         return (
@@ -27,8 +27,8 @@ export const CustomTooltip = ({ active, payload }: any) => {
                     {`${payload[0].payload.achievedMarks}/${payload[0].payload.maxMarks}`}
                 </p>
             </div>
-        );
+        )
     }
 
-    return null;
-};
+    return null
+}
