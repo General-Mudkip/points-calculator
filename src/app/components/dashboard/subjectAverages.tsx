@@ -1,4 +1,4 @@
-import { Card, CardTitle, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardTitle, CardContent, CardHeader, CardDescription } from "@/components/ui/card"
 import {
     Table,
     TableBody,
@@ -84,10 +84,12 @@ const sumPoints = (props: avgCardProps) => {
                 subject.averageGrade > 40 // sorry
             ) {
                 avgGradeArray.push(
+                    //@ts-expect-error: Do not worry.
                     determinePoints(subject.averageGrade, subject.setLevel) + 25
                 )
             }
             avgGradeArray.push(
+                //@ts-expect-error: Do not worry.
                 determinePoints(subject.averageGrade, subject.setLevel)
             )
         }
@@ -106,47 +108,57 @@ const SubjectAveragesCard = (props: avgCardProps) => {
     }
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Your Subjects</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-32">Subject</TableHead>
-                            <TableHead>Average Score</TableHead>
-                            <TableHead>Target Grade</TableHead>
-                            <TableHead>Projected Grade</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {props.subjectData.map((subject) => (
+        <>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Your Subjects</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
                             <TableRow>
-                                <TableCell>{subject.name}</TableCell>
-                                <TableCell>{subject.averageGrade}</TableCell>
-                                <TableCell>
-                                    {gradeString(
-                                        subject.setLevel,
-                                        subject.targetGrade
-                                    )}
-                                </TableCell>
-                                <TableCell>
-                                    {determineGrade(
-                                        subject.averageGrade ?? 0,
-                                        subject.setLevel
-                                    )}
-                                </TableCell>
+                                <TableHead className="w-32">Subject</TableHead>
+                                <TableHead>Average Score</TableHead>
+                                <TableHead>Target Grade</TableHead>
+                                <TableHead>Projected Grade</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <div className="mt-2">
-                    <h1 className="text-2xl font-bold">Projected Points</h1>
-                    <p>{sumPoints(props)}</p>
-                </div>
-            </CardContent>
-        </Card>
+                        </TableHeader>
+                        <TableBody>
+                            {props.subjectData.map((subject) => (
+                                <TableRow>
+                                    <TableCell>{subject.name}</TableCell>
+                                    <TableCell>
+                                        {subject.averageGrade}
+                                    </TableCell>
+                                    <TableCell>
+                                        {gradeString(
+                                            subject.setLevel,
+                                            subject.targetGrade
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        {determineGrade(
+                                            subject.averageGrade ?? 0,
+                                            subject.setLevel
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <div className="mt-2">
+                        <h1 className="text-2xl font-bold">Projected Points</h1>
+                        <p>{sumPoints(props)}</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Points Forecast</CardTitle>
+                    <CardDescription>Predictions based on your past average test results.</CardDescription>
+                </CardHeader>
+            </Card>
+        </>
     )
 }
 
