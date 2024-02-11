@@ -8,6 +8,27 @@ import {
     TableRow
 } from "@/components/ui/table"
 
+type GradeLookupRecord = Record<string, number>
+
+const gradePointsLookup: GradeLookupRecord = {
+    H1: 100,
+    H2: 88,
+    H3: 77,
+    H4: 66,
+    H5: 56,
+    H6: 46,
+    H7: 37,
+    H8: 0,
+    O1: 56,
+    O2: 46,
+    O3: 37,
+    O4: 28,
+    O5: 20,
+    O6: 12,
+    O7: 0,
+    O8: 0
+}
+
 interface avgCardProps {
     subjectData: {
         id: number
@@ -42,8 +63,41 @@ const determineGrade = (avg: number, level: string) => {
     return (level === "Higher" ? "H" : "O") + grade
 }
 
+const determinePoints = (avg: number, level: string) => {
+    const grade = determineGrade(avg, level)
+    return gradePointsLookup[grade]
+}
+
 const gradeString = (level: string, grade: number) => {
     return (level === "Higher" ? "H" : "O") + grade
+}
+
+const sumPoints = (props: avgCardProps) => {
+    const avgGradeArray: number[] = []
+
+    for (const subject of props.subjectData) {
+        if (subject.averageGrade != undefined) {
+            if (
+                subject.name.includes("Maths") &&
+                !subject.name.includes("Applied") &&
+                subject.setLevel === "Higher" &&
+                subject.averageGrade > 40 // sorry
+            ) {
+                avgGradeArray.push(
+                    determinePoints(subject.averageGrade, subject.setLevel) + 25
+                )
+            }
+            avgGradeArray.push(
+                determinePoints(subject.averageGrade, subject.setLevel)
+            )
+        }
+    }
+
+    avgGradeArray.sort((a, b) => b - a).splice(6)
+
+    console.log(avgGradeArray)
+
+    return avgGradeArray.reduce((a, b) => a + b, 0)
 }
 
 const SubjectAveragesCard = (props: avgCardProps) => {
@@ -89,6 +143,7 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                 </Table>
                 <div className="mt-2">
                     <h1 className="text-2xl font-bold">Projected Points</h1>
+                    <p>{sumPoints(props)}</p>
                 </div>
             </CardContent>
         </Card>
