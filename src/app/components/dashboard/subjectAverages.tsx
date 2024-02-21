@@ -72,8 +72,25 @@ const gradeString = (level: string, grade: number) => {
     return (level === "Higher" ? "H" : "O") + grade
 }
 
+interface StatProps {
+    title: string,
+    stat: string,
+}
+
+const Stat = ({ title, stat }: StatProps) => {
+    return (
+        <div>
+            <h3 className="text-lg font-semibold text-gray-500">
+                {title}
+            </h3>
+            <h3 className="text-2xl font-semibold">{stat}</h3>
+        </div>
+    )
+}
+
 const sumPoints = (props: avgCardProps) => {
     const avgGradeArray: number[] = []
+    let summedPoints = 0
 
     for (const subject of props.subjectData) {
         if (subject.averageGrade != undefined) {
@@ -83,10 +100,7 @@ const sumPoints = (props: avgCardProps) => {
                 subject.setLevel === "Higher" &&
                 subject.averageGrade > 40 // sorry
             ) {
-                avgGradeArray.push(
-                    //@ts-expect-error: Do not worry.
-                    determinePoints(subject.averageGrade, subject.setLevel) + 25
-                )
+                summedPoints += 25
             }
             avgGradeArray.push(
                 //@ts-expect-error: Do not worry.
@@ -97,9 +111,9 @@ const sumPoints = (props: avgCardProps) => {
 
     avgGradeArray.sort((a, b) => b - a).splice(6)
 
-    console.log(avgGradeArray)
+    summedPoints += avgGradeArray.reduce((a, b) => a + b, 0)
 
-    return avgGradeArray.reduce((a, b) => a + b, 0)
+    return summedPoints
 }
 
 const SubjectAveragesCard = (props: avgCardProps) => {
@@ -146,10 +160,6 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                             ))}
                         </TableBody>
                     </Table>
-                    <div className="mt-2">
-                        <h1 className="text-2xl font-bold">Projected Points</h1>
-                        <p>{sumPoints(props)}</p>
-                    </div>
                 </CardContent>
             </Card>
             <Card>
@@ -157,6 +167,9 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                     <CardTitle>Points Forecast</CardTitle>
                     <CardDescription>Predictions based on your past average test results.</CardDescription>
                 </CardHeader>
+                <CardContent>
+                    <Stat title="Based on All-Time Averages" stat={sumPoints(props).toString()} />
+                </CardContent>
             </Card>
         </>
     )

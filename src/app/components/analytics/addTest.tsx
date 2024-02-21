@@ -113,7 +113,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
             0
         )
 
-        if (totalPercentage && testCount) {
+        if (testCount != undefined && totalPercentage != undefined) {
             const newAverage = parseFloat(
                 ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2)
             )

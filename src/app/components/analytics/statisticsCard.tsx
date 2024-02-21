@@ -137,10 +137,10 @@ const StatisticsCard = (props: statsCardProps) => {
                             name="Projected Points"
                             value={
                                 gradePointsLookup[
-                                    determineGrade(
-                                        averageGrade,
-                                        props.subjectData.setLevel
-                                    )
+                                determineGrade(
+                                    averageGrade,
+                                    props.subjectData.setLevel
+                                )
                                 ] ?? "0"
                             }
                         />
