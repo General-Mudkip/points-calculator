@@ -233,7 +233,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                                                     className={cn(
                                                         "w-[240px] pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground"
+                                                        "text-muted-foreground"
                                                     )}
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -259,7 +259,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                                                 disabled={(date) =>
                                                     date > new Date() ||
                                                     date <
-                                                        new Date("1900-01-01")
+                                                    new Date("1900-01-01")
                                                 }
                                                 initialFocus
                                             />

@@ -110,10 +110,7 @@ export function EditTest(test: testType) {
         subjectId: test.subjectId
     })
 
-    const formattedDate: Date = DateTime.fromFormat(
-        test.testDate,
-        "dd/MM/yyyy"
-    ).toJSDate()
+    const formattedDate = DateTime.fromFormat(test.testDate, "d/M/yyyy").toJSDate()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -157,6 +154,7 @@ export function EditTest(test: testType) {
             )
         }
     }
+
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         if (isLoaded && isSignedIn) {
@@ -251,10 +249,10 @@ export function EditTest(test: testType) {
                                                     className={cn(
                                                         "w-[240px] pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground"
+                                                        "text-muted-foreground"
                                                     )}
                                                 >
-                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    <CalendarIcon className="mx-1 h-4 w-4" />
                                                     {field.value ? (
                                                         format(
                                                             field.value,
@@ -277,7 +275,7 @@ export function EditTest(test: testType) {
                                                 disabled={(date) =>
                                                     date > new Date() ||
                                                     date <
-                                                        new Date("1900-01-01")
+                                                    new Date("1900-01-01")
                                                 }
                                                 initialFocus
                                             />
