@@ -88,30 +88,22 @@ const Stat = ({ title, stat }: StatProps) => {
     )
 }
 
+const sortSubjects = (props: avgCardProps) => {
+    // Need to create a copy of props.subjectData or else it'll mutate the original, causing
+    // the sidebar to also become sorted.
+    const sortedSubjects = [...props.subjectData].sort((a, b) => b.averageGrade - a.averageGrade)
+    return sortedSubjects
+}
+
 const sumPoints = (props: avgCardProps) => {
-    const avgGradeArray: number[] = []
+    const sortedSubjects = sortSubjects(props).slice(0, 6)
     let summedPoints = 0
 
-    for (const subject of props.subjectData) {
+    for (const subject of sortedSubjects) {
         if (subject.averageGrade != undefined) {
-            if (
-                subject.name.includes("Maths") &&
-                !subject.name.includes("Applied") &&
-                subject.setLevel === "Higher" &&
-                subject.averageGrade > 40 // sorry
-            ) {
-                summedPoints += 25
-            }
-            avgGradeArray.push(
-                //@ts-expect-error: Do not worry.
-                determinePoints(subject.averageGrade, subject.setLevel)
-            )
+            summedPoints += determinePoints(subject.averageGrade, subject.setLevel) ?? 0
         }
     }
-
-    avgGradeArray.sort((a, b) => b - a).splice(6)
-
-    summedPoints += avgGradeArray.reduce((a, b) => a + b, 0)
 
     return summedPoints
 }
@@ -121,13 +113,16 @@ const SubjectAveragesCard = (props: avgCardProps) => {
         return <div></div>
     }
 
+    const sortedSubjects = sortSubjects(props)
+    const countedSubjects = sortedSubjects.slice(0, 6)
+
     return (
         <>
             <Card>
                 <CardHeader>
                     <CardTitle>Your Subjects</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -139,7 +134,7 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                         </TableHeader>
                         <TableBody>
                             {props.subjectData.map((subject) => (
-                                <TableRow>
+                                <TableRow className={countedSubjects.includes(subject) ? `bg-sky-100 hover:bg-sky-200` : `bg-transparent`}>
                                     <TableCell>{subject.name}</TableCell>
                                     <TableCell>
                                         {subject.averageGrade}
@@ -160,6 +155,8 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                             ))}
                         </TableBody>
                     </Table>
+
+                    <span className="pt-3">The top 6 subjects are <span className="bg-sky-100">highlighted</span>.</span>
                 </CardContent>
             </Card>
             <Card>

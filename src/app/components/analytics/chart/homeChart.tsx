@@ -10,50 +10,33 @@ import {
 } from "recharts"
 
 import { PureComponent } from "react"
-import { CustomTooltip } from "./tooltip"
 import { Skeleton } from "@/components/ui/skeleton"
+import { HomeChartTooltip } from "./homeChartTooltip"
+
+interface TestData {
+    id: number
+    subjectId: number
+    userid: string
+    name: string
+    date: Date
+    percentage: number
+    maxMarks: number
+    achievedMarks: number
+}
+
+interface SubjectData {
+    id: number
+    name: string
+    userId: string
+    createdAt: Date
+    targetGrade: number
+    setLevel: string
+    averageGrade: number | null
+}
 
 interface RenderLineChartProps {
-    testData: {
-        id: number
-        subjectId: number
-        userId: string
-        name: string
-        date: Date
-        percentage: number
-        maxMarks: number
-        achievedMarks: number
-    }[]
-    subjectData: {
-        id: number
-        name: string
-        userId: string
-        createdAt: Date
-        targetGrade: number
-        setLevel: string
-        averageGrade: number | null
-    }[]
-}
-
-interface testObj {
-    id: number
-    subjectName: string
-    percentage: number
-}
-
-const monthsLookup: Record<number, string> = {
-    0: "Jan",
-    1: "Feb",
-    2: "Mar",
-    3: "Apr",
-    4: "May",
-    5: "June",
-    6: "July",
-    7: "Aug",
-    8: "Sept",
-    9: "Oct",
-    10: "Nov",
-    11: "Dec"
+    subjectData: SubjectData[],
+    testData: TestData[]
 }
 
 const DateFormatter = (date: string) => {
@@ -67,10 +50,24 @@ const DateFormatter = (date: string) => {
     return toReturn
 }
 
+const GetSubjectName = (testData: TestData, subjectData: SubjectData[]) => {
+    let toReturn = ""
+
+    subjectData.forEach(function(subject) {
+        if (testData.subjectId == subject.id) {
+            toReturn = subject.name
+        }
+    })
+
+    return toReturn
+}
+
 export default class RenderPointsChart extends PureComponent<RenderLineChartProps> {
     constructor(props: RenderLineChartProps) {
         super(props)
     }
+
+
 
     render() {
         if (this.props.testData[0]?.id === undefined) {
@@ -94,52 +91,19 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
                 const date = new Date(item.date)
                 const formattedDate = date.getTime() / 1000
 
+                const subjectName = GetSubjectName(item, this.props.subjectData)
+
                 return {
                     name: item.name,
                     date: formattedDate,
                     percentage: item.percentage,
                     achievedMarks: item.achievedMarks,
-                    maxMarks: item.maxMarks
+                    maxMarks: item.maxMarks,
+                    subjectName: subjectName,
                 }
             })
             .sort((a, b) => a.date - b.date)
 
-        // function getMinDate(testData: RenderLineChartProps["testData"]) {
-        //   const minDate = dataToUse[0]?.date
-        //     ? DateTime.fromSeconds(dataToUse[0].date)
-        //     : DateTime.fromSeconds(0);
-        //   const monthsSinceEarliest = Math.floor(
-        //     minDate.diffNow().as("months") * -1,
-        //   );
-        //   console.log(monthsSinceEarliest);
-        //   const toReturn: Record<string, testObj[]> = {};
-        //
-        //   for (let i = 0; i <= monthsSinceEarliest; i++) {
-        //     const currentMonth = DateTime.now().minus({ months: i });
-        //     const month = currentMonth.monthShort;
-        //     const year = currentMonth.year;
-        //     const key = `${month} ${year}`;
-        //     toReturn[key] = [];
-        //   }
-        //
-        //   for (const test of testData) {
-        //     const date = DateTime.fromJSDate(test.date);
-        //     const month = date.monthShort;
-        //     const year = date.year;
-        //     const key = `${month} ${year}`;
-        //     console.log(test);
-        //     toReturn[key]?.push({
-        //       id: test.id,
-        //       subjectName: test.name,
-        //       percentage: test.percentage,
-        //     });
-        //   }
-        //
-        //   console.log(toReturn);
-        // }
-        //
-        // getMinDate(this.props.testData);
-        //
         return (
             <ResponsiveContainer height={350} width="100%">
                 <ComposedChart
@@ -184,7 +148,7 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
                         ticks={[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                         interval={0}
                     />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<HomeChartTooltip />} />
                     <CartesianGrid vertical={false} stroke="#DDD" />
                     <Tooltip active={false} />
 

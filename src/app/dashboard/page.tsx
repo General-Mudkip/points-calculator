@@ -46,8 +46,6 @@ export default function Home() {
         return <div></div>
     }
 
-    console.log(subjectQuery)
-
     return (
         <main className="flex w-full flex-col items-center bg-white text-black">
             <h1 className="flex w-full items-center gap-x-4 text-5xl font-bold">
