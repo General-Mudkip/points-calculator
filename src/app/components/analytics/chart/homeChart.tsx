@@ -16,7 +16,7 @@ import { HomeChartTooltip } from "./homeChartTooltip"
 interface TestData {
     id: number
     subjectId: number
-    userid: string
+    userId: string
     name: string
     date: Date
     percentage: number

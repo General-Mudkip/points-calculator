@@ -12,7 +12,7 @@ import {
 } from "recharts"
 
 import { PureComponent } from "react"
-import { CustomTooltip } from "./tooltip"
+import { CustomTooltip } from "./subjectTooltip"
 import { Skeleton } from "@/components/ui/skeleton"
 
 interface RenderLineChartProps {
