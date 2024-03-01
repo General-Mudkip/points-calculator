@@ -29,17 +29,32 @@ const gradePointsLookup: GradeLookupRecord = {
     O8: 0
 }
 
-interface avgCardProps {
-    subjectData: {
-        id: number
-        name: string
-        userId: string
-        createdAt: Date
-        targetGrade: number
-        setLevel: string
-        averageGrade: number
-    }[]
+interface TestData {
+    id: number
+    subjectId: number
+    userId: string
+    name: string
+    date: Date
+    percentage: number
+    maxMarks: number
+    achievedMarks: number
 }
+
+interface SubjectData {
+    id: number
+    name: string
+    userId: string
+    createdAt: Date
+    targetGrade: number
+    setLevel: string
+    averageGrade: number | null
+}
+
+interface avgCardProps {
+    subjectData: SubjectData[],
+    testData: TestData[]
+}
+
 
 const determineGrade = (avg: number, level: string) => {
     let grade: string
@@ -63,8 +78,12 @@ const determineGrade = (avg: number, level: string) => {
     return (level === "Higher" ? "H" : "O") + grade
 }
 
-const determinePoints = (avg: number, level: string) => {
-    const grade = determineGrade(avg, level)
+const determinePoints = (avg: number, subject: SubjectData) => {
+    const grade = determineGrade(avg, subject.setLevel)
+
+    if (subject.name.toLowerCase().includes("math") && !subject.name.toLowerCase().includes("applied")) {
+        return (gradePointsLookup[grade] ?? 0) + 25
+    }
     return gradePointsLookup[grade]
 }
 
@@ -91,7 +110,7 @@ const Stat = ({ title, stat }: StatProps) => {
 const sortSubjects = (props: avgCardProps) => {
     // Need to create a copy of props.subjectData or else it'll mutate the original, causing
     // the sidebar to also become sorted.
-    const sortedSubjects = [...props.subjectData].sort((a, b) => b.averageGrade - a.averageGrade)
+    const sortedSubjects = [...props.subjectData].sort((a, b) => (b.averageGrade ?? 0) - (a.averageGrade ?? 0))
     return sortedSubjects
 }
 
@@ -101,11 +120,43 @@ const sumPoints = (props: avgCardProps) => {
 
     for (const subject of sortedSubjects) {
         if (subject.averageGrade != undefined) {
-            summedPoints += determinePoints(subject.averageGrade, subject.setLevel) ?? 0
+            summedPoints += determinePoints(subject.averageGrade, subject) ?? 0
         }
     }
 
     return summedPoints
+}
+
+
+const recentSumPoints = (props: avgCardProps) => {
+    const summedPoints: number[] = []
+
+    props.subjectData.forEach((subject) => {
+        const tempTests: TestData[] = []
+        props.testData.forEach((test) => {
+            if (test.subjectId == subject.id) {
+                tempTests.push(test)
+            }
+        })
+
+        if (tempTests.length > 0) {
+            let highestGrade: TestData = tempTests[0]!
+            for (const test of tempTests) {
+                if (test.date > highestGrade.date) {
+                    highestGrade = test
+                }
+            }
+            summedPoints.push(determinePoints(highestGrade.percentage ?? 0, subject) ?? 0)
+        }
+    })
+
+    const sortedPointsArray = summedPoints.sort((a, b) => b - a).splice(0, 6)
+
+    if (sortedPointsArray.length > 0) {
+        return sortedPointsArray.reduce((a, b) => a + b)
+    }
+
+    return 0
 }
 
 const SubjectAveragesCard = (props: avgCardProps) => {
@@ -116,9 +167,10 @@ const SubjectAveragesCard = (props: avgCardProps) => {
     const sortedSubjects = sortSubjects(props)
     const countedSubjects = sortedSubjects.slice(0, 6)
 
+    // TODO: Seperate out the table and forecast cards into their own components.
     return (
         <>
-            <Card>
+            <Card className="row-span-2">
                 <CardHeader>
                     <CardTitle>Your Subjects</CardTitle>
                 </CardHeader>
@@ -134,7 +186,7 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                         </TableHeader>
                         <TableBody>
                             {props.subjectData.map((subject) => (
-                                <TableRow className={countedSubjects.includes(subject) ? `bg-sky-100 hover:bg-sky-200` : `bg-transparent`}>
+                                <TableRow className={countedSubjects.includes(subject) ? `bg-sky-100 hover:bg-gray-50` : `bg-transparent`}>
                                     <TableCell>{subject.name}</TableCell>
                                     <TableCell>
                                         {subject.averageGrade}
@@ -156,7 +208,7 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                         </TableBody>
                     </Table>
 
-                    <span className="pt-3">The top 6 subjects are <span className="bg-sky-100">highlighted</span>.</span>
+                    <span className="pt-3">Your top 6 subjects are <span className="bg-sky-100">highlighted</span>.</span>
                 </CardContent>
             </Card>
             <Card>
@@ -165,7 +217,24 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                     <CardDescription>Predictions based on your past average test results.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Stat title="Based on All-Time Averages" stat={sumPoints(props).toString()} />
+                    <div className="flex flex-col gap-y-4">
+                        <Stat title="Based on All-Time Averages" stat={sumPoints(props).toString()} />
+                        <Stat title="Based on Most Recent Tests" stat={recentSumPoints(props).toString()} />
+                    </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Third Level Ambitions</CardTitle>
+                    <CardDescription>
+                        Track how you're doing when it comes to your goal course.
+                        Keep in mind that course points are the <span className="italic">minimum</span> points required for a course; not necessarily the average.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col gap-y-4">
+                        <p>This is a placeholder.</p>
+                    </div>
                 </CardContent>
             </Card>
         </>

@@ -55,11 +55,11 @@ export const formSchema = z
         }),
         achievedMark: z.coerce
             .number()
-            .min(1, { message: "Marks must be above zero." }),
+            .min(0, { message: "Marks must be above zero." }),
 
         maxMarks: z.coerce
             .number()
-            .min(1, { message: "Marks must be above zero." }),
+            .min(0, { message: "Marks must be above zero." }),
 
         percentage: z.coerce
             .number()

@@ -25,7 +25,7 @@ export default function Home() {
     const PointsChart = () => {
         if (testQuery.isFetched && subjectQuery.isFetched) {
             return (
-                <Card className="md:col-span-2">
+                <Card className="row-span-2 md:col-span-2">
                     <CardHeader>
                         <CardTitle>All Tests</CardTitle>
                     </CardHeader>
@@ -42,6 +42,7 @@ export default function Home() {
         }
     }
 
+
     if (!testQuery.isFetched && !subjectQuery.isFetched) {
         return <div></div>
     }
@@ -56,7 +57,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <PointsChart />
-                <AverageSubjectCard subjectData={subjectQuery.data ?? []} />
+                <AverageSubjectCard subjectData={subjectQuery.data ?? []} testData={testQuery.data ?? []} />
             </div>
         </main>
     )

@@ -67,8 +67,6 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
         super(props)
     }
 
-
-
     render() {
         if (this.props.testData[0]?.id === undefined) {
             return <Skeleton className="h-[350px] w-[530x]" />
@@ -156,6 +154,7 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
                         type="monotone"
                         dataKey="percentage"
                         unit="%"
+                        isAnimationActive={false}
                         fillOpacity={1}
                         strokeWidth={2}
                         dot={{

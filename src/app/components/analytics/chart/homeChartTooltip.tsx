@@ -15,7 +15,6 @@ export const HomeChartTooltip = ({ active, payload }: any) => {
 
 
     if (active && payload && payload.length > 0) {
-        console.log(payload)
         return (
             <div className="rounded-lg bg-white p-3 shadow-lg">
 
@@ -23,8 +22,6 @@ export const HomeChartTooltip = ({ active, payload }: any) => {
                 <p className="italic pt-1">
                     {DateFormatter(payload[0].payload.date)}
                 </p>
-
-
 
                 <h2 className="text-lg font-bold">{`${payload[0].payload.name}`}</h2>
                 <p className="label">Percentage: {`${payload[0].value}%`}</p>

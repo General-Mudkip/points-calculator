@@ -150,6 +150,7 @@ export default class RenderLineChart extends PureComponent<RenderLineChartProps>
                         type="monotone"
                         dataKey="percentage"
                         unit="%"
+                        isAnimationActive={false}
                         fillOpacity={1}
                         strokeWidth={2}
                         dot={{

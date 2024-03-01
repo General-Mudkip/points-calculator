@@ -23,7 +23,6 @@ export function DeleteTestButton({
             }
         )
 
-        // onSuccess is not working properly. TODO: Debug.
         setTimeout(() => {
             void utils.test.getAllTestsBySubject.invalidate({
                 subjectId: subjectId
