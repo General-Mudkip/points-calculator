@@ -11,5 +11,19 @@ export const userRouter = createTRPCRouter({
                     id: input.userId
                 }
             })
+        }),
+
+    getCollegeCourse: publicProcedure
+        .input(z.object({ userId: z.string() }))
+        .query(({ input }) => {
+            return db.user.findFirst({
+                where: {
+                    id: input.userId
+                },
+                select: {
+                    collegeCourseName: true,
+                    collegeCoursePoints: true
+                }
+            })
         })
 })
