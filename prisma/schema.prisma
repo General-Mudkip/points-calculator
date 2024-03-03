@@ -1,48 +1,51 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
 model User {
-  id        String    @id
-  firstName String?
-  lastName  String?
-  createdAt DateTime  @default(now())
-  subjects  Subject[] @relation("User Subjects")
-  tests     Test[]    @relation("User Tests")
+    id        String    @id
+    firstName String?
+    lastName  String?
+    createdAt DateTime  @default(now())
+    subjects  Subject[] @relation("User Subjects")
+    tests     Test[]    @relation("User Tests")
+
+    collegeCourseName   String @default("None set yet!")
+    collegeCoursePoints Int    @default(0)
 }
 
 model Subject {
-  id           Int      @id @default(autoincrement())
-  name         String
-  userId       String
-  createdAt    DateTime @default(now())
-  targetGrade  Int      @default(1)
-  setLevel     String   @default("Higher")
-  averageGrade Float
-  user         User     @relation("User Subjects", fields: [userId], references: [id])
-  tests        Test[]   @relation("Tests in Subject")
+    id           Int      @id @default(autoincrement())
+    name         String
+    userId       String
+    createdAt    DateTime @default(now())
+    targetGrade  Int      @default(1)
+    setLevel     String   @default("Higher")
+    averageGrade Float
+    user         User     @relation("User Subjects", fields: [userId], references: [id])
+    tests        Test[]   @relation("Tests in Subject")
 
-  @@index([userId])
+    @@index([userId])
 }
 
 model Test {
-  id            Int      @id @default(autoincrement())
-  subjectId     Int
-  userId        String
-  name          String
-  date          DateTime @default(now())
-  percentage    Float
-  maxMarks      Float
-  achievedMarks Float
-  subject       Subject  @relation("Tests in Subject", fields: [subjectId], references: [id])
-  user          User     @relation("User Tests", fields: [userId], references: [id])
+    id            Int      @id @default(autoincrement())
+    subjectId     Int
+    userId        String
+    name          String
+    date          DateTime @default(now())
+    percentage    Float
+    maxMarks      Float
+    achievedMarks Float
+    subject       Subject  @relation("Tests in Subject", fields: [subjectId], references: [id])
+    user          User     @relation("User Tests", fields: [userId], references: [id])
 
-  @@index([userId])
-  @@index([subjectId])
+    @@index([userId])
+    @@index([subjectId])
 }
