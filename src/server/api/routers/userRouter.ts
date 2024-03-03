@@ -25,5 +25,25 @@ export const userRouter = createTRPCRouter({
                     collegeCoursePoints: true
                 }
             })
+        }),
+
+    editCollegeCourse: publicProcedure
+        .input(
+            z.object({
+                userId: z.string(),
+                courseName: z.string(),
+                coursePoints: z.number()
+            })
+        )
+        .mutation(({ input }) => {
+            return db.user.update({
+                where: {
+                    id: input.userId
+                },
+                data: {
+                    collegeCourseName: input.courseName,
+                    collegeCoursePoints: input.coursePoints
+                }
+            })
         })
 })

@@ -7,6 +7,8 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table"
+import CollegeCourseForecast from "./collegeCourseForecast"
+import { EditCourse } from "./editCollegeCourse"
 
 type GradeLookupRecord = Record<string, number>
 
@@ -225,16 +227,13 @@ const SubjectAveragesCard = (props: avgCardProps) => {
             </Card>
             <Card>
                 <CardHeader>
-                    <CardTitle>Third Level Ambitions</CardTitle>
+                    <CardTitle className="flex flex-row gap-x-2 align-baseline"><span className="self-center">Third Level Ambitions</span> <EditCourse /></CardTitle>
                     <CardDescription>
                         Track how you're doing when it comes to your goal course.
-                        Keep in mind that course points are the <span className="italic">minimum</span> points required for a course; not necessarily the average.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex flex-col gap-y-4">
-                        <p>This is a placeholder.</p>
-                    </div>
+                    <CollegeCourseForecast forecastPoints={sumPoints(props)} />
                 </CardContent>
             </Card>
         </>

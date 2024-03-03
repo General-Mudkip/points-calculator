@@ -38,7 +38,7 @@ export default function Home() {
                 </Card>
             )
         } else {
-            return <Skeleton className="h-[350px] w-[530x]" />
+            return <Skeleton className="row-span-2 md:col-span-2 h-[350px] w-[530x]" />
         }
     }
 

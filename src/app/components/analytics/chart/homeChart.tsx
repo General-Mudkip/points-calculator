@@ -74,7 +74,7 @@ export default class RenderPointsChart extends PureComponent<RenderLineChartProp
 
         if (this.props.testData.length < 2) {
             return (
-                <div className="flex h-[350px] w-[530x] items-center justify-center rounded-lg border-2 border-gray-600 text-center align-middle">
+                <div className="flex h-[350px] items-center justify-center rounded-lg border-2 border-gray-600 text-center align-middle">
                     {this.props.testData.length === 0 ? (
                         <span>Add two tests to see your progress!</span>
                     ) : (
