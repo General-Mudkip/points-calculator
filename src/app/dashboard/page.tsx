@@ -6,6 +6,7 @@ import { LayoutPanelLeft } from "lucide-react"
 import { api } from "~/utils/api"
 import RenderPointsChart from "../components/analytics/chart/homeChart"
 import AverageSubjectCard from "../components/dashboard/subjectAverages"
+import RenderPointChangeChart from "../components/analytics/chart/pointsChart"
 
 export default function Home() {
     const { user } = useUser()
@@ -56,6 +57,7 @@ export default function Home() {
             <hr className=" my-12 w-full" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <RenderPointChangeChart testData={testQuery.data ?? []} />
                 <PointsChart />
                 <AverageSubjectCard subjectData={subjectQuery.data ?? []} testData={testQuery.data ?? []} />
             </div>
