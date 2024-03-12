@@ -1,10 +1,11 @@
 "use client"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useUser } from "@clerk/nextjs"
 import { LayoutPanelLeft } from "lucide-react"
 import { api } from "~/utils/api"
-import RenderPointsChart from "../components/analytics/chart/homeChart"
+import RenderTestsChart from "../components/analytics/chart/homeChart"
 import AverageSubjectCard from "../components/dashboard/subjectAverages"
 import RenderPointChangeChart from "../components/analytics/chart/pointsChart"
 
@@ -23,27 +24,6 @@ export default function Home() {
         userId: user.id
     })
 
-    const PointsChart = () => {
-        if (testQuery.isFetched && subjectQuery.isFetched) {
-            return (
-                <Card className="row-span-2 md:col-span-2">
-                    <CardHeader>
-                        <CardTitle>All Tests</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <RenderPointsChart
-                            testData={testQuery.data ?? []}
-                            subjectData={subjectQuery.data ?? []}
-                        />
-                    </CardContent>
-                </Card>
-            )
-        } else {
-            return <Skeleton className="row-span-2 md:col-span-2 h-[350px] w-[530x]" />
-        }
-    }
-
-
     if (!testQuery.isFetched && !subjectQuery.isFetched) {
         return <div></div>
     }
@@ -57,8 +37,39 @@ export default function Home() {
             <hr className=" my-12 w-full" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <RenderPointChangeChart testData={testQuery.data ?? []} />
-                <PointsChart />
+                <Card className="md:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Useful Charts</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Tabs defaultValue="tests">
+                            <TabsList>
+                                <TabsTrigger value="tests">All Tests</TabsTrigger>
+                                <TabsTrigger value="points">Points Over Time</TabsTrigger>
+                            </TabsList>
+
+                            <TabsContent value="tests" className="p-2">
+                                <p className="text-slate-800 italic pb-2">
+                                    A chart of all of the tests you have added across all subjects.
+                                </p>
+                                <RenderTestsChart
+                                    testData={testQuery.data ?? []}
+                                    subjectData={subjectQuery.data ?? []}
+                                />
+                            </TabsContent>
+                            <TabsContent value="points" className="p-2">
+                                <p className="text-slate-800 italic pb-2">
+                                    Based on the average grade for each subject at the time the respective test was added.
+                                </p>
+                                <RenderPointChangeChart
+                                    testData={testQuery.data ?? []}
+                                    subjectData={subjectQuery.data ?? []}
+                                />
+                            </TabsContent>
+
+                        </Tabs>
+                    </CardContent>
+                </Card>
                 <AverageSubjectCard subjectData={subjectQuery.data ?? []} testData={testQuery.data ?? []} />
             </div>
         </main>

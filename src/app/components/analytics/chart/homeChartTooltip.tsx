@@ -13,7 +13,6 @@ export const HomeChartTooltip = ({ active, payload }: any) => {
         return toReturn
     }
 
-
     if (active && payload && payload.length > 0) {
         return (
             <div className="rounded-lg bg-white p-3 shadow-lg">
