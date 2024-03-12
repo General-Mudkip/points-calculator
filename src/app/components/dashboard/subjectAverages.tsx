@@ -182,7 +182,6 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                             <TableRow>
                                 <TableHead className="w-32">Subject</TableHead>
                                 <TableHead>Average Score</TableHead>
-                                <TableHead>Most Recent Score</TableHead>
                                 <TableHead>Target Grade</TableHead>
                                 <TableHead>Projected Grade</TableHead>
                             </TableRow>
@@ -193,9 +192,6 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                                     <TableCell>{subject.name}</TableCell>
                                     <TableCell>
                                         {subject.averageGrade}
-                                    </TableCell>
-                                    <TableCell>
-                                        1
                                     </TableCell>
                                     <TableCell>
                                         {gradeString(
