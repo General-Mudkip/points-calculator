@@ -18,7 +18,6 @@ const adapter = new PrismaLibSQL(libsql)
 export const db =
     globalForPrisma.prisma ??
     new PrismaClient({
-        //@ts-expect-error This is what the Turso and Prisma docs say to do. Not sure why erroring.
         adapter
     })
 
