@@ -1,10 +1,11 @@
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE_URL")
+    provider     = "sqlite"
+    url          = "file:libsql://bep-development-general-mudkip.turso.io"
     relationMode = "prisma"
 }
 

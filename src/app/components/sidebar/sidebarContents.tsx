@@ -55,7 +55,7 @@ const SidebarContents = () => {
                     href="/dashboard"
                     className="mb-2 flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-800 duration-150 hover:bg-gray-100 active:bg-gray-200"
                 >
-                    <LayoutPanelLeft className="text-gray-500" />
+                    <LayoutPanelLeft className="text-gray-600" />
                     Home
                 </Link>
                 <h2 className="text-xl font-semibold">Subjects</h2>

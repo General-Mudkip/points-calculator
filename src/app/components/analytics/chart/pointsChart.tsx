@@ -2,7 +2,7 @@
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { PureComponent } from "react"
-import { Area, CartesianGrid, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Area, CartesianGrid, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis, ReferenceLine, Label } from "recharts"
 import { PointsChartTooltip } from "./pointsChartTooltip"
 
 interface TestData {
@@ -29,6 +29,7 @@ interface SubjectData {
 interface ChartProps {
     testData: TestData[]
     subjectData: SubjectData[]
+    collegePoints: number
 }
 
 interface PointsChartProps {
@@ -85,7 +86,6 @@ const determineGrade = (avg: number, level: string) => {
 }
 
 const determinePoints = (avg: number, subject: SubjectData) => {
-    console.log(subject)
     const grade = determineGrade(avg, subject.setLevel)
 
     if (subject.name.toLowerCase().includes("math") && !subject.name.toLowerCase().includes("applied")) {
@@ -154,7 +154,7 @@ const SumPoints = ({ data, subjectData }: SumPointsProps) => {
             pointsArray.push(
                 //@ts-expect-error It will work
                 determinePoints(parseFloat((averagePercent).toFixed(2)),
-                    subject[1].setLevel)
+                    subject[1].setLevel ?? "H1")
             ) // JS Nonsense!
         }
 
@@ -205,6 +205,7 @@ export default class RenderPointChangeChart extends PureComponent<ChartProps> {
         }
 
         const chartData = SumPoints({ data: this.props.testData, subjectData: this.props.subjectData })
+        console.log(this.props.collegePoints)
 
         return (
             <ResponsiveContainer className="col-span-2" height={350} width="100%">
@@ -246,9 +247,20 @@ export default class RenderPointChangeChart extends PureComponent<ChartProps> {
                         tickFormatter={DateFormatter}
                     />
                     <Tooltip content={<PointsChartTooltip />} />
-                    <YAxis />
+                    <YAxis
+                        domain={[0, 625]}
+                        tickCount={12}
+                    />
                     <Tooltip active={false} />
                     <CartesianGrid vertical={false} stroke="#DDD" />
+                    <ReferenceLine
+                        y={this.props.collegePoints}
+                        stroke="#000"
+                        isFront={true}
+                        strokeDasharray="3 3"
+                    >
+                        <Label position="top" value={`${this.props.collegePoints} Points`} />
+                    </ReferenceLine >
 
                     <Area
                         dataKey="points"

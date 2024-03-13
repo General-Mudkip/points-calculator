@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
+import { createEnv } from "@t3-oss/env-nextjs"
+import { z } from "zod"
 
 export const env = createEnv({
     /**
@@ -7,16 +7,16 @@ export const env = createEnv({
      * isn't built with invalid env vars.
      */
     server: {
-        DATABASE_URL: z
+        TURSO_DATABASE_URL: z
             .string()
             .url()
             .refine(
                 (str) => !str.includes("YOUR_MYSQL_URL_HERE"),
-                "You forgot to change the default URL",
+                "You forgot to change the default URL"
             ),
         NODE_ENV: z
             .enum(["development", "test", "production"])
-            .default("development"),
+            .default("development")
     },
 
     /**
@@ -33,8 +33,8 @@ export const env = createEnv({
      * middlewares) or client-side so we need to destruct manually.
      */
     runtimeEnv: {
-        DATABASE_URL: process.env.DATABASE_URL,
-        NODE_ENV: process.env.NODE_ENV,
+        TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
+        NODE_ENV: process.env.NODE_ENV
         // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
     },
     /**
@@ -46,5 +46,5 @@ export const env = createEnv({
      * Makes it so that empty strings are treated as undefined.
      * `SOME_VAR: z.string()` and `SOME_VAR=''` will throw an error.
      */
-    emptyStringAsUndefined: true,
-});
+    emptyStringAsUndefined: true
+})
