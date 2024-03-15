@@ -13,6 +13,8 @@ export function DeleteTestButton({
     function deleteTest() {
         deleteTestMutation.mutate(
             {
+                // [adamlearns] I wrote a comment elsewhere, but I think the
+                // average score needs to be modified here
                 testId
             },
             {

@@ -17,6 +17,10 @@ import StatisticsCard from "~/app/components/analytics/statisticsCard"
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
     const subjectQuery = api.subject.getSubjectById.useQuery({
+        // [adamlearns] Nit: save a const at the beginning of this method with
+        // the result of "parseInt(params.id)", then use it in each of the three
+        // places that it shows up here, that way you could have the error
+        // checking in one place for when the ID isn't actually an integer.
         subjectId: parseInt(params.id)
     })
 
