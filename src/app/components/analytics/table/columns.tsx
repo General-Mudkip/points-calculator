@@ -25,6 +25,10 @@ const formSchema = z.object({
 export const columns: ColumnDef<z.infer<typeof formSchema>>[] = [
     {
         header: () => <div className="text-right">Name</div>,
+        // [adamlearns] My understanding is that this has to match a key in the
+        // data that's passed in, but this isn't done in a type-safe way. I'm
+        // not totally sure how you would even do that (presumably you'd ensure
+        // that this key is in the testType type).
         accessorKey: "testName"
     },
     {

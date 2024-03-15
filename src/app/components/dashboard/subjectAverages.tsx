@@ -191,6 +191,10 @@ const SubjectAveragesCard = (props: avgCardProps) => {
                                 <TableRow className={countedSubjects.includes(subject) ? `bg-sky-100 hover:bg-gray-50` : `bg-transparent`}>
                                     <TableCell>{subject.name}</TableCell>
                                     <TableCell>
+{/*
+    // [adamlearns] In testing the production version, it seems like this average
+    // is only updated called when you ADD a test, not when you DELETE one.
+*/}
                                         {subject.averageGrade}
                                     </TableCell>
                                     <TableCell>
