@@ -42,7 +42,7 @@ import {
 const formSchema = z.object({
     subjectName: z
         .string()
-        .min(1, { message: "Subject names must be at least 2 characters." })
+        .min(3, { message: "Subject names must be at least 2 characters." })
         .max(30, { message: "Subject names must be less than 30 characters." }),
     targetGrade: z.coerce
         .number()

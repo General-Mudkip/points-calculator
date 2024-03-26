@@ -52,15 +52,13 @@ const formSchema = z.object({
 })
 
 type subjectType = {
-    data: {
-        id: number
-        name: string
-        userId: string
-        createdAt: Date
-        targetGrade: number
-        setLevel: string
-        averageGrade: number | null
-    }
+    id: number
+    name: string
+    userId: string
+    createdAt: Date
+    targetGrade: number
+    setLevel: string
+    averageGrade: number | null
 }
 
 export function EditSubject(subject: subjectType) {
@@ -74,10 +72,10 @@ export function EditSubject(subject: subjectType) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            subjectName: subject.data.name,
-            targetGrade: subject.data.targetGrade,
+            subjectName: subject.name,
+            targetGrade: subject.targetGrade,
             //@ts-expect-error It will work.
-            setLevel: subject.data.setLevel
+            setLevel: subject.setLevel
         }
     })
 
@@ -90,7 +88,7 @@ export function EditSubject(subject: subjectType) {
             setOpen(false)
             editSubject.mutate(
                 {
-                    id: subject.data.id,
+                    id: subject.id,
                     name: values.subjectName,
                     targetGrade: values.targetGrade,
                     setLevel: values.setLevel
