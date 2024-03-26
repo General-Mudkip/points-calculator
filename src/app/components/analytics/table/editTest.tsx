@@ -59,10 +59,15 @@ export const formSchema = z
             .number()
             .min(0, { message: "Marks must be above zero." }),
 
+        // [adamlearns] Found a bug. When adding a test, I typed in 50 for
+        // "achieved marks", nothing for "max marks", and 50 for the percentage,
+        // and upon adding it, the UI showed "50/0".
         maxMarks: z.coerce
             .number()
             .min(0, { message: "Marks must be above zero." }),
 
+        // [adamlearns] This shouldn't be something that the user can specify,
+        // or if it is, then it should modify achievedMark when set.
         percentage: z.coerce
             .number()
             .min(0, {
@@ -86,6 +91,11 @@ export const formSchema = z
         return val
     })
 
+// [adamlearns] I see this type or something very similar being redefined in
+// several locations. I would consider exporting this type and then reusing it
+// everywhere to make things easier to understand and more resilient to changes
+// to any of the individual types. For example, suppose you changed subjectId to
+// be a string here, you would need to update many locations in the code.
 type testType = {
     testId: number
     subjectId: number
@@ -131,6 +141,9 @@ export function EditTest(test: testType) {
             0
         )
 
+        // [adamlearns] Nit: checking "testCount" below is unnecessary since the
+        // only way to have a totalPercentage > 0 is to have tests (maybe
+        // TypeScript requires the check, in which case ignore me 😛)
         if (totalPercentage && testCount) {
             const newAverage = parseFloat(
                 ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2)

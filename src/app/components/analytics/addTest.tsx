@@ -40,6 +40,12 @@ import { useForm } from "react-hook-form"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { useUser } from "@clerk/nextjs"
+
+// [adamlearns] You should be able to set an alias or a resolve root or
+// something (I forgot the name, but see the link below for at least a starting
+// point) that will let you skip having to type "../../../" everywhere that you
+// refer to the API.
+// https://medium.com/thefork/escaping-relative-import-paths-hell-in-javascript-9f258baeb15e
 import { api } from "../../../utils/api"
 
 export const formSchema = z

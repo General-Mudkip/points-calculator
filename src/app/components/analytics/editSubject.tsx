@@ -42,16 +42,24 @@ import {
 const formSchema = z.object({
     subjectName: z
         .string()
+        // [adamlearns] The error message doesn't match the validation (it only
+        // requires a single character).
         .min(1, { message: "Subject names must be at least 2 characters." })
         .max(30, { message: "Subject names must be less than 30 characters." }),
     targetGrade: z.coerce
         .number()
         .min(1, { message: "Target grade must be above zero." })
+        // [adamlearns] Same comment as above. The message says "less than 8",
+        // but "8" is allowed.
         .max(8, { message: "Target grade must be less than 8." }),
     setLevel: z.union([z.literal("Higher"), z.literal("Ordinary")])
 })
 
 type subjectType = {
+    // [adamlearns] Nit: perhaps there was a reason for encapsulating everything
+    // inside a "data" property, but I think it will just make the rest of the
+    // code more verbose. If possible, I'd remove it, but maybe it's something
+    // your API library requires.
     id: number
     name: string
     userId: string
@@ -59,6 +67,7 @@ type subjectType = {
     targetGrade: number
     setLevel: string
     averageGrade: number | null
+
 }
 
 export function EditSubject(subject: subjectType) {
@@ -74,7 +83,10 @@ export function EditSubject(subject: subjectType) {
         defaultValues: {
             subjectName: subject.name,
             targetGrade: subject.targetGrade,
-            //@ts-expect-error It will work.
+            // [adamlearns] Nit: I generally think that if you're going to
+            // ignore a TypeScript error that the "reason" you give should be
+            // more descriptive.
+
             setLevel: subject.setLevel
         }
     })
