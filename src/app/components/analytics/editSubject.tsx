@@ -56,17 +56,15 @@ const formSchema = z.object({
 })
 
 type subjectType = {
-    // [adamlearns] Nit: perhaps there was a reason for encapsulating everything
-    // inside a "data" property, but I think it will just make the rest of the
-    // code more verbose. If possible, I'd remove it, but maybe it's something
-    // your API library requires.
-    id: number
-    name: string
-    userId: string
-    createdAt: Date
-    targetGrade: number
-    setLevel: string
-    averageGrade: number | null
+    data: {
+        id: number
+        name: string
+        userId: string
+        createdAt: Date
+        targetGrade: number
+        setLevel: string
+        averageGrade: number | null
+    }
 
 }
 
@@ -81,10 +79,10 @@ export function EditSubject(subject: subjectType) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            subjectName: subject.name,
-            targetGrade: subject.targetGrade,
+            subjectName: subject.data.name,
+            targetGrade: subject.data.targetGrade,
             // @ts-expect-error subject.setLevel is guaranteed to be either "Higher" or "Ordinary"
-            setLevel: subject.setLevel
+            setLevel: subject.data.setLevel
         }
     })
 
@@ -97,7 +95,7 @@ export function EditSubject(subject: subjectType) {
             setOpen(false)
             editSubject.mutate(
                 {
-                    id: subject.id,
+                    id: subject.data.id,
                     name: values.subjectName,
                     targetGrade: values.targetGrade,
                     setLevel: values.setLevel
