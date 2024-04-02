@@ -29,7 +29,7 @@ import { useForm } from "react-hook-form"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { useUser } from "@clerk/nextjs"
-import { api } from "../../../utils/api"
+import { api } from "~/utils/api"
 import { PlusCircle } from "lucide-react"
 import {
     Select,

@@ -1,6 +1,6 @@
 "use client"
 import { UserButton, useUser } from "@clerk/nextjs"
-import { api } from "../../../utils/api"
+import { api } from "~/utils/api"
 import Link from "next/link"
 import { LayoutPanelLeft } from "lucide-react"
 import AddSubject from "./addSubject"

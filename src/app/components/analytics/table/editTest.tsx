@@ -41,7 +41,7 @@ import { useForm } from "react-hook-form"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { useUser } from "@clerk/nextjs"
-import { api } from "../../../../utils/api"
+import { api } from "~/utils/api"
 import { DateTime } from "luxon"
 
 export const formSchema = z

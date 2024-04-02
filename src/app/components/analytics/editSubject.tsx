@@ -29,7 +29,7 @@ import { useForm } from "react-hook-form"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { useUser } from "@clerk/nextjs"
-import { api } from "../../../utils/api"
+import { api } from "~/utils/api"
 import { PencilRuler } from "lucide-react"
 import {
     Select,
@@ -83,10 +83,7 @@ export function EditSubject(subject: subjectType) {
         defaultValues: {
             subjectName: subject.name,
             targetGrade: subject.targetGrade,
-            // [adamlearns] Nit: I generally think that if you're going to
-            // ignore a TypeScript error that the "reason" you give should be
-            // more descriptive.
-
+            // @ts-expect-error subject.setLevel is guaranteed to be either "Higher" or "Ordinary"
             setLevel: subject.setLevel
         }
     })
