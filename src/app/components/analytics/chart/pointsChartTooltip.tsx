@@ -17,7 +17,7 @@ export const PointsChartTooltip = ({ active, payload }: any) => {
         return (
             <div className="rounded-lg bg-white p-3 shadow-lg">
 
-                <p className="italic pt-1">
+                <p className="pt-1 italic">
                     {DateFormatter(payload[0].payload.testDate)}
                 </p>
 

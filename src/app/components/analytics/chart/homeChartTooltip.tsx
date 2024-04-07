@@ -17,8 +17,8 @@ export const HomeChartTooltip = ({ active, payload }: any) => {
         return (
             <div className="rounded-lg bg-white p-3 shadow-lg">
 
-                <p className="text-xl border-b-[1px] border-b-slate-300 pb-1">{payload[0].payload.subjectName}</p>
-                <p className="italic pt-1">
+                <p className="border-b-[1px] border-b-slate-300 pb-1 text-xl">{payload[0].payload.subjectName}</p>
+                <p className="pt-1 italic">
                     {DateFormatter(payload[0].payload.date)}
                 </p>
 

@@ -8,5 +8,5 @@ interface DialogContextProps {
 export const DialogContext = React.createContext<DialogContextProps>({
     open: false,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    setOpen: () => {}
+    setOpen: () => { }
 })

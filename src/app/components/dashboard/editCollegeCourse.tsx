@@ -96,7 +96,7 @@ export function EditCourse() {
         <Dialog open={open} onOpenChange={setOpen}>
             <Toaster />
             <DialogTrigger asChild>
-                <button className="flex w-auto text-lg items-center gap-x-2 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
+                <button className="flex w-auto items-center gap-x-2 rounded-lg p-2 text-lg text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
                     <PencilRuler />
                     Edit
                 </button>

@@ -100,7 +100,7 @@ export function AddSubject() {
         <Dialog open={open} onOpenChange={setOpen}>
             <Toaster />
             <DialogTrigger asChild>
-                <button className="flex w-full items-center gap-x-2 rounded-lg p-2 text-gray-600 font-normal duration-150 hover:bg-gray-100 active:bg-gray-200">
+                <button className="flex w-full items-center gap-x-2 rounded-lg p-2 font-normal text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200">
                     <PlusCircle />
                     Add Subject
                 </button>

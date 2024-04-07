@@ -45,7 +45,7 @@ export default function Home() {
                         </TabsList>
 
                         <TabsContent value="tests" className="p-2">
-                            <p className="text-slate-800 italic pb-2 pl-4">
+                            <p className="pb-2 pl-4 italic text-slate-800">
                                 A chart of all of the tests you have added across all subjects.
                             </p>
                             <RenderTestsChart
@@ -54,7 +54,7 @@ export default function Home() {
                             />
                         </TabsContent>
                         <TabsContent value="points" className="p-2">
-                            <p className="text-slate-800 italic pb-2 pl-4">
+                            <p className="pb-2 pl-4 italic text-slate-800">
                                 Based on the average grade for each subject at the time the respective test was added.
                             </p>
                             <RenderPointChangeChart
@@ -79,7 +79,7 @@ export default function Home() {
 
             <hr className=" my-12 w-full" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <ChartsTabs />
                 <AverageSubjectCard subjectData={subjectQuery.data ?? []} testData={testQuery.data ?? []} />
             </div>

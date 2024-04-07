@@ -247,7 +247,7 @@ export function EditSubject(subject: subjectType) {
 
                         <Button type="submit">Submit Changes</Button>
                         <Button
-                            className="mt-2 rounded-md bg-red-600 p-2 text-white ml-4 hover:bg-red-700"
+                            className="ml-4 mt-2 rounded-md bg-red-600 p-2 text-white hover:bg-red-700"
                             type="button"
                             onClick={() => submitDelete()}
                         >
