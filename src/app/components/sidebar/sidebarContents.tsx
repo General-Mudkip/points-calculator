@@ -87,24 +87,25 @@ const SidebarContents = () => {
                         <AddSubject />
                     </li>
                 </ul>
-
-                <div>
-                    <ul className="text-lg font-medium">
-                        {bottomMenu.map((subject, idx) => (
-                            <li key={idx}>
-                                <Link
-                                    href={`/dashboard/${subject.name.toLowerCase()}`}
-                                    className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
-                                >
-                                    <div className="text-gray-500">
-                                        {subject.icon}
-                                    </div>
-                                    {subject.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                {
+                    // <div>
+                    //     <ul className="text-lg font-medium">
+                    //         {bottomMenu.map((subject, idx) => (
+                    //             <li key={idx}>
+                    //                 <Link
+                    //                     href={`/dashboard/${subject.name.toLowerCase()}`}
+                    //                     className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
+                    //                 >
+                    //                     <div className="text-gray-500">
+                    //                         {subject.icon}
+                    //                     </div>
+                    //                     {subject.name}
+                    //                 </Link>
+                    //             </li>
+                    //         ))}
+                    //     </ul>
+                    // </div>
+                }
                 <div className="justify-left my-6 gap-2 border-t-2 border-t-gray-300 pt-6">
                     <UserButton afterSignOutUrl="/" showName={true} />
                 </div>

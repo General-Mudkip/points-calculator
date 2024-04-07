@@ -37,8 +37,6 @@ export function DeleteTestButton({
                 0
             )
 
-            console.log(testsArray.data, testArrayWithoutOld)
-
             if (testCount != undefined && totalPercentage != undefined) {
                 const newAverage = parseFloat(
                     ((totalPercentage) / (testCount - 1)).toFixed(2)
@@ -47,6 +45,7 @@ export function DeleteTestButton({
                 updateAverage.mutate(
                     {
                         subjectId: subjectId,
+                        userId: user!.id,
                         average: newAverage
                     },
                     {
@@ -65,7 +64,8 @@ export function DeleteTestButton({
 
         deleteTestMutation.mutate(
             {
-                testId
+                testId: testId,
+                userId: user!.id
             },
             {
                 onSuccess: () => {

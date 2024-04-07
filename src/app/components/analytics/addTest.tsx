@@ -126,6 +126,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
             updateAverage.mutate(
                 {
                     subjectId: subjectId,
+                    userId: user!.id,
                     average: newAverage
                 },
                 {

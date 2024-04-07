@@ -35,8 +35,6 @@ export default function SubjectPage({ params }: { params: { id: string } }) {
         userId: user.user.id
     })
 
-    console.log(subjectQuery.isError)
-
     if (subjectQuery.isError != false) {
         return (
             <div>

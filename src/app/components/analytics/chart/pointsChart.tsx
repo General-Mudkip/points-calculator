@@ -166,8 +166,6 @@ const SumPoints = ({ data, subjectData }: SumPointsProps) => {
         })
     }
 
-    console.log(pointsOverTimeData)
-
     return pointsOverTimeData
 }
 
@@ -205,7 +203,6 @@ export default class RenderPointChangeChart extends PureComponent<ChartProps> {
         }
 
         const chartData = SumPoints({ data: this.props.testData, subjectData: this.props.subjectData })
-        console.log(this.props.collegePoints)
 
         return (
             <ResponsiveContainer className="col-span-2" height={350} width="100%">

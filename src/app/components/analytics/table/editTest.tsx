@@ -151,11 +151,10 @@ export function EditTest(test: testType) {
                 ((totalPercentage + newGrade) / (testCount)).toFixed(2)
             )
 
-            console.log(testsArray.data, testArrayWithoutOld)
-
             updateAverage.mutate(
                 {
                     subjectId: test.subjectId,
+                    userId: user!.id,
                     average: newAverage
                 },
                 {

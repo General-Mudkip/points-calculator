@@ -72,7 +72,7 @@ type subjectType = {
 export function EditSubject(subject: subjectType) {
     const { toast } = useToast()
     const [open, setOpen] = React.useState(false)
-    const { isSignedIn, isLoaded } = useUser()
+    const { user, isSignedIn, isLoaded } = useUser()
     const utils = api.useUtils()
 
     const router = useRouter()
@@ -90,6 +90,8 @@ export function EditSubject(subject: subjectType) {
         }
     })
 
+    if (!isSignedIn) { return <></> }
+
     function onSubmit(values: z.infer<typeof formSchema>) {
         if (isLoaded && isSignedIn) {
             toast({
@@ -100,6 +102,7 @@ export function EditSubject(subject: subjectType) {
             editSubject.mutate(
                 {
                     id: subject.data.id,
+                    userId: user!.id,
                     name: values.subjectName,
                     targetGrade: values.targetGrade,
                     setLevel: values.setLevel
