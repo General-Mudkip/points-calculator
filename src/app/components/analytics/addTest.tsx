@@ -127,7 +127,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                     onSuccess: () => {
                         toast({
                             title: "Test Added!",
-                            description: `Successfully added a new test to English.`
+                            description: `Successfully added a new test.`
                         })
                         void utils.test.getAllTestsBySubject.invalidate()
                         void utils.subject.invalidate()

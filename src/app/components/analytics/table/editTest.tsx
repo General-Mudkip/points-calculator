@@ -136,18 +136,19 @@ export function EditTest(test: testType) {
     function calculateAverage(newGrade: number) {
         const testCount = testsArray.data?.length
 
-        const totalPercentage = testsArray.data?.reduce(
+        const testArrayWithoutOld = testsArray.data?.filter((tes) => tes.id != test.testId) ?? []
+
+        const totalPercentage = testArrayWithoutOld.reduce(
             (total, test) => total + test.percentage,
             0
         )
 
-        // [adamlearns] Nit: checking "testCount" below is unnecessary since the
-        // only way to have a totalPercentage > 0 is to have tests (maybe
-        // TypeScript requires the check, in which case ignore me 😛)
         if (totalPercentage && testCount) {
             const newAverage = parseFloat(
-                ((totalPercentage + newGrade) / (testCount + 1)).toFixed(2)
+                ((totalPercentage + newGrade) / (testCount)).toFixed(2)
             )
+
+            console.log(testsArray.data, testArrayWithoutOld)
 
             updateAverage.mutate(
                 {
