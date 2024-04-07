@@ -29,6 +29,7 @@ import { useForm } from "react-hook-form"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { useUser } from "@clerk/nextjs"
+import { useRouter } from 'next/navigation'
 import { api } from "~/utils/api"
 import { PencilRuler } from "lucide-react"
 import {
@@ -74,7 +75,10 @@ export function EditSubject(subject: subjectType) {
     const { isSignedIn, isLoaded } = useUser()
     const utils = api.useUtils()
 
+    const router = useRouter()
+
     const editSubject = api.subject.editSubject.useMutation()
+    const deleteSubject = api.subject.deleteSubject.useMutation()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -116,6 +120,32 @@ export function EditSubject(subject: subjectType) {
                 description: `You must be logged in to edit a subject.`,
                 variant: "destructive"
             })
+        }
+    }
+
+    function submitDelete() {
+        if (isLoaded && isSignedIn) {
+            toast({
+                title: "Processing...",
+                description: "Please wait a moment."
+            })
+            setOpen(false)
+            deleteSubject.mutate(
+                {
+                    subjectId: subject.data.id,
+                    userId: subject.data.userId,
+                },
+                {
+                    onSuccess: () => {
+                        toast({
+                            title: "Subject Deleted!",
+                            description: "You successfully deleted the subject."
+                        })
+                        void utils.subject.invalidate()
+                        void router.push("/dashboard")
+                    }
+                }
+            )
         }
     }
 
@@ -213,6 +243,13 @@ export function EditSubject(subject: subjectType) {
                         />
 
                         <Button type="submit">Submit Changes</Button>
+                        <Button
+                            className="mt-2 rounded-md bg-red-600 p-2 text-white ml-4 hover:bg-red-700"
+                            type="button"
+                            onClick={() => submitDelete()}
+                        >
+                            Delete Subject
+                        </Button>
                     </form>
                 </Form>
             </DialogContent>

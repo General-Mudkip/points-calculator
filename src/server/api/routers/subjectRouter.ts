@@ -82,5 +82,21 @@ export const subjectRouter = createTRPCRouter({
                     averageGrade: input.average
                 }
             })
+        }),
+
+    deleteSubject: publicProcedure
+        .input(
+            z.object({
+                subjectId: z.number(),
+                userId: z.string()
+            })
+        )
+        .mutation(({ input }) => {
+            return db.subject.delete({
+                where: {
+                    id: input.subjectId,
+                    userId: input.userId
+                }
+            })
         })
 })

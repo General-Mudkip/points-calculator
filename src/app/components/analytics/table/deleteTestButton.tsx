@@ -80,7 +80,7 @@ export function DeleteTestButton({
     return (
         <button
             onClick={() => deleteTest()}
-            className="mt-2 rounded-md bg-red-600 p-2 text-white"
+            className="mt-2 rounded-md bg-red-600 p-2 text-white hover:bg-red-700"
         >
             Delete Test
         </button>
