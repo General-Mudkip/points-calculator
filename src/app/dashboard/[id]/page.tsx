@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { DataTable } from "~/app/components/analytics/table/table"
 import { columns } from "~/app/components/analytics/table/columns"
 import AddTest from "~/app/components/analytics/addTest"
+import { useUser } from "@clerk/nextjs"
 import RenderLineChart from "~/app/components/analytics/chart/subjectChart"
 import EditSubject from "~/app/components/analytics/editSubject"
 import {
@@ -17,13 +18,32 @@ import StatisticsCard from "~/app/components/analytics/statisticsCard"
 
 export default function SubjectPage({ params }: { params: { id: string } }) {
     const intId = parseInt(params.id)
+
+    const user = useUser()
+
+    if (!user.isSignedIn) {
+        return <></>
+    }
+
     const subjectQuery = api.subject.getSubjectById.useQuery({
-        subjectId: intId
+        subjectId: intId,
+        userId: user.user.id,
     })
 
     const testQuery = api.test.getAllTestsBySubject.useQuery({
-        subjectId: intId
+        subjectId: intId,
+        userId: user.user.id
     })
+
+    console.log(subjectQuery.isError)
+
+    if (subjectQuery.isError != false) {
+        return (
+            <div>
+                Internal error occurred.
+            </div>
+        )
+    }
 
     return (
         <div className="flex flex-col items-center gap-y-12">

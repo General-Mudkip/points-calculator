@@ -4,11 +4,17 @@ import { db } from "~/server/db"
 
 export const testRouter = createTRPCRouter({
     getTest: publicProcedure
-        .input(z.object({ testId: z.number() }))
+        .input(
+            z.object({
+                testId: z.number(),
+                userId: z.string()
+            })
+        )
         .query(({ input }) => {
             return db.test.findUnique({
                 where: {
-                    id: input.testId
+                    id: input.testId,
+                    userId: input.userId
                 }
             })
         }),
@@ -30,11 +36,17 @@ export const testRouter = createTRPCRouter({
     // may matter more for the test results (e.g. imagine seeing other students'
     // results just by crafting a custom API call)
     getAllTestsBySubject: publicProcedure
-        .input(z.object({ subjectId: z.number() }))
+        .input(
+            z.object({
+                subjectId: z.number(),
+                userId: z.string()
+            })
+        )
         .query(({ input }) => {
             return db.test.findMany({
                 where: {
-                    subjectId: input.subjectId
+                    subjectId: input.subjectId,
+                    userId: input.userId
                 }
             })
         }),
@@ -66,11 +78,6 @@ export const testRouter = createTRPCRouter({
         }),
 
     editTest: publicProcedure
-        // [adamlearns] Looks like the main validations happen on the client, so
-        // it seems like if the client passes a percentage of 200 here that it
-        // would just be accepted. The validations should probably happen on
-        // both ends. You can share the Zod schemas between the two (and then
-        // maybe do some client-specific stuff on top of that)
         .input(
             z.object({
                 testId: z.number(),
@@ -102,13 +109,15 @@ export const testRouter = createTRPCRouter({
     deleteTest: publicProcedure
         .input(
             z.object({
-                testId: z.number()
+                testId: z.number(),
+                userId: z.string()
             })
         )
         .mutation(({ input }) => {
             return db.test.delete({
                 where: {
-                    id: input.testId
+                    id: input.testId,
+                    userId: input.userId
                 }
             })
         })

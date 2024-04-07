@@ -1,4 +1,5 @@
 import { toast } from "@/components/ui/use-toast"
+import { useUser } from "@clerk/nextjs"
 import { api } from "~/utils/api"
 
 export function DeleteTestButton({
@@ -11,8 +12,15 @@ export function DeleteTestButton({
     const deleteTestMutation = api.test.deleteTest.useMutation()
     const updateAverage = api.subject.setAverage.useMutation()
 
+    const { user, isSignedIn } = useUser()
+
+    if (!isSignedIn) {
+        return <></>
+    }
+
     const testsArray = api.test.getAllTestsBySubject.useQuery({
-        subjectId: subjectId
+        subjectId: subjectId,
+        userId: user.id
     })
 
     const utils = api.useUtils()

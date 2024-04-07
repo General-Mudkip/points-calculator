@@ -4,11 +4,17 @@ import { db } from "~/server/db"
 
 export const subjectRouter = createTRPCRouter({
     getSubjectById: publicProcedure
-        .input(z.object({ subjectId: z.number() }))
+        .input(
+            z.object({
+                subjectId: z.number(),
+                userId: z.string()
+            })
+        )
         .query(({ input }) => {
             return db.subject.findUnique({
                 where: {
-                    id: input.subjectId
+                    id: input.subjectId,
+                    userId: input.userId
                 }
             })
         }),
@@ -48,6 +54,7 @@ export const subjectRouter = createTRPCRouter({
         .input(
             z.object({
                 id: z.number(),
+                userId: z.string(),
                 name: z.string(),
                 targetGrade: z.number(),
                 setLevel: z.string()
@@ -56,7 +63,8 @@ export const subjectRouter = createTRPCRouter({
         .mutation(({ input }) => {
             return db.subject.update({
                 where: {
-                    id: input.id
+                    id: input.id,
+                    userId: input.userId
                 },
                 data: {
                     name: input.name,
@@ -70,13 +78,15 @@ export const subjectRouter = createTRPCRouter({
         .input(
             z.object({
                 subjectId: z.number(),
+                userId: z.string(),
                 average: z.number()
             })
         )
         .mutation(({ input }) => {
             return db.subject.update({
                 where: {
-                    id: input.subjectId
+                    id: input.subjectId,
+                    userId: input.userId
                 },
                 data: {
                     averageGrade: input.average

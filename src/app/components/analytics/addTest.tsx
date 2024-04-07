@@ -90,8 +90,13 @@ export function AddTest({ subjectId }: { subjectId: number }) {
     const { user, isSignedIn, isLoaded } = useUser()
     const utils = api.useUtils()
 
+    if (!isSignedIn) {
+        return <></>
+    }
+
     const testsArray = api.test.getAllTestsBySubject.useQuery({
-        subjectId: subjectId
+        subjectId: subjectId,
+        userId: user.id
     })
 
     const submitTest = api.test.createTest.useMutation()

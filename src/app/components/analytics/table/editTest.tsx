@@ -116,8 +116,11 @@ export function EditTest(test: testType) {
     const submitTest = api.test.editTest.useMutation()
     const updateAverage = api.subject.setAverage.useMutation()
 
+    if (!isSignedIn) { return <></> }
+
     const testsArray = api.test.getAllTestsBySubject.useQuery({
-        subjectId: test.subjectId
+        subjectId: test.subjectId,
+        userId: user.id
     })
 
     const formattedDate = DateTime.fromFormat(test.testDate, "d/M/yyyy").toJSDate()
