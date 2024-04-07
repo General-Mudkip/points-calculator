@@ -102,7 +102,7 @@ export function EditSubject(subject: subjectType) {
             editSubject.mutate(
                 {
                     id: subject.data.id,
-                    userId: user!.id,
+                    userId: user.id,
                     name: values.subjectName,
                     targetGrade: values.targetGrade,
                     setLevel: values.setLevel
