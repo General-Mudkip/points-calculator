@@ -77,7 +77,9 @@ export default function Home() {
                 <LayoutPanelLeft size={48} /> Home
             </h1>
 
-            <hr className=" my-12 w-full" />
+            <span className="flex w-full pt-4 text-lg">Welcome back, {user.username}.</span>
+
+            <hr className="mb-12 mt-8 w-full" />
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <ChartsTabs />

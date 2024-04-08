@@ -8,17 +8,18 @@ import {
 } from "@/components/ui/sheet"
 import SidebarContents from "./sidebarContents"
 import { Menu } from "lucide-react"
+import Link from "next/link"
 
 const Sidebar = () => {
     return (
         <div>
             <nav className="fixed left-0 top-0 hidden h-screen w-full space-y-4 border-r bg-white bg-scroll sm:w-80 lg:flex lg:flex-col">
-                <div className="mb-8 mt-6 flex h-20 w-full items-center px-8">
+                <Link className="mb-8 mt-6 flex h-20 w-full items-center px-8" href="/">
                     <h1 className="text-4xl">
                         BetterExams{" "}
                         <span className="text-5xl font-bold">Points</span>
                     </h1>
-                </div>
+                </Link>
 
                 <SidebarContents />
             </nav>

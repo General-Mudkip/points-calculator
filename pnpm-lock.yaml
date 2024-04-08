@@ -95,6 +95,9 @@ dependencies:
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
+  link-underliner:
+    specifier: ^1.0.4
+    version: 1.0.4
   lucide-react:
     specifier: ^0.298.0
     version: 0.298.0(react@18.2.0)
@@ -2905,6 +2908,10 @@ packages:
 
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
+
+  /link-underliner@1.0.4:
+    resolution: {integrity: sha512-WgI15pHji50oH/LksqoxEEHCEmPb2nBwuQHhBklC8zZaJUh5m0H/XZeBaBaMxV9JjNGp2u4kmGYk93hwBo3UTw==}
+    dev: false
 
   /locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}

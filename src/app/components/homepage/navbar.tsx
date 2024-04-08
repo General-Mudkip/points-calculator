@@ -1,29 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
 
-const LoginButtons = () => {
-    const router = useRouter()
-
-    return (
-        <>
-            <button
-                className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                onClick={() => router.push("/dashboard/login")}
-            >
-                <span className="">Log In</span>
-            </button>
-
-
-            <button
-                className="group mr-8 flex items-center justify-center rounded-2xl bg-green-400 px-4 py-3 text-center text-xl text-slate-900 transition-all duration-200 hover:bg-green-500 hover:text-white"
-                onClick={() => router.push("/dashboard/signup")}
-            >
-                <span className="">Sign Up</span>
-            </button>
-        </>
-    )
-}
-
 export const Navbar = () => {
     const router = useRouter()
 
@@ -33,22 +10,46 @@ export const Navbar = () => {
                 BetterExams <span className="font-bold">Points</span>
             </h1>
             <button
-                onClick={() => router.push("/features")}
+                onClick={() => router.push("/")}
                 className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
             >
                 <span>Features</span>
             </button>
-            <a className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800">
+            <button
+                className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
+                onClick={() => router.push("/")}
+            >
                 <span>About</span>
-            </a>
-            <a className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800">
+            </button>
+            <button
+                className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
+                onClick={() => router.push("/")}
+            >
                 <span>Pricing</span>
-            </a>
-            <a className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800">
+            </button>
+            <button
+                className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
+                onClick={() => router.push("/dashboard")}
+            >
                 <span>Dashboard</span>
-            </a>
+            </button>
+
             <div className="flex-1" />
-            <LoginButtons />
+
+            <button
+                className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
+                onClick={() => router.push("/dashboard/login")}
+            >
+                <span className="">Log In</span>
+            </button>
+
+
+            <button
+                className="group mr-8 flex items-center justify-center rounded-2xl bg-sky-300 px-4 py-3 text-center text-xl text-slate-900 transition-all duration-300 hover:bg-sky-500 hover:text-white"
+                onClick={() => router.push("/dashboard/signup")}
+            >
+                <span className="">Sign Up</span>
+            </button>
         </div>
     )
 }
