@@ -79,7 +79,7 @@ const Sidebar = () => {
 
     return (
         <div>
-            <nav className="absolute top-0 left-0 h-24 w-[100vw] flex-row items-center gap-x-4 border-b-2 hidden border-b-slate-300 lg:flex">
+            <nav className="absolute top-0 left-0 h-24 w-screen flex-row items-center gap-x-4 border-b-2 hidden border-b-slate-300 lg:flex">
                 <Link className="mb-8 mt-6 flex h-20 items-center px-8" href="/">
                     <h1 className="font-sans text-4xl">
                         BetterExams <span className="font-bold">Points</span>
@@ -90,9 +90,9 @@ const Sidebar = () => {
             </nav>
 
             <Sheet>
-                <SheetTrigger className="fixed z-50 left-0 flex w-screen items-center flex-row border-b-2 border-b-gray-400 bg-white p-4 align-middle lg:hidden">
+                <SheetTrigger className="fixed z-50 left-0 top-0 flex w-screen items-center flex-row border-b-2 border-b-gray-400 bg-white p-4 align-middle lg:hidden">
                     <Menu size={38} />
-                    <h1 className="flex mb-1 flex-row gap-x-2 pl-4 text-4xl">
+                    <h1 className="flex mb-1 flex-row gap-x-2 pl-4 text-3xl">
                         BetterExams <span className="font-bold">Points</span>
                     </h1>
                 </SheetTrigger>
