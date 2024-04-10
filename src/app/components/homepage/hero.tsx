@@ -7,11 +7,11 @@ const imageStyle = {
 
 export const Hero = () => {
     return (
-        <div className="mt-96 flex flex-col items-center justify-center gap-y-8">
-            <span className="text-8xl font-bold">
+        <div className="mt-48 lg:mt-96 flex flex-col items-center justify-center text-center gap-y-8 px-8">
+            <span className="text-7xl lg:text-8xl font-bold justify-center align-middle text-center">
                 <span className="underline decoration-sky-500">Your</span> Future Gradebook.
             </span>
-            <span className="text-2xl text-gray-800">
+            <span className="text-xl lg:text-2xl text-gray-800">
                 The only test tracker designed specifically for Leaving Certificate students in Ireland
             </span>
 

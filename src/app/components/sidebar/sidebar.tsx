@@ -26,10 +26,9 @@ const Sidebar = () => {
 
             <Sheet>
                 <SheetTrigger className="fixed z-50 flex w-screen flex-row gap-x-2 border-b-2 border-b-gray-400 bg-white p-4 align-middle lg:hidden">
-                    <Menu size={32} />
-                    <h1 className="flex flex-row gap-x-2 text-2xl">
-                        BetterExams{" "}
-                        <span className="text-3xl font-bold">Points</span>
+                    <Menu size={38} />
+                    <h1 className="flex mb-1 flex-row gap-x-2 pl-4 text-4xl">
+                        BetterExams <span className="font-bold">Points</span>
                     </h1>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-4/5">
