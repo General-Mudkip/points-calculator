@@ -17,9 +17,9 @@ const Pricing = () => {
 
 
                     <div className="flex justify-center flex-row">
-                        <div className="border-2 p-4 border-slate-200 border-t-[9px] border-t-sky-500 rounded-xl h-96 w-64 flex flex-col">
+                        <div className="group border-2 p-4 border-slate-200 border-t-[9px] border-t-sky-500 rounded-xl h-96 w-64 flex flex-col shadow-xl shadow-sky-200 hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-sky-200">
                             <h2 className="text-2xl font-semibold"> Free </h2>
-                            <h1 className="text-3xl font-semibold mt-1">€0<span className="text-xl ml-1 text-zinc-700">per month</span></h1>
+                            <h1 className="text-3xl font-semibold mt-1 transition-all duration-300 group-hover:text-4xl">€0<span className="text-xl ml-1 text-zinc-700">per month</span></h1>
 
                             <span className="mt-4 mb-2 text-sm">BetterExams points is, and will forever remain, completely free to use.</span>
 
@@ -31,7 +31,7 @@ const Pricing = () => {
 
                             <Link
                                 href="/dashboard/signup"
-                                className="flex mt-6 h-9 justify-center items-center rounded-xl bg-sky-500 px-4 align-middle text-lg font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-zinc-500"
+                                className="flex mt-6 h-9 justify-center items-center rounded-xl bg-sky-500 px-4 align-middle text-lg font-semibold text-white transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-zinc-300"
                             >
                                 <span className="">Get Started</span>
                             </Link>
