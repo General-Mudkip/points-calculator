@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import { cookies } from "next/headers"
 import { Analytics } from "@vercel/analytics/react"
 import { TRPCReactProvider } from "~/trpc/react"
+import Navbar from "./components/homepage/navbar"
 
 const inter = Inter({
     subsets: ["latin"],
@@ -25,7 +26,10 @@ export default function RootLayout({
         <html lang="en">
             <body className={`font-sans ${inter.variable}`}>
                 <TRPCReactProvider cookies={cookies().toString()}>
-                    {children}
+                    <Navbar />
+                    <div className="flex justify-center items-center">
+                        {children}
+                    </div>
                 </TRPCReactProvider>
             </body>
             <Analytics />

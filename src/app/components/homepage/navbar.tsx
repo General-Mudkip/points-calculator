@@ -23,51 +23,49 @@ export const Navbar = () => {
 // TODO: Consolidate these links into a proper component.
 
 const Links = () => {
-    const router = useRouter()
-
     return (
         <>
-            <button
-                onClick={() => router.push("/")}
+            <Link
+                href="/features"
                 className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
             >
                 <span>Features</span>
-            </button>
-            <button
+            </Link>
+            <Link
+                href="/about"
                 className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                onClick={() => router.push("/")}
             >
                 <span>About</span>
-            </button>
-            <button
+            </Link>
+            <Link
+                href="/pricing"
                 className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                onClick={() => router.push("/")}
             >
                 <span>Pricing</span>
-            </button>
-            <button
+            </Link>
+            <Link
+                href="/dashboard"
                 className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                onClick={() => router.push("/dashboard")}
             >
                 <span>Dashboard</span>
-            </button>
+            </Link>
 
             <div className="flex-1" />
 
-            <button
+            <Link
+                href="/dashboard/login"
                 className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                onClick={() => router.push("/dashboard/login")}
             >
                 <span className="">Log In</span>
-            </button>
+            </Link>
 
 
-            <button
+            <Link
+                href="/dashboard/signup"
                 className="group mr-8 flex items-center justify-center rounded-2xl bg-sky-300 px-4 py-3 text-center text-xl text-slate-900 transition-all duration-300 hover:bg-sky-500 hover:text-white"
-                onClick={() => router.push("/dashboard/signup")}
             >
                 <span className="">Sign Up</span>
-            </button>
+            </Link>
         </>
     )
 }
@@ -75,10 +73,8 @@ const Links = () => {
 
 const Sidebar = () => {
 
-    const router = useRouter()
-
     return (
-        <div>
+        <div className="mb-24">
             <nav className="absolute top-0 left-0 h-24 w-screen flex-row items-center gap-x-4 border-b-2 hidden border-b-slate-300 lg:flex">
                 <Link className="mb-8 mt-6 flex h-20 items-center px-8" href="/">
                     <h1 className="font-sans text-4xl">
@@ -107,47 +103,47 @@ const Sidebar = () => {
 
                             <div className="flex flex-col px-2 gap-y-3">
 
-                                <button
+                                <Link
+                                    href="/dashboard/signup"
                                     className="group flex items-center justify-center rounded-2xl bg-sky-300 px-4 py-3 text-center text-2xl text-slate-900 transition-all duration-300 hover:bg-sky-500 hover:text-white"
-                                    onClick={() => router.push("/dashboard/signup")}
                                 >
                                     <span className="">Sign Up</span>
-                                </button>
+                                </Link>
 
 
-                                <button
+                                <Link
+                                    href="/dashboard/login"
                                     className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-2xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                                    onClick={() => router.push("/dashboard/login")}
                                 >
                                     <span className="">Log In</span>
-                                </button>
+                                </Link>
 
                                 <div className="bg-zinc-200 h-1" />
 
-                                <button
-                                    onClick={() => router.push("/")}
+                                <Link
+                                    href="/features"
                                     className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-2xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
                                 >
                                     <span>Features</span>
-                                </button>
-                                <button
+                                </Link>
+                                <Link
+                                    href="/about"
                                     className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-2xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                                    onClick={() => router.push("/")}
                                 >
                                     <span>About</span>
-                                </button>
-                                <button
+                                </Link>
+                                <Link
+                                    href="/pricing"
                                     className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-2xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                                    onClick={() => router.push("/")}
                                 >
                                     <span>Pricing</span>
-                                </button>
-                                <button
+                                </Link>
+                                <Link
+                                    href="/dashboard"
                                     className="group flex items-center justify-center rounded-2xl px-4 py-3 text-center text-2xl text-gray-600 transition-all duration-200 hover:bg-slate-200 hover:text-gray-800"
-                                    onClick={() => router.push("/dashboard")}
                                 >
                                     <span>Dashboard</span>
-                                </button>
+                                </Link>
 
                             </div>
                         </SheetTitle>
