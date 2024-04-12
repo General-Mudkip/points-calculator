@@ -29,10 +29,6 @@ export const Hero = () => {
                 </Link>
             </div>
 
-            {
-                // TODO: Make this all responsive. Repurpose the sidebar code from the dashboard?
-            }
-
             <div className="relative mb-16 mt-12 rounded-3xl border-2 border-slate-200 p-2 shadow-2xl">
                 <Image
                     src={dashboardImage}

@@ -4,7 +4,7 @@ import Navbar from "./components/homepage/navbar"
 
 const HomePage = () => {
     return (
-        <div className="mt-12 lg:mt-40">
+        <div className="mt-12 flex flex-col lg:mt-40 min-h-[85vh]">
             <Navbar />
             <Hero />
             <Footer />

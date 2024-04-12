@@ -1,12 +1,13 @@
+import { Footer } from "../components/homepage/footer"
 import Navbar from "../components/homepage/navbar"
 
 const Features = () => {
     return (
-        <div className="mt-12 lg:mt-40">
+        <div className="mt-12 flex flex-col min-h-[85vh] lg:mt-40">
             <Navbar />
 
-            <div className="">
-                <div className="flex flex-col mx-4">
+            <div>
+                <div className="flex flex-col mx-4 items-center">
                     <h1 className="text-center text-6xl underline decoration-sky-500 font-semibold lg:text-8xl">
                         Features
                     </h1>
@@ -15,6 +16,8 @@ const Features = () => {
                     </span>
                 </div>
             </div>
+
+            <Footer />
         </div>
     )
 }
