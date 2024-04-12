@@ -15,12 +15,12 @@ export const Hero = () => {
             <div className="flex flex-row gap-x-4 pt-4">
                 <Link
                     href="/dashboard/signup"
-                    className="flex justify-center items-center rounded-xl bg-sky-500 px-4 align-middle text-lg font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-zinc-500"
+                    className="flex items-center justify-center rounded-xl bg-sky-500 px-4 align-middle text-lg font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-zinc-500"
                 >
                     <span className="">Get Started</span>
                 </Link>
 
-                <Link href="/features" className="rounded-xl flex items-center border-2 border-stone-700 px-4 py-3 text-lg transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-zinc-400">
+                <Link href="/features" className="flex items-center rounded-xl border-2 border-stone-700 px-4 py-3 text-lg transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-zinc-400">
                     Learn More
                 </Link>
             </div>
