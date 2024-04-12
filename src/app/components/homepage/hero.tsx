@@ -2,10 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import dashboardImage from "public/BEP_home.jpg"
 
-const imageStyle = {
-    scale: "100%"
-}
-
 export const Hero = () => {
     return (
         <div className="flex flex-col items-center gap-y-8  px-8 text-center">
@@ -34,8 +30,8 @@ export const Hero = () => {
                     src={dashboardImage}
                     priority={true}
                     placeholder="blur"
+                    height="1750"
                     width="1750"
-                    style={imageStyle}
                     alt="Picture of the dashboard home page"
                 />
             </div>
