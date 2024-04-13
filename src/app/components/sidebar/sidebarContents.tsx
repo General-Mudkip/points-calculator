@@ -20,7 +20,7 @@ const SidebarContents = () => {
     const SubjectsList = () => {
         if (subjectQuery.data?.length == 0) {
             return (
-                <span className="font-normal text-base">No subjects yet! Add one?</span>
+                <span className="text-base font-normal">No subjects yet! Add one?</span>
             )
         } else {
             return (
@@ -90,7 +90,7 @@ const SidebarContents = () => {
             <div className="flex h-full flex-1 flex-col overflow-auto pl-3 lg:px-8">
                 <Link
                     href="/dashboard"
-                    className="mb-2 flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-800 duration-150 hover:bg-gray-100 active:bg-gray-200"
+                    className="mb-6 flex w-full items-center gap-x-4 rounded-lg text-gray-800 duration-150 hover:bg-gray-100 active:bg-gray-200"
                 >
                     <LayoutPanelLeft className="text-gray-600" />
                     Home

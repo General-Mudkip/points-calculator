@@ -25,7 +25,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`font-sans ${inter.variable}`}>
                 <TRPCReactProvider cookies={cookies().toString()}>
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center">
                         {children}
                     </div>
                 </TRPCReactProvider>

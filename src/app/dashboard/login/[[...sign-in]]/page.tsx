@@ -9,6 +9,10 @@ export default function Page() {
     if (isSignedIn) {
         router.push("/dashboard")
     } else {
-        return <SignIn redirectUrl="/dashboard" />;
+        return (
+            <div className="">
+                <SignIn redirectUrl="/" />
+            </div>
+        )
     }
 }

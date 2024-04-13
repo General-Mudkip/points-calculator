@@ -82,8 +82,8 @@ export default function Home() {
                                 }
                             </>
                         ) : (
-                            <div className="flex h-[350px] w-[800px] flex-col items-center justify-center">
-                                <span className="text-2xl font-semibold">No Subjects Created Yet!</span>
+                            <div className="flex h-[350px] w-full px-4 sm:px-16 lg:w-[800px] flex-col items-center justify-center">
+                                <span className="text-xl lg:text-2xl font-semibold">No Subjects Created Yet!</span>
                                 <span className="mb-4 text-xl">Add one to get started.</span>
 
                                 <div className="flex flex-row w-40 items-center justify-center">
