@@ -17,6 +17,43 @@ const SidebarContents = () => {
         userId: user?.id
     })
 
+    const SubjectsList = () => {
+        if (subjectQuery.data?.length == 0) {
+            return (
+                <span className="font-normal text-base">No subjects yet! Add one?</span>
+            )
+        } else {
+            return (
+                <>
+                    {
+                        subjectQuery.isFetched ? (
+                            subjectQuery.data?.map((subject, idx) => {
+                                return (
+                                    <li key={idx}>
+                                        <Link
+                                            href={`/dashboard/${subject.id}`}
+                                            className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
+                                        >
+                                            <div className="text-gray-500"></div>
+                                            {subject.name}
+                                        </Link>
+                                    </li>
+                                )
+                            })
+                        ) : (
+                            <div className="flex-1">
+                                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                                <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
+                            </div>
+                        )
+                    }
+                </>
+            )
+        }
+    }
+
     const bottomMenu = [
         {
             href: "",
@@ -60,28 +97,7 @@ const SidebarContents = () => {
                 </Link>
                 <h2 className="text-xl font-semibold">Subjects</h2>
                 <ul className="flex-1 text-lg font-medium">
-                    {subjectQuery.isFetched ? (
-                        subjectQuery.data?.map((subject, idx) => {
-                            return (
-                                <li key={idx}>
-                                    <Link
-                                        href={`/dashboard/${subject.id}`}
-                                        className="flex w-full items-center gap-x-4 rounded-lg p-2 text-gray-600 duration-150 hover:bg-gray-100 active:bg-gray-200"
-                                    >
-                                        <div className="text-gray-500"></div>
-                                        {subject.name}
-                                    </Link>
-                                </li>
-                            )
-                        })
-                    ) : (
-                        <div className="flex-1">
-                            <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
-                            <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
-                            <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
-                            <Skeleton className="my-4 h-[36px] w-full gap-x-4 rounded-lg p-2" />
-                        </div>
-                    )}
+                    <SubjectsList />
                     <hr className="my-1" />
                     <li>
                         <AddSubject />

@@ -79,6 +79,7 @@ export function EditSubject(subject: subjectType) {
 
     const editSubject = api.subject.editSubject.useMutation()
     const deleteSubject = api.subject.deleteSubject.useMutation()
+    const deleteAllTests = api.test.deleteAllTests.useMutation()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -133,22 +134,34 @@ export function EditSubject(subject: subjectType) {
                 description: "Please wait a moment."
             })
             setOpen(false)
-            deleteSubject.mutate(
+
+            deleteAllTests.mutate(
                 {
                     subjectId: subject.data.id,
                     userId: subject.data.userId,
                 },
                 {
                     onSuccess: () => {
-                        toast({
-                            title: "Subject Deleted!",
-                            description: "You successfully deleted the subject."
-                        })
-                        void utils.subject.invalidate()
-                        void router.push("/dashboard")
+                        deleteSubject.mutate(
+                            {
+                                subjectId: subject.data.id,
+                                userId: subject.data.userId,
+                            },
+                            {
+                                onSuccess: () => {
+                                    toast({
+                                        title: "Subject Deleted!",
+                                        description: "You successfully deleted the subject."
+                                    })
+                                    void utils.subject.invalidate()
+                                    void router.push("/dashboard")
+                                }
+                            }
+                        )
                     }
                 }
             )
+
         }
     }
 
