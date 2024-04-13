@@ -104,7 +104,7 @@ export default function Home() {
                 <LayoutPanelLeft size={48} /> Home
             </h1>
 
-            <span className="flex w-full pt-4 text-lg">Welcome back, {user.username}.</span>
+            <span className="flex w-full pt-4 text-lg">Welcome back, {user.firstName ?? "User"}.</span>
 
             <hr className="mb-12 mt-8 w-full" />
 
