@@ -4,7 +4,6 @@ import { Inter } from "next/font/google"
 import { cookies } from "next/headers"
 import { Analytics } from "@vercel/analytics/react"
 import { TRPCReactProvider } from "~/trpc/react"
-import Navbar from "./components/homepage/navbar"
 
 const inter = Inter({
     subsets: ["latin"],
