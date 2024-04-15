@@ -13,7 +13,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.27.7",
+    "@clerk/nextjs": "^4.29.3",
     "@heroicons/react": "1.0.6",
     "@hookform/resolvers": "^3.3.2",
     "@libsql/client": "^0.5.6",
