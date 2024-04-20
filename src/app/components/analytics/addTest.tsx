@@ -135,6 +135,8 @@ export function AddTest({ subjectId }: { subjectId: number }) {
                             title: "Test Added!",
                             description: `Successfully added a new test.`
                         })
+                        // invalidate() causes components that request the data 
+                        // to re-fetch their queries.
                         void utils.test.getAllTestsBySubject.invalidate()
                         void utils.subject.invalidate()
                     }
@@ -151,6 +153,7 @@ export function AddTest({ subjectId }: { subjectId: number }) {
             })
 
             setOpen(false)
+
             submitTest.mutate({
                 userId: user.id,
                 subjectId: subjectId,

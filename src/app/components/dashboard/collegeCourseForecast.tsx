@@ -33,11 +33,11 @@ const CollegeCourseForecast = ({ forecastPoints }: propsType) => {
             return (
                 <span className="font-bold text-green-600">+{pointsDifference} points above</span>
             )
+        } else {
+            return (
+                <span className="font-bold text-red-600">{pointsDifference} points below</span>
+            )
         }
-
-        return (
-            <span className="font-bold text-red-600">{pointsDifference} points below</span>
-        )
     }
 
     return (

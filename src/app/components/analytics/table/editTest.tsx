@@ -116,13 +116,6 @@ export function EditTest(test: testType) {
     const submitTest = api.test.editTest.useMutation()
     const updateAverage = api.subject.setAverage.useMutation()
 
-    if (!isSignedIn) { return <></> }
-
-    const testsArray = api.test.getAllTestsBySubject.useQuery({
-        subjectId: test.subjectId,
-        userId: user.id
-    })
-
     const formattedDate = DateTime.fromFormat(test.testDate, "d/M/yyyy").toJSDate()
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -134,6 +127,13 @@ export function EditTest(test: testType) {
             maxMarks: test.maxMarks,
             testName: test.testName
         }
+    })
+
+    if (!isSignedIn) { return <></> }
+
+    const testsArray = api.test.getAllTestsBySubject.useQuery({
+        subjectId: test.subjectId,
+        userId: user.id
     })
 
     function calculateAverage(newGrade: number) {
